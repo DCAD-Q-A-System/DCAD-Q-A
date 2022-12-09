@@ -42,20 +42,17 @@
   - otherwise wait in waiting screen
 
 - get_all_questions.go
-  - send all questions associated with event id
+  - send all questions/replies associated with event id
   - UT:
-    - check if questions returned via socket connection
+    - check if questions returned via GET request
 - get_all_chat.go
-  - send all questions associated with event id
-  - UT:
-    - check if chat returned via socket connection
-- get_all_replies.go
 
   - send all questions associated with event id
   - UT:
     - check if chat returned via socket connection
 
 - insert\_(chat|question|reply).go
+
   - inserts (chat|question|reply) and returns id
   - UT:
     - insert and check if returns id and is in db

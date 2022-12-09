@@ -38,6 +38,17 @@
   - Test:
     - give false token and expect a 400 or other HTTP codes
 
+## Settings Page
+
+- Logout.tsx
+  - remove token and end session
+
+## (@Student & @Guest) Control Panel
+
+### Meeting ID input
+
+- Add meeting ID to get redirected to the meeting
+
 ## (@Panellist screen) Control Panel
 
 ### Events
@@ -78,6 +89,10 @@
 
 ## Main screen (@Everyone)
 
+### End event
+
+- deactivate the link
+
 ### Livestream
 
 @ signifies which type of user can access which components
@@ -90,6 +105,7 @@
 
 ### Questions
 
+-
 - (@Everyone) Question.tsx
 
   - individual question box with text and upvote/downvote counter from props
@@ -128,15 +144,22 @@
 
 ### Chat
 
+- EmojiComponent.tsx
+  - pop up of range of emojis
+  - return emoji
 - (@Everyone) ChatMessage.tsx
+
+  - add 3 dots to add EmojiComponent
   - optional id of chat it might be reply to
   - should display chat, time posted, username etc
   - add option to reply
+
   - UT:
     - check props displayed
   - AT:
     - if id supplied check if it appears underneath the parent chat
     - check if reply box displayed when clicking on reply
+
 - (@Panellist) ChatMessage.tsx
   - Add delete button to remove message
   - UT:
