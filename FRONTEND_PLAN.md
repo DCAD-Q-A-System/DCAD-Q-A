@@ -1,5 +1,10 @@
 # Code plan for front-end
 
+- Login screen
+- home page
+- control panel
+- meeting page
+
 ## Login
 
 - LoginScreen.tsx
