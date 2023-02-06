@@ -1,31 +1,35 @@
-<div class="div">
-    <div class="div-2">
-      <div class="builder-columns div-3">
-        <div class="builder-column column">
-          <div class="div-4">
-            <div class="div-5">
-              <div class="div-6">ID:</div>
-              <div class="div-7"></div>
+export function MeetingDetails() {
+  return (
+    <>
+      <div class="div">
+        <div class="div-2">
+          <div class="builder-columns div-3">
+            <div class="builder-column column">
+              <div class="div-4">
+                <div class="div-5">
+                  <div class="div-6">ID:</div>
+                  <div class="div-7"></div>
+                </div>
+                <div class="div-8">
+                  <div class="div-9">Start Time:</div>
+                  <div class="div-10"></div>
+                </div>
+                <div class="div-11">
+                  <div class="div-12">End Time:</div>
+                  <div class="div-13"></div>
+                </div>
+                <div class="div-14">
+                  <div class="div-15">iframe Link:</div>
+                  <div class="div-16"></div>
+                </div>
+                <div class="div-17">Save</div>
+              </div>
             </div>
-            <div class="div-8">
-              <div class="div-9">Start Time:</div>
-              <div class="div-10"></div>
-            </div>
-            <div class="div-11">
-              <div class="div-12">End Time:</div>
-              <div class="div-13"></div>
-            </div>
-            <div class="div-14">
-              <div class="div-15">iframe Link:</div>
-              <div class="div-16"></div>
-            </div>
-            <div class="div-17">Save</div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <style>
+      <style>
+        {`
     .div {
       display: flex;
       flex-direction: row;
@@ -209,5 +213,8 @@
       letter-spacing: 0%;
       text-align: left;
       font-family: "Inter", sans-serif;
-    }
-  </style>
+    }`}
+      </style>
+    </>
+  );
+}
