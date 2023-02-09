@@ -1,7 +1,6 @@
 import './MeetingList.css'
 
-const MeetingList = (identity:string)=>{
-    if (identity === "student"){
+export function MeetingListStudent(){
         return (
             <>
               <div className="stuDiv">
@@ -42,7 +41,7 @@ const MeetingList = (identity:string)=>{
               </div>
               </>)
     }
-    if(identity === "panellist"){
+export function MeetingListPanellist(){
         return(
             <>
             <div className="panDiv">
@@ -91,7 +90,6 @@ const MeetingList = (identity:string)=>{
         )
     }
 
-}
 
 
-export default MeetingList
+
