@@ -1,1 +1,3 @@
-export function logout() {}
+export function logout() {
+    localStorage.removeItem("loginData");
+}
