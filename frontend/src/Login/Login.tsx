@@ -1,6 +1,27 @@
-import * as React from "react";
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setData } from "../store/loginSlice";
+import { sha256 } from "crypto-hash";
+import jwt_decode from "jwt-decode";
+import { JWT } from "../utils/interfaces";
 
-export function Login(props: any) {
+export function Login() {
+  const dispatch = useAppDispatch();
+  const loginData = useAppSelector((state) => state.loginReducer.data);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Hash function implement later
+    const pass = await sha256(password);
+    const res = await fetch("http://127.0.0.1:8080/login", {
+      method:"POST",
+      body:JSON.stringify({username, "password": pass})
+    })
+    const jwt = await res.json();
+    const decoded:JWT = jwt_decode(jwt);
+    dispatch(setData({data:decoded}));
+  }
   return (
     <>
       <div className="div">
@@ -11,13 +32,13 @@ export function Login(props: any) {
                 <div className="div-5">
                   <picture>
                     <source
-                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
+                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306"
                       type="image/webp"
                     />
                     <img
                       loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
-                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
+                      src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306"
+                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306"
                       className="image"
                     />
                   </picture>
@@ -31,35 +52,23 @@ export function Login(props: any) {
               </div>
             </div>
           </div>
-          <div className="div-6">
+          <form onSubmit={(e)=>handleSubmit} className="div-6">
             <div className="builder-columns div-7">
               <div className="builder-column column-3">
                 <div className="div-8">
                   <div className="div-9">
-                    <div className="builder-columns div-10">
-                      <div className="builder-column column-4">
-                        <div className="div-11">Login as Student</div>
-                      </div>
-                    </div>
+                    <label className="div-10">Username:</label>
+                    <input type="text" onChange={(e)=>setPassword(e.target.value)} className="div-11"/>
                   </div>
                   <div className="div-12">
-                    <div className="builder-columns div-13">
-                      <div className="builder-column column-5">
-                        <div className="div-14">Login as Panellist</div>
-                      </div>
-                    </div>
+                    <label className="div-13">Password:</label>
+                    <input type="password" onChange={(e)=>setPassword(e.target.value)} className="div-14"/>
                   </div>
-                  <div className="div-15">
-                    <div className="builder-columns div-16">
-                      <div className="builder-column column-6">
-                        <div className="div-17">Join as Guest</div>
-                      </div>
-                    </div>
-                  </div>
+                  <button type="submit" className="div-15">Login</button>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
       <style>{`
@@ -68,10 +77,12 @@ export function Login(props: any) {
       flex-direction: column;
       max-width: 1920px;
       justify-content: flex-start;
-      align-items: center;
-      padding-top: 45px;
-      padding-bottom: 45px;
-      background-image: url("https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff68409e7db1e4e9690ca16a962076268");
+      align-items: flex-start;
+      padding-top: 58px;
+      padding-right: 105px;
+      padding-bottom: 58px;
+      padding-left: 105px;
+      background-image: url("https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F5f90b93676484097bded2c2fba3f9c1f");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
@@ -155,8 +166,7 @@ export function Login(props: any) {
     .div-6 {
       display: flex;
       flex-direction: column;
-      max-width: 367px;
-      margin-top: 100px;
+      max-width: 501px;
       border-radius: 20px;
       padding-top: 18px;
       padding-right: 21px;
@@ -177,7 +187,7 @@ export function Login(props: any) {
       display: flex;
       flex-direction: column;
       line-height: normal;
-      width: calc(102.85% - 0px);
+      width: calc(102% - 0px);
       margin-left: 0px;
     }
     @media (max-width: 999px) {
@@ -188,125 +198,77 @@ export function Login(props: any) {
     .div-8 {
       display: flex;
       flex-direction: column;
-      max-width: 325px;
+      max-width: 459px;
       justify-content: flex-start;
       align-items: center;
     }
     .div-9 {
       display: flex;
       flex-direction: column;
-      max-width: 325px;
-      padding-top: 10px;
-      padding-right: 10px;
-      padding-bottom: 10px;
-      padding-left: 10px;
-      background-color: rgba(44, 92, 218, 1);
+      max-width: 459px;
+      justify-content: flex-start;
+      align-items: flex-start;
     }
     .div-10 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-10 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-4 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(92.57% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-4 {
-        width: 100%;
-      }
-    }
-    .div-11 {
-      max-width: 274px;
-      color: rgba(255, 255, 255, 1);
+      max-width: 155px;
+      color: rgba(0, 0, 0, 1);
       font-size: 30px;
-      line-height: 40px;
       letter-spacing: 0%;
       text-align: left;
       font-family: "Inter", sans-serif;
+    }
+    .div-11 {
+      display: flex;
+      max-width: 459px;
+      height: 72px;
+      width: 459px;
+      margin-top: 20px;
+      border-radius: 10px;
+      border-color: rgba(0, 0, 0, 1);
+      border-width: 2px;
+      border-style: solid;
+      background-color: rgba(217, 217, 217, 1);
     }
     .div-12 {
       display: flex;
       flex-direction: column;
-      max-width: 325px;
+      max-width: 459px;
+      justify-content: flex-start;
+      align-items: flex-start;
       margin-top: 90px;
-      padding-top: 10px;
-      padding-right: 10px;
-      padding-bottom: 10px;
-      padding-left: 10px;
-      background-color: rgba(44, 92, 218, 1);
     }
     .div-13 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-13 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-5 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(103.04% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-5 {
-        width: 100%;
-      }
-    }
-    .div-14 {
-      max-width: 305px;
-      color: rgba(255, 255, 255, 1);
+      max-width: 149px;
+      color: rgba(0, 0, 0, 1);
       font-size: 30px;
-      line-height: 40px;
       letter-spacing: 0%;
       text-align: left;
       font-family: "Inter", sans-serif;
+    }
+    .div-14 {
+      display: flex;
+      max-width: 459px;
+      height: 72px;
+      width: 459px;
+      margin-top: 20px;
+      border-radius: 10px;
+      border-color: rgba(0, 0, 0, 1);
+      border-width: 2px;
+      border-style: solid;
+      background-color: rgba(217, 217, 217, 1);
     }
     .div-15 {
       display: flex;
-      flex-direction: column;
-      max-width: 325px;
+      flex-direction: row;
+      max-width: 79px;
+      justify-content: flex-start;
+      align-items: flex-start;
       margin-top: 90px;
       padding-top: 10px;
       padding-right: 10px;
       padding-bottom: 10px;
       padding-left: 10px;
       background-color: rgba(44, 92, 218, 1);
-    }
-    .div-16 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-16 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-6 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(103.04% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-6 {
-        width: 100%;
-      }
-    }
-    .div-17 {
-      max-width: 305px;
       color: rgba(255, 255, 255, 1);
       font-size: 30px;
       line-height: 40px;
@@ -314,7 +276,7 @@ export function Login(props: any) {
       text-align: left;
       font-family: "Inter", sans-serif;
     }
-  `}</style>
+    `}</style>
     </>
   );
 }
