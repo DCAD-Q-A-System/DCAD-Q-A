@@ -1,13 +1,15 @@
 package router
 
 import (
+	"dcad_q_a_system.com/auth"
+	"dcad_q_a_system.com/utils"
 	"github.com/gin-contrib/gzip"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
-func Router() *gin.Engine {
+func Router(conn *utils.MongoConnection) *gin.Engine {
 	server := gin.Default()
 	// run backup in background at midnight every day
 	
@@ -49,7 +51,7 @@ func Router() *gin.Engine {
 	// server.GET("/api/get-all-posts/:post_type",posts.GetAllPosts)
 
 	// server.GET("/api/get-all-posts-length/:post_type",posts.GetAllPostsLength)
-	// server.POST("/google/login",login.HandleLogin)
+	server.POST("/login",auth.Login(conn))
 
 	// server.POST("/google/logout",auth,login.HandleLogout)
 	// server.POST("/api/insert-post/:post_type",auth,posts.InsertPost)
