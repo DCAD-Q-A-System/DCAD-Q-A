@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Picker, { EmojiStyle, SkinTones, Theme } from 'emoji-picker-react'
 
+import './EmojiComponent.css'
+
 type EmojiObjectProps = {
 
     activeSkinTone: SkinTones;
