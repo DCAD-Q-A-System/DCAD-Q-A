@@ -4,14 +4,14 @@ import (
 	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/utils"
 	"github.com/gin-contrib/gzip"
+	socketio "github.com/googollee/go-socket.io"
 
 	"github.com/gin-gonic/contrib/static"
 	"github.com/gin-gonic/gin"
 )
 
-func Router(conn *utils.MongoConnection) *gin.Engine {
+func Router(conn *utils.MongoConnection, socket_server *socketio.Server) *gin.Engine {
 	server := gin.Default()
-	// run backup in background at midnight every day
 	
 	
 	// handles all usual routes on frontend and hands it to React frontend
@@ -52,6 +52,10 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 
 	// server.GET("/api/get-all-posts-length/:post_type",posts.GetAllPostsLength)
 	server.POST("/login",auth.Login(conn))
+
+
+	server.GET("/sockets/*any",gin.WrapH(socket_server))
+	server.POST("/sockets/*any",gin.WrapH(socket_server))
 
 	// server.POST("/google/logout",auth,login.HandleLogout)
 	// server.POST("/api/insert-post/:post_type",auth,posts.InsertPost)

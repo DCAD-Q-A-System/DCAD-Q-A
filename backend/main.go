@@ -29,8 +29,8 @@ func main(){
 
 	connection := &utils.MongoConnection{Client: client}
 
-
-	r := router.Router(connection)
+	socket_server := router.SetUpSocketServer(connection)
+	r := router.Router(connection,socket_server)
 	r.Run()
 
 }
