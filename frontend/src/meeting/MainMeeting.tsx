@@ -9,7 +9,7 @@ export function MeetingListStudent() {
             <div className="div-4">
                 <div className="builder-columns div-5">
                 <div className="builder-column column">
-                    <div className="div-6">
+                    <div className="div-6"> 
                     <div className="div-7">Dark Mode</div>
                     <div className="div-8">
                         <picture>
