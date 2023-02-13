@@ -8,6 +8,7 @@ var COLLECTIONS = []string{
 	"questions",
 	"chat",
 	"login",
+	"meetings",
 }
 
 var JWT_KEY = []byte("SecretYouShouldHide")

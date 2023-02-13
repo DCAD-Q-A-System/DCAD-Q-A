@@ -10,3 +10,7 @@ type LoginRequest struct {
 type MongoConnection struct {
 	Client *mongo.Client
 }
+
+type GetMeetingData struct {
+	MeetingId string `json:"meeting_id"`
+}
