@@ -1,320 +1,76 @@
-import * as React from "react";
+import { Component, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setData } from "../store/loginSlice";
+import { sha256 } from "crypto-hash";
+import jwt_decode from "jwt-decode";
+import { JWT } from "../utils/interfaces";
+import "./Login.css"
 
-export function Login(props: any) {
+export function Login() {
+  const dispatch = useAppDispatch();
+  const loginData = useAppSelector((state) => state.loginReducer.data);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (event:React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Hash function implement later
+    const pass = await sha256(password);
+    const res = await fetch("http://127.0.0.1:8080/login", {
+      method:"POST",
+      body:JSON.stringify({username, "password": pass})
+    })
+    const jwt = await res.json();
+    const decoded:JWT = jwt_decode(jwt);
+    dispatch(setData({data:decoded}));
+  }
   return (
     <>
-      <div class="div">
-        <div class="div-2">
-          <div class="div-3">
-            <div class="builder-columns div-4">
-              <div class="builder-column column">
-                <div class="div-5">
+      <div className="div">
+        <div className="div-2">
+          <div className="div-3">
+            <div className="builder-columns div-4">
+              <div className="builder-column column">
+                <div className="div-5">
                   <picture>
+                    <Component/>
                     <source
-                      srcset="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
                       type="image/webp"
                     />
                     <img
                       loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
-                      srcset="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
-                      class="image"
+                      src="../image/durham_logo.png"
+                      className="image"
                     />
                   </picture>
-                  <div class="builder-image-sizer image-sizer"></div>
+                  <div className="builder-image-sizer image-sizer"></div>
                 </div>
               </div>
-              <div class="builder-column column-2">
-                <div class="welcome-to-the-online-q-a-syst">
+              <div className="builder-column column-2">
+                <div className="welcome-to-the-online-q-a-syst">
                   Welcome to the online Q&A system
                 </div>
               </div>
             </div>
           </div>
-          <div class="div-6">
-            <div class="builder-columns div-7">
-              <div class="builder-column column-3">
-                <div class="div-8">
-                  <div class="div-9">
-                    <div class="builder-columns div-10">
-                      <div class="builder-column column-4">
-                        <div class="div-11">Login as Student</div>
-                      </div>
-                    </div>
+          <form onSubmit={(e)=>handleSubmit} className="div-6">
+            <div className="builder-columns div-7">
+              <div className="builder-column column-3">
+                <div className="div-8">
+                  <div className="div-9">
+                    <label className="div-10">Username:</label>
+                    <input type="text" onChange={(e)=>setPassword(e.target.value)} className="div-11"/>
                   </div>
-                  <div class="div-12">
-                    <div class="builder-columns div-13">
-                      <div class="builder-column column-5">
-                        <div class="div-14">Login as Panellist</div>
-                      </div>
-                    </div>
+                  <div className="div-12">
+                    <label className="div-13">Password:</label>
+                    <input type="password" onChange={(e)=>setPassword(e.target.value)} className="div-14"/>
                   </div>
-                  <div class="div-15">
-                    <div class="builder-columns div-16">
-                      <div class="builder-column column-6">
-                        <div class="div-17">Join as Guest</div>
-                      </div>
-                    </div>
-                  </div>
+                  <button type="submit" className="div-15">Login</button>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
-      <style>{`
-    .div {
-      display: flex;
-      flex-direction: column;
-      max-width: 1920px;
-      justify-content: flex-start;
-      align-items: center;
-      padding-top: 45px;
-      padding-bottom: 45px;
-      background-image: url("https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff68409e7db1e4e9690ca16a962076268");
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-    .div-2 {
-      display: flex;
-      flex-direction: column;
-      max-width: 1665px;
-      justify-content: flex-start;
-      align-items: center;
-    }
-    .div-3 {
-      display: flex;
-      flex-direction: column;
-      max-width: 1665px;
-    }
-    .div-4 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-4 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(51.76% - 10px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column {
-        width: 100%;
-      }
-    }
-    .div-5 {
-      display: flex;
-      position: relative;
-      min-width: 20px;
-      min-height: 20px;
-      max-width: 500px;
-      width: 60.06%;
-    }
-    .image {
-      object-fit: cover;
-      object-position: center;
-      position: absolute;
-      height: 100%;
-      width: 100%;
-      top: 0;
-      left: 0;
-    }
-    .image-sizer {
-      width: 100%;
-      padding-top: 43.1640625%;
-      pointer-events: none;
-      font-size: 0;
-    }
-    .column-2 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(84.37% - 10px);
-      margin-left: 20px;
-    }
-    @media (max-width: 999px) {
-      .column-2 {
-        width: 100%;
-      }
-    }
-    .welcome-to-the-online-q-a-syst {
-      max-width: 815px;
-      color: rgba(255, 255, 255, 1);
-      font-size: 48px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Inter", sans-serif;
-    }
-    .div-6 {
-      display: flex;
-      flex-direction: column;
-      max-width: 367px;
-      margin-top: 100px;
-      border-radius: 20px;
-      padding-top: 18px;
-      padding-right: 21px;
-      padding-bottom: 18px;
-      padding-left: 21px;
-      background-color: rgba(255, 255, 255, 1);
-    }
-    .div-7 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-7 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-3 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(102.85% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-3 {
-        width: 100%;
-      }
-    }
-    .div-8 {
-      display: flex;
-      flex-direction: column;
-      max-width: 325px;
-      justify-content: flex-start;
-      align-items: center;
-    }
-    .div-9 {
-      display: flex;
-      flex-direction: column;
-      max-width: 325px;
-      padding-top: 10px;
-      padding-right: 10px;
-      padding-bottom: 10px;
-      padding-left: 10px;
-      background-color: rgba(44, 92, 218, 1);
-    }
-    .div-10 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-10 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-4 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(92.57% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-4 {
-        width: 100%;
-      }
-    }
-    .div-11 {
-      max-width: 274px;
-      color: rgba(255, 255, 255, 1);
-      font-size: 30px;
-      line-height: 40px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Inter", sans-serif;
-    }
-    .div-12 {
-      display: flex;
-      flex-direction: column;
-      max-width: 325px;
-      margin-top: 90px;
-      padding-top: 10px;
-      padding-right: 10px;
-      padding-bottom: 10px;
-      padding-left: 10px;
-      background-color: rgba(44, 92, 218, 1);
-    }
-    .div-13 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-13 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-5 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(103.04% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-5 {
-        width: 100%;
-      }
-    }
-    .div-14 {
-      max-width: 305px;
-      color: rgba(255, 255, 255, 1);
-      font-size: 30px;
-      line-height: 40px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Inter", sans-serif;
-    }
-    .div-15 {
-      display: flex;
-      flex-direction: column;
-      max-width: 325px;
-      margin-top: 90px;
-      padding-top: 10px;
-      padding-right: 10px;
-      padding-bottom: 10px;
-      padding-left: 10px;
-      background-color: rgba(44, 92, 218, 1);
-    }
-    .div-16 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-16 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-6 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(103.04% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-6 {
-        width: 100%;
-      }
-    }
-    .div-17 {
-      max-width: 305px;
-      color: rgba(255, 255, 255, 1);
-      font-size: 30px;
-      line-height: 40px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Inter", sans-serif;
-    }
-  `}</style>
     </>
   );
 }

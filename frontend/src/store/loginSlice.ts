@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { JWT } from "../utils/interfaces";
 
 // replace any with the actual data
-const init: { data: any | null } = { data: null };
+const init: { data: JWT | null } = { data: null };
 
 export const loginSlice = createSlice({
   name: "login",
@@ -9,7 +10,7 @@ export const loginSlice = createSlice({
   reducers: {
     setData: (
       state,
-      action: PayloadAction<{ data: GoogleResponse | null }>
+      action: PayloadAction<{ data: JWT | null }>
     ) => {
       return { ...state, data: action.payload.data };
     },
