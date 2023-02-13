@@ -1,7 +1,29 @@
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { setData } from "../store/loginSlice";
+import { sha256 } from "crypto-hash";
+import jwt_decode from "jwt-decode";
+import { JWT } from "../utils/interfaces";
 import * as React from "react";
-import "./Login.css"
+import "./Login.css";
 
-export function Login(props: any) {
+export function Login() {
+  const dispatch = useAppDispatch();
+  const loginData = useAppSelector((state) => state.loginReducer.data);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // Hash function implement later
+    const pass = await sha256(password);
+    const res = await fetch("http://127.0.0.1:8080/login", {
+      method: "POST",
+      body: JSON.stringify({ username, password: pass }),
+    });
+    const jwt = await res.json();
+    const decoded: JWT = jwt_decode(jwt);
+    dispatch(setData({ data: decoded }));
+  };
   return (
     <>
       <div className="div">
@@ -32,35 +54,33 @@ export function Login(props: any) {
               </div>
             </div>
           </div>
-          <div className="div-6">
+          <form onSubmit={(e) => handleSubmit} className="div-6">
             <div className="builder-columns div-7">
               <div className="builder-column column-3">
                 <div className="div-8">
                   <div className="div-9">
-                    <div className="builder-columns div-10">
-                      <div className="builder-column column-4">
-                        <div className="div-11">Login as Student</div>
-                      </div>
-                    </div>
+                    <label className="div-10">Username:</label>
+                    <input
+                      type="text"
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="div-11"
+                    />
                   </div>
                   <div className="div-12">
-                    <div className="builder-columns div-13">
-                      <div className="builder-column column-5">
-                        <div className="div-14">Login as Panellist</div>
-                      </div>
-                    </div>
+                    <label className="div-13">Password:</label>
+                    <input
+                      type="password"
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="div-14"
+                    />
                   </div>
-                  <div className="div-15">
-                    <div className="builder-columns div-16">
-                      <div className="builder-column column-6">
-                        <div className="div-17">Join as Guest</div>
-                      </div>
-                    </div>
-                  </div>
+                  <button type="submit" className="div-15">
+                    Login
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </>
