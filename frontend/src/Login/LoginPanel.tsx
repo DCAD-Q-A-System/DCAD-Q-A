@@ -71,7 +71,7 @@ export function LoginPanel(props: any) {
       align-items: center;
       padding-top: 45px;
       padding-bottom: 45px;
-      background-image: url("https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff68409e7db1e4e9690ca16a962076268");
+      background-image: url("../image/Login.jpg");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;

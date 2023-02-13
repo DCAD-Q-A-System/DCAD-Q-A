@@ -7,13 +7,11 @@ export function PannelistHome() {
             <div className="div-3">
                 <picture>
                 <source
-                    srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13"
                     type="image/webp"
                 />
                 <img
                     loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13"
-                    srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa4c5a8c2f7764e92a1603b40e7811f13"
+                    src="../image/current_meeting.png"
                     className="image"
                 />
                 </picture>
@@ -24,13 +22,11 @@ export function PannelistHome() {
             <div className="div-4">
                 <picture>
                 <source
-                    srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317"
                     type="image/webp"
                 />
                 <img
                     loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317"
-                    srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F981528b8bb5449b59571127abc445317"
+                    src="../image/create_meeting.png"
                     className="image"
                 />
                 </picture>
@@ -49,7 +45,7 @@ export function PannelistHome() {
             padding-right: 220px;
             padding-bottom: 340px;
             padding-left: 220px;
-            background-image: url("https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fbaf11bbc168d408b857d0a142fb6bb44");
+            background-image: url("../image/Meeting.jpg");
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;

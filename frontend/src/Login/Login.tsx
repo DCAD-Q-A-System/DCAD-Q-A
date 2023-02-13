@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Component, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setData } from "../store/loginSlice";
 import { sha256 } from "crypto-hash";
@@ -31,14 +31,13 @@ export function Login() {
               <div className="builder-column column">
                 <div className="div-5">
                   <picture>
+                    <Component/>
                     <source
-                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306"
                       type="image/webp"
                     />
                     <img
                       loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306"
-                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F26a67cd96e9a4fdcab5916c7b4029306"
+                      src="../image/durham_logo.png"
                       className="image"
                     />
                   </picture>
@@ -82,7 +81,7 @@ export function Login() {
       padding-right: 105px;
       padding-bottom: 58px;
       padding-left: 105px;
-      background-image: url("https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F5f90b93676484097bded2c2fba3f9c1f");
+      background-image: url("../image/Login.jpg");
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
