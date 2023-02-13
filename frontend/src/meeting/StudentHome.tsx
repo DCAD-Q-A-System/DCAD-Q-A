@@ -1,4 +1,5 @@
 import "./StudentHome.css"
+import current from "../image/current_meeting.png"
 
 export function StudentHome() {
     return (
@@ -11,7 +12,7 @@ export function StudentHome() {
                 />
                 <img
                 loading="lazy"
-                src="../image/current_meeting.png"
+                src={current}
                 className="image"
                 />
             </picture>
