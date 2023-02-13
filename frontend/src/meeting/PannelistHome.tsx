@@ -1,3 +1,5 @@
+import "./PanellistHome.css"
+
 export function PannelistHome() {
     return (
         <>
@@ -39,86 +41,6 @@ export function PannelistHome() {
             </div>
         </div>
         </div>
-        <style>
-            {`
-        .div {
-            display: flex;
-            flex-direction: column;
-            max-width: 1900px;
-            padding-top: 340px;
-            padding-right: 220px;
-            padding-bottom: 340px;
-            padding-left: 220px;
-            background-image: url("https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fbaf11bbc168d408b857d0a142fb6bb44");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-        .div-2 {
-            display: flex;
-        }
-        @media (max-width: 999px) {
-            .div-2 {
-            flex-direction: column;
-            align-items: stretch;
-            }
-        }
-        .column {
-            display: flex;
-            flex-direction: column;
-            line-height: normal;
-            width: calc(92.42% - 10px);
-            margin-left: 0px;
-        }
-        @media (max-width: 999px) {
-            .column {
-            width: 100%;
-            }
-        }
-        .div-3 {
-            display: flex;
-            position: relative;
-            min-width: 20px;
-            min-height: 20px;
-            max-width: 500px;
-            width: 68.49%;
-        }
-        .image {
-            object-fit: cover;
-            object-position: center;
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            top: 0;
-            left: 0;
-        }
-        .image-sizer {
-            width: 100%;
-            padding-top: 80%;
-            pointer-events: none;
-            font-size: 0;
-        }
-        .column-2 {
-            display: flex;
-            flex-direction: column;
-            line-height: normal;
-            width: calc(92.42% - 10px);
-            margin-left: 20px;
-        }
-        @media (max-width: 999px) {
-            .column-2 {
-            width: 100%;
-            }
-        }
-        .div-4 {
-            display: flex;
-            position: relative;
-            min-width: 20px;
-            min-height: 20px;
-            max-width: 500px;
-            width: 68.49%;
-        }`}
-            </style>
       </>
     );
 }
