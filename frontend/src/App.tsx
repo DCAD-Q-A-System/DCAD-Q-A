@@ -3,6 +3,8 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { Routes } from "react-router-dom";
 import { Route } from "react-router";
+import { LoginPanel } from "./Login/LoginPanel";
+import { Login } from "./Login/Login";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -33,7 +35,8 @@ function App() {
       <Routes>
         <Route path="/" element={} />
         {/* To be filled in */}
-        <Route path="/login" element={} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/loginPanel" element={<LoginPanel/>} />
         <Route path="/meeting" element={} />
       </Routes>
     </div>

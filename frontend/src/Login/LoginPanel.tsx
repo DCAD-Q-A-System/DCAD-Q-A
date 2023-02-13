@@ -1,6 +1,8 @@
 import React from "react";
 
+import { useNavigate } from 'react-router';
 export function LoginPanel(props: any) {
+  const navigate = useNavigate()
   return (
     <>
       <div className="div">
@@ -38,14 +40,14 @@ export function LoginPanel(props: any) {
                   <div className="div-9">
                     <div className="builder-columns div-10">
                       <div className="builder-column column-4">
-                        <div className="div-11">Login as Student</div>
+                        <div className="div-11" onClick ={()=>navigate("/login")}>Login as Student</div>
                       </div>
                     </div>
                   </div>
                   <div className="div-12">
                     <div className="builder-columns div-13">
                       <div className="builder-column column-5">
-                        <div className="div-14">Login as Panellist</div>
+                        <div className="div-14" onClick ={()=>navigate("/login")}>Login as Panellist</div>
                       </div>
                     </div>
                   </div>
