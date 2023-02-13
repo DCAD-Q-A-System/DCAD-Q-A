@@ -6,6 +6,8 @@ import jwt_decode from "jwt-decode";
 import { JWT } from "../utils/interfaces";
 import "./Login.css";
 
+import logo from "../image/Meeting.jpg";
+
 export function Login() {
   const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
