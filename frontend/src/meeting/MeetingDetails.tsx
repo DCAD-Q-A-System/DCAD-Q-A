@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { EndTime, StartTime } from "./AddTimeSet";
+import { EndTime, StartTime } from "./controlPanel/AddTimeSet";
 import "./MeetingDetails.css"
 
 export function MeetingDetails() {
