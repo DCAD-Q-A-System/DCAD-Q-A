@@ -2,12 +2,10 @@ package main
 
 import (
 	"context"
-	"fmt"
 
 	"dcad_q_a_system.com/db"
 	"dcad_q_a_system.com/router"
 	"dcad_q_a_system.com/utils"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 func main(){
@@ -21,15 +19,12 @@ func main(){
 	}()
 
 
-	// Ping the primary
-	if err := client.Ping(context.TODO(), readpref.Primary()); err != nil {
-		panic(err)
-	}
-	fmt.Println("Successfully connected and pinged.")
-
 	connection := &utils.MongoConnection{Client: client}
 
 	socket_server := router.SetUpSocketServer(connection)
+
+	go socket_server.Serve()
+	defer socket_server.Close()
 	r := router.Router(connection,socket_server)
 	r.Run()
 

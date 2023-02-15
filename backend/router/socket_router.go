@@ -16,16 +16,23 @@ func SetUpSocketServer(conn *utils.MongoConnection) *socketio.Server {
 		fmt.Println("connected",s.ID())
 		return nil
 	})
+	socket_server.OnDisconnect("/",func(c socketio.Conn, s string) {
+		c.SetContext("")
+		fmt.Println("Left!")
+	})
+	socket_server.OnError("/",func(c socketio.Conn, err error) {
+		fmt.Printf("%v",err)
 
-	socket_server.OnEvent("/question", "insert", questions.InsertQuestion(conn))
+	})
+
+	socket_server.OnEvent("/","msg",func(s socketio.Conn, msg string) string {
+		s.SetContext(msg)
+		return "Nothing"
+	})
+	socket_server.OnEvent("question", "insert", questions.InsertQuestion(conn))
 
 
-	go func() {
-		if err := socket_server.Serve(); err != nil {
-			fmt.Printf("socketio listen error: %s\n", err)
-		}
-	}()
-	defer socket_server.Close()
+	
 	
 	return socket_server
 }

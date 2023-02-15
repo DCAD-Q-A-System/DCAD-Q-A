@@ -55,8 +55,8 @@ func Router(conn *utils.MongoConnection, socket_server *socketio.Server) *gin.En
 	server.GET("/get-all-messages",GetAll(conn))
 
 
-	server.GET("/sockets/*any",gin.WrapH(socket_server))
-	server.POST("/sockets/*any",gin.WrapH(socket_server))
+	server.GET("/sockets/",gin.WrapH(socket_server))
+	server.POST("/sockets/",gin.WrapH(socket_server))
 
 	// server.POST("/google/logout",auth,login.HandleLogout)
 	// server.POST("/api/insert-post/:post_type",auth,posts.InsertPost)
