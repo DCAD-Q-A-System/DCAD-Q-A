@@ -1,6 +1,12 @@
+import { useState } from "react";
+import { EndTime, StartTime } from "./AddTimeSet";
 import "./MeetingDetails.css"
 
 export function MeetingDetails() {
+
+  const [value, onChange] = useState(new Date())
+  const [endvalue, endOnChange] = useState(new Date())
+
   return (
     <>
       <div className="div">
@@ -14,17 +20,17 @@ export function MeetingDetails() {
                 </div>
                 <div className="div-8">
                   <div className="div-9">Start Time:</div>
-                  <div className="div-10"></div>
+                  <StartTime value={value} onChange={onChange} />
                 </div>
                 <div className="div-11">
                   <div className="div-12">End Time:</div>
-                  <div className="div-13"></div>
+                  <EndTime value={value} endvalue={endvalue} endOnChange={endOnChange} />
                 </div>
                 <div className="div-14">
                   <div className="div-15">iframe Link:</div>
                   <div className="div-16"></div>
                 </div>
-                <div className="div-17">Save</div>
+                <button className="div-17">Save</button>
               </div>
             </div>
           </div>
