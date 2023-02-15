@@ -2,6 +2,7 @@ package auth
 
 import (
 	"context"
+	"crypto/sha256"
 	"fmt"
 	"net/http"
 
@@ -24,7 +25,7 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 		
 		
 		collection := conn.Client.Database(utils.DB_NAME).Collection(utils.USERS,options.Collection())
-		result := collection.FindOne(context.TODO(),bson.M{"username":body.Username,"password":body.Password})
+		result := collection.FindOne(context.Background(),bson.M{"username":body.Username})
 		// result := collection.FindOne(context.TODO(),bson.M{"username":body.Username,"password":body.Password},options.FindOne())
 		err := result.Err()
 		if err != nil {
@@ -33,7 +34,26 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 			return
 		}
 		
-		
+		var user utils.User
+		result.Decode(&user)
+
+		if user.Type != body.Type{
+			fmt.Println("incorrect type")
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
+		}
+
+		attempt := body.Password + user.Salt 
+		h := sha256.New()
+		h.Write([]byte(attempt))
+		hashed := h.Sum(nil)
+		hexString := fmt.Sprintf("%x",hashed)
+		if hexString != user.Password {
+			fmt.Println("wrong password supplied")
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
+		}
+
 		
 		jwt,err := GenerateJWT(body.Username)
 		if err != nil {

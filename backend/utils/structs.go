@@ -8,6 +8,7 @@ import (
 type LoginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+	Type string `json:"type"`
 }
 
 type MongoConnection struct {
@@ -38,6 +39,14 @@ type Reply struct {
 	Content string `bson:"content"`
 	ParentChatId primitive.ObjectID `bson:"parentChatId"`
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
+}
+
+type User struct {
+	Id primitive.ObjectID `bson:"_id"`
+	Username string `bson:"username"`
+	Password string `bson:"password"`
+	Salt string `bson:"salt"`
+	Type string `bson:"type"`
 }
 type Meeting struct {
 	Id primitive.ObjectID `bson:"_id"`
