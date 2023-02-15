@@ -23,7 +23,7 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 		
 		
-		collection := conn.Client.Database(utils.DB_NAME).Collection(utils.COLLECTIONS[2],options.Collection())
+		collection := conn.Client.Database(utils.DB_NAME).Collection(utils.USERS,options.Collection())
 		result := collection.FindOne(context.TODO(),bson.M{"username":body.Username,"password":body.Password})
 		// result := collection.FindOne(context.TODO(),bson.M{"username":body.Username,"password":body.Password},options.FindOne())
 		err := result.Err()

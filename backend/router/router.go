@@ -52,6 +52,7 @@ func Router(conn *utils.MongoConnection, socket_server *socketio.Server) *gin.En
 
 	// server.GET("/api/get-all-posts-length/:post_type",posts.GetAllPostsLength)
 	server.POST("/login",auth.Login(conn))
+	server.GET("/get-all-messages",GetAll(conn))
 
 
 	server.GET("/sockets/*any",gin.WrapH(socket_server))
