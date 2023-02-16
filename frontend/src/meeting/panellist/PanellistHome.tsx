@@ -1,6 +1,8 @@
 import "./PanellistHome.css"
+import current from "../image/current_meeting.png"
+import create from "../image/create_meeting.png"
 
-export function PannelistHome() {
+export function PanellistHome() {
     return (
         <>
         <div className="div">
@@ -8,12 +10,9 @@ export function PannelistHome() {
             <div className="builder-column column">
             <div className="div-3">
                 <picture>
-                <source
-                    type="image/webp"
-                />
                 <img
                     loading="lazy"
-                    src="../image/current_meeting.png"
+                    src={current}
                     className="image"
                 />
                 </picture>
@@ -23,12 +22,9 @@ export function PannelistHome() {
             <div className="builder-column column-2">
             <div className="div-4">
                 <picture>
-                <source
-                    type="image/webp"
-                />
                 <img
                     loading="lazy"
-                    src="../image/create_meeting.png"
+                    src={create}
                     className="image"
                 />
                 </picture>
