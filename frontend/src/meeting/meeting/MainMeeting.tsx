@@ -1,6 +1,9 @@
+import { useState } from "react";
 import "./MainMeeting.css";
 
-export function MeetingListStudent() {
+export function MainMeeting() {
+  
+
   return (
     <>
       <div className="div">
@@ -119,19 +122,7 @@ export function MeetingListStudent() {
                     <div className="div-32">
                       <div className="div-33">
                         <div className="div-34">
-                          <picture>
-                            <source
-                              srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2"
-                              type="image/webp"
-                            />
-                            <img
-                              loading="lazy"
-                              src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2"
-                              srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F83fc74d9d0ba461baa956c555dfaa9b2"
-                              className="image"
-                            />
-                          </picture>
-                          <div className="builder-image-sizer image-sizer-4"></div>
+                          <iframe width="1280" height="730" src="https://www.youtube.com/embed/hzNDAhLlWZ8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                         </div>
                       </div>
                       <div className="div-35">Current Question:</div>
@@ -143,7 +134,7 @@ export function MeetingListStudent() {
                         <div className="div-38">
                           <div className="div-39">
                             <picture>
-                              <source
+                              <source 
                                 srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc"
                                 type="image/webp"
                               />

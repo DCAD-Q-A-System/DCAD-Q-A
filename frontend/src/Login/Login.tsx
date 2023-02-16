@@ -34,11 +34,6 @@ export function Login() {
               <div className="builder-column column">
                 <div className="div-5">
                   <picture>
-                    <Component />
-                    <source
-                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
-                      type="image/webp"
-                    />
                     <img loading="lazy" src={logo} className="image" />
                   </picture>
                   <div className="builder-image-sizer image-sizer"></div>
