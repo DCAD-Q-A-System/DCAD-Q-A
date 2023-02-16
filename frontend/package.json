@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.2",
     "@types/jest": "^29.4.0",
+    "bootstrap": "^5.2.3",
     "crypto-hash": "^2.0.1",
     "emoji-picker-react": "^4.4.7",
     "jest-environment-jsdom": "^29.4.1",
