@@ -1,8 +1,11 @@
 import { InputLiveStreamSource } from "../components/InputLiveStreamSoure";
+import { EndTime, StartTime } from "../controlPanel/AddTimeSet";
 import "./MeetingDetails.css"
 import React,{useState} from "react";
 
 export function MeetingDetails() {
+  const [value, onChange] = useState(new Date())
+  const [endvalue, endOnChange] = useState(new Date())
   const [iframeLink,setIframeLink] = useState("");
   const YOUTUBE_REGEX = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
   const PANOPTO_REGEX = /((http:\/\/(.*\.hosted\.panopto\.com\/.*|.*\.staging\.panopto\.com\/.*|.*\.cloud\.panopto\.eu\/.*))|(https:\/\/(.*\.hosted\.panopto\.com\/.*|.*\.staging\.panopto\.com\/.*|.*\.cloud\.panopto\.eu\/.*)))/i
@@ -36,11 +39,11 @@ export function MeetingDetails() {
                 </div>
                 <div className="div-8">
                   <div className="div-9">Start Time:</div>
-                  <div className="div-10"></div>
+                  <StartTime value={value} onChange={onChange} />
                 </div>
                 <div className="div-11">
                   <div className="div-12">End Time:</div>
-                  <div className="div-13"></div>
+                  <EndTime value={value} endvalue={endvalue} endOnChange={endOnChange} />
                 </div>
                 {InputLiveStreamSource({iframeLink,setIframeLink})}
                 
