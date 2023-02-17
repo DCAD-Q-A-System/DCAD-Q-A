@@ -1,11 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setData } from "../store/loginSlice";
 import { sha256 } from "crypto-hash";
 import jwt_decode from "jwt-decode";
 import { JWT } from "../utils/interfaces";
-import * as React from "react";
 import "./Login.css";
+
+import logo from "../image/Meeting.jpg";
 
 export function Login() {
   const dispatch = useAppDispatch();
@@ -33,16 +34,7 @@ export function Login() {
               <div className="builder-column column">
                 <div className="div-5">
                   <picture>
-                    <source
-                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
-                      type="image/webp"
-                    />
-                    <img
-                      loading="lazy"
-                      src="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
-                      srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F266920c105df499e8fdfb93060b2484b"
-                      className="image"
-                    />
+                    <img loading="lazy" src={logo} className="image" />
                   </picture>
                   <div className="builder-image-sizer image-sizer"></div>
                 </div>
@@ -54,7 +46,7 @@ export function Login() {
               </div>
             </div>
           </div>
-          <form onSubmit={(e) => handleSubmit} className="div-6">
+          <form onSubmit={handleSubmit} className="div-6">
             <div className="builder-columns div-7">
               <div className="builder-column column-3">
                 <div className="div-8">
