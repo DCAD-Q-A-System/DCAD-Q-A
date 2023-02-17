@@ -21,11 +21,7 @@ func main(){
 
 	connection := &utils.MongoConnection{Client: client}
 
-	socket_server := router.SetUpSocketServer(connection)
-
-	go socket_server.Serve()
-	defer socket_server.Close()
-	r := router.Router(connection,socket_server)
+	r := router.Router(connection)
 	r.Run()
 
 }
