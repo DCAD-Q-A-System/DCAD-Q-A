@@ -2,6 +2,7 @@ package router
 
 import (
 	"dcad_q_a_system.com/auth"
+	"dcad_q_a_system.com/meeting"
 	"dcad_q_a_system.com/utils"
 	"dcad_q_a_system.com/web_sockets"
 	"github.com/gin-contrib/gzip"
@@ -27,6 +28,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 
 	server.POST("/login",auth.Login(conn))
 	server.GET("/get-all-messages",GetAll(conn))
+	server.POST("/create-meeting",meeting.InsertMeeting(conn))
 
 	pool := web_sockets.NewPool()
 	go pool.Start()

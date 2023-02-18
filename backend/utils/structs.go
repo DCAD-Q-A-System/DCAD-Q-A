@@ -50,12 +50,23 @@ type User struct {
 }
 type Meeting struct {
 	Id primitive.ObjectID `bson:"_id"`
+	Name string `bson:"name"`
 	StartTime primitive.DateTime `bson:"startTime"`
 	EndTime primitive.DateTime `bson:"endTime"`
 	Chats []primitive.ObjectID `bson:"chats"`
 	Questions []primitive.ObjectID `bson:"questions"`
 	Members []primitive.ObjectID `bson:"members"`
 	IframeLink string `bson:"iframeLink"`
+}
+
+type JsonMeeting struct {
+	Name string `json:"name"`
+	StartTime string `json:"startTime"`
+	EndTime string `json:"endTime"`
+	Chats []string `json:"chats"`
+	Questions []string `json:"questions"`
+	Members []string `json:"members"`
+	IframeLink string `json:"iframeLink"`
 }
 
 
