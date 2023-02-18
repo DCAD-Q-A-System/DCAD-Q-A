@@ -55,4 +55,13 @@ type Meeting struct {
 	Chats []primitive.ObjectID `bson:"chats"`
 	Questions []primitive.ObjectID `bson:"questions"`
 	Members []primitive.ObjectID `bson:"members"`
+	IframeLink string `bson:"iframeLink"`
+}
+
+
+type SocketMessage struct {
+	ReqType string `json:"reqType"`
+	Content string `json:"content"`
+	Token string `json:"token"`
+	MeetingId string `json:"meetingId"` 
 }

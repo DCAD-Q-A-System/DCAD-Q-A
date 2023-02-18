@@ -34,5 +34,6 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request)
 	})
 	
+	
 	return server
 }
