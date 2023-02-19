@@ -1,5 +1,4 @@
-
-type startEventProps = {
+export type startEventProps = {
     IframeLink:string,
     meetingID:number
 }
