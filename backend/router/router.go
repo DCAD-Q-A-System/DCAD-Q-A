@@ -3,6 +3,7 @@ package router
 import (
 	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/meeting"
+	"dcad_q_a_system.com/middleware"
 	"dcad_q_a_system.com/utils"
 	"dcad_q_a_system.com/web_sockets"
 	"github.com/gin-contrib/gzip"
@@ -25,13 +26,13 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 	
 	// compress content to reach faster
 	server.Use(gzip.Gzip(gzip.BestSpeed))
-
+	auth_middleware := middleware.AuthenticateRequestMiddleware()
 	server.POST("/login",auth.Login(conn))
 	server.GET("/get-all-messages",GetAll(conn))
-	server.POST("/create-meeting",meeting.InsertMeeting(conn))
-	server.PUT("/edit-meeting",meeting.EditMeeting(conn))
-	server.PUT("/join-meeting",meeting.JoinMeeting(conn))
-	server.PUT("/leave-meeting",meeting.LeaveMeeting(conn))
+	server.POST("/create-meeting",auth_middleware,meeting.InsertMeeting(conn))
+	server.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
+	server.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))
+	server.PUT("/leave-meeting",auth_middleware,meeting.LeaveMeeting(conn))
 	
 
 	pool := web_sockets.NewPool()
