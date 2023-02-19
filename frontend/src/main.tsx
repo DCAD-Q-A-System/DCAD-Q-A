@@ -6,12 +6,13 @@ import { LoginPanel } from "./Login/LoginPanel";
 import { MeetingDetails } from "./meeting/meeting/MeetingDetails";
 import { PanellistHome } from "./meeting/panellist/PanellistHome";
 import { MainMeeting } from "./meeting/meeting/MainMeeting";
+import { MeetingListPanellist } from "./meeting/meeting/MeetingList";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     {/* <App /> */}
     {/* <Login /> */}
     {/* <MainMeeting /> */}
-    <MeetingDetails/>
+    <MeetingListPanellist />
   </React.StrictMode>
 );
