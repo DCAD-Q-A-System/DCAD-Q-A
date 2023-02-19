@@ -7,8 +7,9 @@ import { JWT } from "../utils/interfaces";
 import "./Login.css";
 
 import logo from "../image/Meeting.jpg";
+import { LOGIN } from "../utils/paths";
 
-export function Login() {
+export function Login({ type }: { type: USER_TYPE }) {
   const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [username, setUsername] = useState("");
@@ -17,9 +18,9 @@ export function Login() {
     event.preventDefault();
     // Hash function implement later
     const pass = await sha256(password);
-    const res = await fetch("http://127.0.0.1:8080/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password: pass }),
+    const res = await fetch(LOGIN, {
+      method: HTTP_METHODS.POST,
+      body: JSON.stringify({ username, password: pass, reqType: type }),
     });
     const jwt = await res.json();
     const decoded: JWT = jwt_decode(jwt);

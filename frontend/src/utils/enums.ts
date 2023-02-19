@@ -1,0 +1,6 @@
+enum USER_TYPE {
+  ADMIN = "ADMIN",
+  PANELLIST = "PANELLIST",
+  STUDENT = "STUDENT",
+  GUEST = "GUEST",
+}

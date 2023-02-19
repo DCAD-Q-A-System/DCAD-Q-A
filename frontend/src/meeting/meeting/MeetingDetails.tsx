@@ -2,15 +2,13 @@ import { InputLiveStreamSource } from "../components/InputLiveStreamSoure";
 import { EndTime, StartTime } from "../control_panel/AddTimeSet";
 import "./MeetingDetails.css";
 import React, { useState } from "react";
+import { PANOPTO_REGEX, YOUTUBE_REGEX } from "../../utils/regex";
 
 export function MeetingDetails() {
   const [value, onChange] = useState(new Date());
   const [endvalue, endOnChange] = useState(new Date());
   const [iframeLink, setIframeLink] = useState("");
-  const YOUTUBE_REGEX =
-    /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
-  const PANOPTO_REGEX =
-    /((http:\/\/(.*\.hosted\.panopto\.com\/.*|.*\.staging\.panopto\.com\/.*|.*\.cloud\.panopto\.eu\/.*))|(https:\/\/(.*\.hosted\.panopto\.com\/.*|.*\.staging\.panopto\.com\/.*|.*\.cloud\.panopto\.eu\/.*)))/i;
+
   const submitForm = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

@@ -61,6 +61,13 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 			c.AbortWithStatus(500)
 			return
 		}
-		c.JSON(http.StatusOK,gin.H{"jwt":jwt})
+		// add cookie later
+		// c.Cookie(
+		// 	"token",
+		// 	jwt,
+		// 	int(),
+		// )
+		c.JSON(http.StatusOK,gin.H{"username":body.Username,
+		"type":body.Type})
 	}
 }
