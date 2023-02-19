@@ -56,17 +56,25 @@ type Meeting struct {
 	Chats []primitive.ObjectID `bson:"chats"`
 	Questions []primitive.ObjectID `bson:"questions"`
 	Members []primitive.ObjectID `bson:"members"`
+	OnlineMembers []primitive.ObjectID `bson:"onlineMembers"`
 	IframeLink string `bson:"iframeLink"`
 }
 
 type JsonMeeting struct {
+	Id string `json:"id"`
 	Name string `json:"name"`
 	StartTime string `json:"startTime"`
 	EndTime string `json:"endTime"`
 	Chats []string `json:"chats"`
 	Questions []string `json:"questions"`
 	Members []string `json:"members"`
+	OnlineMembers []string `json:"onlineMembers"`
 	IframeLink string `json:"iframeLink"`
+}
+
+type JoinMeeting struct {
+	MeetingId string `json:"meetingId"`
+	UserId string `json:"userId"`
 }
 
 

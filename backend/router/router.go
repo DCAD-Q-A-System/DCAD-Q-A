@@ -29,6 +29,9 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 	server.POST("/login",auth.Login(conn))
 	server.GET("/get-all-messages",GetAll(conn))
 	server.POST("/create-meeting",meeting.InsertMeeting(conn))
+	server.PUT("/edit-meeting",meeting.EditMeeting(conn))
+	server.PUT("/join-meeting",meeting.JoinMeeting(conn))
+	
 
 	pool := web_sockets.NewPool()
 	go pool.Start()
