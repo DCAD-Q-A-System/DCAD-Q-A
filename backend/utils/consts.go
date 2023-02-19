@@ -20,6 +20,7 @@ const TIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%LZ"
 var ALLOWED_REQ_TYPES = map[string]bool{
 	"INSERT_CHAT":     true,
 	"INSERT_QUESTION": true,
+	"INSERT_REPLY":    true,
 	// for later
 	// "KICK_USER":       true,
 	// "DELETE_QUESTION": true,

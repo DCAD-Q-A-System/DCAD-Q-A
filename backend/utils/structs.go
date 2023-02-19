@@ -24,6 +24,7 @@ type Question struct {
 	Content string `bson:"content"`
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
 	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
+	UserId primitive.ObjectID `bson:"userId"`
 }
 
 type Chat struct {
@@ -32,6 +33,7 @@ type Chat struct {
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
 	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
 	Replies []primitive.ObjectID `bson:"replies"`
+	UserId primitive.ObjectID `bson:"userId"`
 }
 
 type Reply struct {
@@ -39,6 +41,7 @@ type Reply struct {
 	Content string `bson:"content"`
 	ParentChatId primitive.ObjectID `bson:"parentChatId"`
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
+	UserId primitive.ObjectID `bson:"userId"`
 }
 
 type User struct {
@@ -82,5 +85,7 @@ type SocketMessage struct {
 	ReqType string `json:"reqType"`
 	Content string `json:"content"`
 	Token string `json:"token"`
-	MeetingId string `json:"meetingId"` 
+	MeetingId string `json:"meetingId"`
+	ChatId string `json:"chatId"` 
+	UserId string `json:"userId"`
 }

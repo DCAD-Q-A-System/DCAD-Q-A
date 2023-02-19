@@ -11,12 +11,16 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string) map[string]string {
+func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string,userId string) map[string]string {
 		response := map[string]string{}
 		ctx := context.Background()
 		db := conn.Client.Database(utils.DB_NAME)
 		question_collection := db.Collection(utils.QUESTIONS)
 		meetingIdObj,err := primitive.ObjectIDFromHex(meetingId)
+		if err != nil {
+			return response
+		}
+		userIdObj,err := primitive.ObjectIDFromHex(userId)
 		if err != nil {
 			return response
 		}
@@ -39,6 +43,7 @@ func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string
 				"content":content,
 				"timeCreated":timeNow,
 				"parentMeetingId":meetingIdObj,
+				"userId":userIdObj,
 			},
 		)
 		if err != nil {

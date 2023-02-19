@@ -1,4 +1,4 @@
-package chat
+package replies
 
 import (
 	"context"
@@ -11,67 +11,74 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InsertChat(conn *utils.MongoConnection, content string, meetingId string,userId string) map[string]string {
-	ctx := context.Background()
+func InsertReply(conn *utils.MongoConnection, 
+				content string, 
+				chatId string, 
+				userId string) map[string]string {
+	
 	response := map[string]string{}
+	ctx:= context.Background()
 	db := conn.Client.Database(utils.DB_NAME)
-
-	meetingIdObj,err := primitive.ObjectIDFromHex(meetingId)
+	reply_collection := db.Collection(utils.REPLIES)
+	chatIdObj,err := primitive.ObjectIDFromHex(chatId)
 	if err != nil {
+		fmt.Printf("chatIdObj error %v",err)
 		return response
 	}
-
 	userIdObj,err := primitive.ObjectIDFromHex(userId)
 	if err != nil {
+		fmt.Printf("userIdObj error %v",err)
 		return response
 	}
-	meeting_collection := db.Collection(utils.MEETINGS,options.Collection())
+
+	meeting_collection := db.Collection(utils.CHAT,options.Collection())
+	
 	id_instance := meeting_collection.FindOne(ctx,bson.D{
-		{"_id",meetingIdObj},
+		{"_id",chatIdObj},
 	})
+
 	if id_instance.Err() != nil {
 		fmt.Println("id not found or something else")
 		return response 
 	}
 	
 	timeNow := primitive.NewDateTimeFromTime(time.Now())
-	chat_collection := db.Collection(utils.CHAT, options.Collection())
-	
-	
-	
-	res,err := chat_collection.InsertOne(
+	res,err := reply_collection.InsertOne(
 		ctx,
 		map[string]interface{}{
 			"content":content,
 			"timeCreated":timeNow,
-			"parentMeetingId":meetingIdObj,
+			"parentChatId":chatIdObj,
 			"userId":userIdObj,
 		},
 	)
-
 	if err != nil {
 		return response
 	}
+	
 	fmt.Println(res.InsertedID)
 	id := res.InsertedID.(primitive.ObjectID)
 
 	filter := bson.D{
-		{"_id",meetingIdObj},
+		{"_id",chatIdObj},
 	}
 	update := bson.D{
 		{"$push",bson.D{
-			{"questions",id},
+			{"replies",id},
 		}},
 	}
-	updateResult,err := meeting_collection.UpdateOne(ctx,filter,update)
+	fmt.Println(chatIdObj)
+	chat_collection := db.Collection(utils.CHAT)
+	updateResult,err := chat_collection.UpdateOne(ctx,filter,update)
 	if err != nil {
-		fmt.Println("Couldn't update question in meeting")
+		fmt.Printf("Couldn't update chat %v",err)
 		return response
 	}
 	if updateResult.ModifiedCount != 1 {
-		fmt.Println("update count not right question in meeting")
+		fmt.Println("update count not right")
 		return response
 	}
+	
 	
 	response["id"] = id.Hex()
 	return response
