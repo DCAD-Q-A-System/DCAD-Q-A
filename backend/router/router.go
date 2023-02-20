@@ -29,6 +29,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 	auth_middleware := middleware.AuthenticateRequestMiddleware()
 	server.POST("/login",auth.Login(conn))
 	server.GET("/get-all-messages",GetAll(conn))
+	server.GET("/get-all-meeting-ids",meeting.GetAllMeetings(conn))
 	server.POST("/create-meeting",auth_middleware,meeting.InsertMeeting(conn))
 	server.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
 	server.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))

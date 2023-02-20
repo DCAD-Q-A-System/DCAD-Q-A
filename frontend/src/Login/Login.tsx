@@ -3,14 +3,16 @@ import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setData } from "../store/loginSlice";
 import { sha256 } from "crypto-hash";
 import jwt_decode from "jwt-decode";
-import { JWT } from "../utils/interfaces";
+import { JWT, LoginResponse } from "../utils/interfaces";
 import "./Login.css";
 
 import logo from "../image/Meeting.jpg";
 import { LOGIN } from "../utils/paths";
+import { useNavigate } from "react-router-dom";
 
 export function Login({ type }: { type: USER_TYPE }) {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,9 +24,9 @@ export function Login({ type }: { type: USER_TYPE }) {
       method: HTTP_METHODS.POST,
       body: JSON.stringify({ username, password: pass, reqType: type }),
     });
-    const jwt = await res.json();
-    const decoded: JWT = jwt_decode(jwt);
+    const decoded: LoginResponse = await res.json();
     dispatch(setData({ data: decoded }));
+    navigate();
   };
   return (
     <>
@@ -55,7 +57,7 @@ export function Login({ type }: { type: USER_TYPE }) {
                     <label className="div-10">Username:</label>
                     <input
                       type="text"
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => setUsername(e.target.value)}
                       className="div-11"
                     />
                   </div>

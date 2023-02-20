@@ -51,7 +51,10 @@ export function MeetingDetails() {
                     endOnChange={endOnChange}
                   />
                 </div>
-                {InputLiveStreamSource({ iframeLink, setIframeLink })}
+                <InputLiveStreamSource
+                  iframeLink={iframeLink}
+                  setIframeLink={setIframeLink}
+                />
 
                 <button onClick={submitForm} className="div-17" id="save">
                   Save

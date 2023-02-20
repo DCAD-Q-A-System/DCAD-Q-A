@@ -1,1 +1,4 @@
-export interface JWT{ user: string; authorised: boolean; exp: number};
+export interface LoginResponse {
+  username: string;
+  type: USER_TYPE;
+}
