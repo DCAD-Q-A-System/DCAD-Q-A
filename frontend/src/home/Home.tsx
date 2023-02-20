@@ -1,12 +1,15 @@
 import React from "react";
 
 import "./Home.css";
-import current from "../../image/current_meeting.png";
-import create from "../../image/create_meeting.png";
+import current from "../image/current_meeting.png";
+import create from "../image/create_meeting.png";
 import { useAppSelector } from "../store/hooks";
+import { useNavigate } from "react-router-dom";
+import { USER_TYPE } from "../utils/enums";
 
 export function Home() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
+  const navigate = useNavigate();
   return (
     <>
       <div className="div">
@@ -14,7 +17,12 @@ export function Home() {
           <div className="builder-column column">
             <div className="div-3">
               <picture>
-                <img loading="lazy" src={current} className="image" />
+                <img
+                  onClick={() => navigate("/meeting")}
+                  loading="lazy"
+                  src={current}
+                  className="image"
+                />
               </picture>
               <div className="builder-image-sizer image-sizer"></div>
             </div>

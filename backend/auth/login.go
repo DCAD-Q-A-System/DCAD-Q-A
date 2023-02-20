@@ -36,7 +36,8 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 		
 		var user utils.User
 		result.Decode(&user)
-
+		fmt.Println("User",user.Type)
+		fmt.Println("Body",body.Type)
 		if user.Type != body.Type{
 			fmt.Println("incorrect type")
 			c.AbortWithStatus(http.StatusBadRequest)

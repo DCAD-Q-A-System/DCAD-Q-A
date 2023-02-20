@@ -1,9 +1,11 @@
 import { AxiosRequestConfig } from "axios";
-import { HTTP_METHODS } from "./enum";
-import { AXIOS_INSTANCE } from "./utils";
+
+import { AXIOS_INSTANCE } from "./constants";
+import { HTTP_METHODS } from "./http_methods";
 
 export const credentialFetch = async (
   url: string,
+
   method: string = HTTP_METHODS.GET,
   body: string | FormData = ""
 ) => {

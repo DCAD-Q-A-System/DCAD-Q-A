@@ -3,6 +3,7 @@ package meeting
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"dcad_q_a_system.com/utils"
 	"github.com/gin-gonic/gin"
@@ -47,11 +48,16 @@ func GetAllMeetings(conn *utils.MongoConnection) gin.HandlerFunc {
 			ctx.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
-		ids := []map[string]string{}
+		ids := map[string][]map[string]string{}
+
+		ids["ids"] = []map[string]string{}
 
 		for i,meeting := range bson_meetings {
-			ids[i] = map[string]string{
+			ids["ids"][i] = map[string]string{
 				"id":meeting.Id.Hex(),
+				"name":meeting.Name,
+				"startTime":meeting.StartTime.Time().Format(time.RFC3339),
+				"endTime":meeting.EndTime.Time().Format(time.RFC3339),
 			}
 		}
 

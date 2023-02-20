@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setData } from "../store/loginSlice";
-import { sha256 } from "crypto-hash";
-import jwt_decode from "jwt-decode";
 import { JWT, LoginResponse } from "../utils/interfaces";
 import "./Login.css";
 
 import logo from "../image/Meeting.jpg";
 import { LOGIN } from "../utils/paths";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { HTTP_METHODS } from "../utils/http_methods";
+import { LOCAL_STORAGE_LOGIN_KEY } from "../utils/constants";
 
-export function Login({ type }: { type: USER_TYPE }) {
+export function Login() {
   const dispatch = useAppDispatch();
+  const { type } = useParams();
   const navigate = useNavigate();
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [username, setUsername] = useState("");
@@ -19,14 +20,20 @@ export function Login({ type }: { type: USER_TYPE }) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Hash function implement later
-    const pass = await sha256(password);
+    console.log(type);
     const res = await fetch(LOGIN, {
       method: HTTP_METHODS.POST,
-      body: JSON.stringify({ username, password: pass, reqType: type }),
+      body: JSON.stringify({
+        username,
+        password,
+        type: type!.toUpperCase(),
+      }),
     });
+
     const decoded: LoginResponse = await res.json();
     dispatch(setData({ data: decoded }));
-    navigate();
+    localStorage.setItem(LOCAL_STORAGE_LOGIN_KEY, JSON.stringify(decoded));
+    navigate("/home");
   };
   return (
     <>

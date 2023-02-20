@@ -2,6 +2,7 @@ import React from "react";
 import "./LoginPanel.css";
 import logo from "../image/durham_logo.png";
 import { useNavigate } from "react-router-dom";
+import { LOGIN, PANELLIST_LOGIN, STUDENT_LOGIN } from "../utils/paths";
 
 export function LoginPanel(props: any) {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ export function LoginPanel(props: any) {
                       <div className="builder-column column-4">
                         <div
                           onClick={() => {
-                            navigate(LOGIN, { type: USER_TYPE.STUDENT });
+                            navigate("/login/student");
                           }}
                           className="div-11"
                         >
@@ -50,7 +51,7 @@ export function LoginPanel(props: any) {
                       <div className="builder-column column-5">
                         <div
                           onClick={() => {
-                            navigate(LOGIN, { type: USER_TYPE.PANELLIST });
+                            navigate("/login/panellist");
                           }}
                           className="div-14"
                         >

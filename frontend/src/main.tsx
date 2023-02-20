@@ -1,18 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Provider } from "react-redux";
 import App from "./App";
 import "./index.css";
-import { LoginPanel } from "./login/LoginPanel";
-import { MeetingDetails } from "./meeting/meeting/MeetingDetails";
-import { PanellistHome } from "./home/Home";
-import { MainMeeting } from "./meeting/meeting/MainMeeting";
-import { MeetingListPanellist } from "./meeting/meeting/MeetingList";
+import { store } from "./store/store";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    {/* <App /> */}
-    {/* <Login /> */}
-    {/* <MainMeeting /> */}
-    <MeetingListPanellist />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );

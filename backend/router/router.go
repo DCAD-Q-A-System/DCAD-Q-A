@@ -27,13 +27,16 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 	// compress content to reach faster
 	server.Use(gzip.Gzip(gzip.BestSpeed))
 	auth_middleware := middleware.AuthenticateRequestMiddleware()
-	server.POST("/login",auth.Login(conn))
-	server.GET("/get-all-messages",GetAll(conn))
-	server.GET("/get-all-meeting-ids",meeting.GetAllMeetings(conn))
-	server.POST("/create-meeting",auth_middleware,meeting.InsertMeeting(conn))
-	server.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
-	server.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))
-	server.PUT("/leave-meeting",auth_middleware,meeting.LeaveMeeting(conn))
+	superGroup := server.Group("/api")
+	{
+		superGroup.POST("/login",auth.Login(conn))
+		superGroup.GET("/get-all-messages",GetAll(conn))
+		superGroup.GET("/get-all-meetings",meeting.GetAllMeetings(conn))
+		superGroup.POST("/create-meeting",auth_middleware,meeting.InsertMeeting(conn))
+		superGroup.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
+		superGroup.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))
+		superGroup.PUT("/leave-meeting",auth_middleware,meeting.LeaveMeeting(conn))
+	}
 	
 
 	pool := web_sockets.NewPool()

@@ -1,6 +1,16 @@
 import React from "react";
 
-export function MeetingItem({ id }: { id: string }) {
+export function MeetingItem({
+  id,
+  name,
+  startTime,
+  endTime,
+}: {
+  id: string;
+  name: string;
+  startTime: string;
+  endTime: string;
+}) {
   return (
     <div className="panDiv-10">
       <div className="builder-columns panDiv-11">
@@ -9,6 +19,9 @@ export function MeetingItem({ id }: { id: string }) {
             <div className="builder-columns panDiv-13">
               <div className="builder-column panColumn-5">
                 <div className="panDiv-14">ID: {id}</div>
+                <div className="panDiv-14">Name: {name}</div>
+                <div className="panDiv-14">Start: {startTime}</div>
+                <div className="panDiv-14">End: {endTime}</div>
               </div>
             </div>
           </div>
