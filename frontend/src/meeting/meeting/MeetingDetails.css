@@ -1,13 +1,13 @@
 .div {
     display: flex;
     flex-direction: row;
-    max-width: 1920px;
     justify-content: center;
     align-items: center;
-    padding-top: 196px;
-    padding-right: 713px;
-    padding-bottom: 196px;
-    padding-left: 713px;
+    padding: 196px 713px;
+    gap: 10px;
+    position: relative;
+    width: 1920px;
+    height: 1080px;
     background-image: url("../../image/Meeting.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -163,12 +163,24 @@
 }
 
 .div-15 {
-    max-width: 167px;
-    color: rgba(0, 0, 0, 1);
+    
+    width: 167px;
+    height: 36px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
     font-size: 30px;
-    letter-spacing: 0%;
-    text-align: left;
-    font-family: "Inter", sans-serif;
+    line-height: 36px;
+
+    color: #000000;
+
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
 }
 
 .div-16 {

@@ -1,9 +1,14 @@
 import './MeetingList.css'
+import meeting from '../../image/Meeting.jpg'
 
 export function MeetingListStudent(){
         return (
             <>
-              <div className="stuDiv">
+              <div className="stuDiv" style={
+                  {
+                    backgroundImage:`url(${meeting})`
+                  }
+              }>
                 <div className="stuDiv-2">
                   <div className="stuDiv-3">
                     <div className="builder-columns div-4">
