@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { LoginPanel } from "./Login/LoginPanel";
+import { Login } from "./Login/Login";
 import { MeetingDetails } from "./meeting/meeting/MeetingDetails";
 import { MeetingListStudent } from "./meeting/meeting/MeetingList";
 import { PanellistHome } from "./meeting/panellist/PanellistHome";
@@ -13,6 +14,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     {/* <App /> */}
     {/* <Login /> */}
     {/* <MainMeeting /> */}
-    <MeetingListStudent/>
+    <Login/>
   </React.StrictMode>
 );
