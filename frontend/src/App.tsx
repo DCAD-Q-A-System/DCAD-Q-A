@@ -3,6 +3,8 @@ import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { Routes } from "react-router-dom";
 import { Route } from "react-router";
+import { AuthenticatorMiddleware } from "./middleware/AuthenticatorMiddleware";
+import { Home } from "./home/Home";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -34,7 +36,22 @@ function App() {
         <Route path="/" element={} />
         {/* To be filled in */}
         <Route path="/login" element={} />
-        <Route path="/meeting" element={} />
+        <Route
+          path="/meeting"
+          element={
+            <AuthenticatorMiddleware>
+              <Meeting />
+            </AuthenticatorMiddleware>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <AuthenticatorMiddleware>
+              <Home />
+            </AuthenticatorMiddleware>
+          }
+        />
       </Routes>
     </div>
   );
