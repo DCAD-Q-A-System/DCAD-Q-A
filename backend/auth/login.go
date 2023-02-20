@@ -55,19 +55,26 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 
 		
-		jwt,err := GenerateJWT(body.Username)
+		jwt,exp,err := GenerateJWT(body.Username)
 		if err != nil {
 			fmt.Printf("%v",err)
 			c.AbortWithStatus(500)
 			return
 		}
 		// add cookie later
-		// c.Cookie(
-		// 	"token",
-		// 	jwt,
-		// 	int(),
-		// )
-		c.JSON(http.StatusOK,gin.H{"username":body.Username,
-		"type":body.Type})
+		c.SetCookie(
+			"token",
+			jwt,
+			exp,
+			"/",
+			c.Request.URL.Hostname(),
+			true,
+			true,
+		)
+		c.JSON(http.StatusOK,
+				gin.H{
+					"username":body.Username,
+					"type":body.Type,
+				})
 	}
 }

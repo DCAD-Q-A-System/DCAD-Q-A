@@ -8,17 +8,18 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
-func GenerateJWT(username string) (string, error) {
+func GenerateJWT(username string) (string, int, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
-	claims["exp"] = time.Now().Add(5 * time.Minute)
+	expiration := time.Now().Add(5 * time.Minute)
+	claims["exp"] = expiration
 	claims["authorised"] = true
 	claims["user"] = username
 	tokenString, err := token.SignedString(utils.JWT_KEY)
 	if err != nil {
 		fmt.Printf("token err %v",err)
-		return "", err
+		return "", 0,err
 	}
 
-	return tokenString, nil
+	return tokenString, int(expiration.Unix()),nil
 }
