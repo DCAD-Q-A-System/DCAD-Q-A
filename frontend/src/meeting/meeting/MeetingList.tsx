@@ -1,100 +1,56 @@
-import './MeetingList.css'
-import meeting from '../../image/Meeting.jpg'
+import { useEffect, useState } from "react";
+import { useAppSelector } from "../../store/hooks";
+import { credentialFetch } from "../../utils/credential_fetch";
+import { HTTP_METHODS } from "../../utils/http_methods";
+import { MeetingIds } from "../../utils/interfaces";
+import { GET_ALL_MEETINGS, GET_ALL_MESSAGES } from "../../utils/paths";
+import { JoinMeeting } from "../components/join_meeting/JoinMeeting";
+import { MeetingItem } from "../components/MeetingItem";
+import "./MeetingList.css";
 
-export function MeetingListStudent(){
-        return (
-            <>
-              <div className="stuDiv" style={
-                  {
-                    backgroundImage:`url(${meeting})`
-                  }
-              }>
-                <div className="stuDiv-2">
-                  <div className="stuDiv-3">
-                    <div className="builder-columns div-4">
-                      <div className="builder-column stuColumn">
-                        <div className="div-5">
-                          <div className="builder-columns div-6">
-                            <div className="builder-column column-2">
-                              <div className="div-7">ID: 12345678</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="builder-column stuColumn-3">
-                        <div className="div-8">Join</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="stuDiv-9">
-                    <div className="builder-columns stuDiv-10">
-                      <div className="builder-column column">
-                        <div className="stuDiv-11">
-                          <div className="builder-columns stuDiv-12">
-                            <div className="builder-column stuColumn-4">
-                              <div className="stuDiv-13">ID: 12345678</div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="builder-column stuColumn-5">
-                        <div className="stuDiv-14">Join</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </>)
-    }
-export function MeetingListPanellist(){
-        return(
-            <>
-            <div className="panDiv">
-              <div className="panDiv-2">
-                <div className="panDiv-3">
-                  <div className="builder-columns div-4">
-                    <div className="builder-column panColumn">
-                      <div className="div-5">
-                        <div className="builder-columns div-6">
-                          <div className="builder-column column-2">
-                            <div className="div-7">ID: 12345678</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="builder-column panColumn-3">
-                      <div className="div-8">Join</div>
-                    </div>
-                    <div className="builder-column panColumn-4">
-                      <div className="panDiv-9">Edit</div>
-                    </div>
-                  </div>
-                </div>
-                <div className="panDiv-10">
-                  <div className="builder-columns panDiv-11">
-                    <div className="builder-column panColumn">
-                      <div className="panDiv-12">
-                        <div className="builder-columns panDiv-13">
-                          <div className="builder-column panColumn-5">
-                            <div className="panDiv-14">ID: 12345678</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="builder-column panColumn-6">
-                      <div className="panDiv-15">Join</div>
-                    </div>
-                    <div className="builder-column panColumn-7">
-                      <div className="panDiv-16">Edit</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+export function MeetingList() {
+  const [ids, setIds] = useState<MeetingIds>({ ids: [] });
+  const loginData = useAppSelector((state) => state.loginReducer.data);
+  useEffect(() => {
+    const fetchMeetings = async () => {
+      const res = await credentialFetch(
+        `${GET_ALL_MEETINGS}?userId=${loginData?.userId || ""}`,
+        HTTP_METHODS.GET
+      );
+      if (res.status === 200) {
+        const data: MeetingIds = res.data;
+        setIds(data);
+      } else {
+        alert("something went wrong fetching meetings");
+      }
+    };
+    fetchMeetings();
+  }, []);
+
+  return (
+    <>
+      <div className="panDiv">
+        <div className="panDiv-2">
+          {ids.ids.length > 0 ? (
+            ids.ids.map(({ name, id, startTime, endTime }) => {
+              return (
+                <MeetingItem
+                  key={id}
+                  id={id}
+                  name={name}
+                  startTime={startTime}
+                  endTime={endTime}
+                />
+              );
+            })
+          ) : (
+            <div>
+              <p>Can't fetch meetings at the moment</p>
+              <p>Try again later</p>
             </div>
-            </>
-        )
-    }
-
-
-
-
+          )}
+        </div>
+      </div>
+    </>
+  );
+}

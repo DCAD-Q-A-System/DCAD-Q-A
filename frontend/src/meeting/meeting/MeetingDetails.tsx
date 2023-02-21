@@ -1,39 +1,43 @@
 import { InputLiveStreamSource } from "../components/InputLiveStreamSoure";
-import { EndTime, StartTime } from "../controlPanel/AddTimeSet";
-import "./MeetingDetails.css"
-import React,{useState} from "react";
-import meeting from '../../image/Meeting.jpg'
+import { EndTime, StartTime } from "../control_panel/AddTimeSet";
+import "./MeetingDetails.css";
+import React, { useState } from "react";
+import { PANOPTO_REGEX, YOUTUBE_REGEX } from "../../utils/regex";
+import "./MeetingDetails.css";
+import meeting from "../../image/Meeting.jpg";
 
 export function MeetingDetails() {
-  const [value, onChange] = useState(new Date())
-  const [endvalue, endOnChange] = useState(new Date())
-  const [iframeLink,setIframeLink] = useState("");
-  const YOUTUBE_REGEX = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/;
-  const PANOPTO_REGEX = /((http:\/\/(.*\.hosted\.panopto\.com\/.*|.*\.staging\.panopto\.com\/.*|.*\.cloud\.panopto\.eu\/.*))|(https:\/\/(.*\.hosted\.panopto\.com\/.*|.*\.staging\.panopto\.com\/.*|.*\.cloud\.panopto\.eu\/.*)))/i
-  const submitForm = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>)=>{
+  const [value, onChange] = useState(new Date());
+  const [endvalue, endOnChange] = useState(new Date());
+  const [iframeLink, setIframeLink] = useState("");
+
+  const submitForm = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.preventDefault();
-    if(!(iframeLink.match(YOUTUBE_REGEX) || iframeLink.match(PANOPTO_REGEX))){
+    if (!(iframeLink.match(YOUTUBE_REGEX) || iframeLink.match(PANOPTO_REGEX))) {
       alert("Wrong embed!");
       return;
     }
-    const res = await fetch("http://127.0.0.1:8080/meeting/insert",{
-      method:"POST",
-      body:JSON.stringify({iframeLink}),
+    const res = await fetch("http://127.0.0.1:8080/meeting/insert", {
+      method: "POST",
+      body: JSON.stringify({ iframeLink }),
     });
-    if(res.status == 200){
+    if (res.status == 200) {
       alert("Successful!");
-    }else{
+    } else {
       alert("Something went wrong!");
     }
-  }
+  };
 
   return (
     <>
-      <div className="div" style={
-                  {
-                    backgroundImage:`url(${meeting})`
-                  }
-              }>
+      <div
+        className="div"
+        style={{
+          backgroundImage: `url(${meeting})`,
+        }}
+      >
         <div className="div-2">
           <div className="builder-columns div-3">
             <div className="builder-column column">
@@ -48,11 +52,20 @@ export function MeetingDetails() {
                 </div>
                 <div className="div-11">
                   <div className="div-12">End Time:</div>
-                  <EndTime value={value} endvalue={endvalue} endOnChange={endOnChange} />
+                  <EndTime
+                    value={value}
+                    endvalue={endvalue}
+                    endOnChange={endOnChange}
+                  />
                 </div>
-                {InputLiveStreamSource({iframeLink,setIframeLink})}
-                
-                <button onClick={submitForm} className="div-17" id="save">Save</button>
+                <InputLiveStreamSource
+                  iframeLink={iframeLink}
+                  setIframeLink={setIframeLink}
+                />
+
+                <button onClick={submitForm} className="div-17" id="save">
+                  Save
+                </button>
               </div>
             </div>
           </div>

@@ -1,37 +1,50 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setData } from "../store/loginSlice";
-import { sha256 } from "crypto-hash";
-import jwt_decode from "jwt-decode";
-import { JWT } from "../utils/interfaces";
-import login from '../image/Login.jpg';
+import { JWT, LoginResponse } from "../utils/interfaces";
 import "./Login.css";
 
-import logo from "../image/durham_logo.png";
+import logo from "../image/Meeting.jpg";
+import { LOGIN } from "../utils/paths";
+import { useNavigate, useParams } from "react-router-dom";
+import { HTTP_METHODS } from "../utils/http_methods";
+import { LOCAL_STORAGE_LOGIN_KEY } from "../utils/constants";
 
 export function Login() {
   const dispatch = useAppDispatch();
+  const { type } = useParams();
+  const navigate = useNavigate();
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Hash function implement later
-    const pass = await sha256(password);
-    const res = await fetch("http://127.0.0.1:8080/login", {
-      method: "POST",
-      body: JSON.stringify({ username, password: pass }),
+
+    const res = await fetch(LOGIN, {
+      method: HTTP_METHODS.POST,
+      body: JSON.stringify({
+        username,
+        password,
+        type: type!.toUpperCase(),
+      }),
     });
-    const jwt = await res.json();
-    const decoded: JWT = jwt_decode(jwt);
-    dispatch(setData({ data: decoded }));
+    if (res.status == 200) {
+      const decoded: LoginResponse = await res.json();
+      localStorage.setItem(LOCAL_STORAGE_LOGIN_KEY, JSON.stringify(decoded));
+      dispatch(setData({ data: decoded }));
+      navigate("/home");
+    } else {
+      alert("login wrong");
+    }
   };
   return (
     <>
-      <div className="div" style={
-                  {
-                    backgroundImage:`url(${login})`
-                  }}>
+      <div
+        className="div"
+        style={{
+          backgroundImage: `url(${login})`,
+        }}
+      >
         <div className="div-2">
           <div className="div-3">
             <div className="builder-columns div-4">
@@ -58,7 +71,7 @@ export function Login() {
                     <label className="div-10">Username:</label>
                     <input
                       type="text"
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => setUsername(e.target.value)}
                       className="div-11"
                     />
                   </div>

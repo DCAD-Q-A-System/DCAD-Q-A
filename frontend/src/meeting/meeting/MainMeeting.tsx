@@ -1,14 +1,52 @@
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { credentialFetch } from "../../utils/credential_fetch";
+import { HTTP_METHODS } from "../../utils/http_methods";
+import { MeetingData } from "../../utils/interfaces";
+import { GET_ALL_MESSAGES } from "../../utils/paths";
+import { Chat } from "../components/chat/Chat";
+import { Question } from "../components/question/Question";
 import "./MainMeeting.css";
 
 export function MainMeeting() {
-  
+  const { meetingId } = useParams<{ meetingId?: string }>();
+
+  const [meeting, setMeeting] = useState<MeetingData>({
+    id: "",
+    name: "",
+    iframeLink: "",
+    startTime: 0,
+    endTime: 0,
+    onlineMembers: [],
+    messages: {
+      questions: [],
+      chat: [],
+    },
+  });
+  useEffect(() => {
+    const fetchMeeting = async () => {
+      const res = await credentialFetch(
+        `${GET_ALL_MESSAGES}?meetingId=${meetingId}`,
+        HTTP_METHODS.GET
+      );
+      if (res.status === 200) {
+        const data: MeetingData = res.data;
+        console.log(data);
+
+        setMeeting(data);
+      } else {
+        alert("something has gone wrong");
+      }
+    };
+    fetchMeeting();
+  }, []);
 
   return (
     <>
       <div className="div">
         <div className="div-2">
-          <div className="div-3">Durham University Online Q&A</div>
+          <div className="div-3">{meeting.name}</div>
           <div className="div-4">
             <div className="builder-columns div-5">
               <div className="builder-column column">
@@ -102,11 +140,10 @@ export function MainMeeting() {
                         <div className="builder-image-sizer image-sizer-3"></div>
                       </div>
                     </div>
-                    <div className="lorem-ipsum-dolor-sit-amet-co">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Phasellus id pharetra eros, id luctus orci. et feugiat
-                      diam blandit a.
-                    </div>
+                    {meeting.messages.questions.length > 0 &&
+                      meeting.messages.questions.map((question) => {
+                        return <Question key={question.id} {...question} />;
+                      })}
                   </div>
                 </div>
                 <div className="div-27">
@@ -122,7 +159,16 @@ export function MainMeeting() {
                     <div className="div-32">
                       <div className="div-33">
                         <div className="div-34">
-                          <iframe width="1280" height="730" src="https://www.youtube.com/embed/hzNDAhLlWZ8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                          {meeting.iframeLink !== "" && (
+                            <iframe
+                              width="1280"
+                              height="730"
+                              src={meeting.iframeLink}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              allowFullScreen
+                            ></iframe>
+                          )}
                         </div>
                       </div>
                       <div className="div-35">Current Question:</div>
@@ -134,7 +180,7 @@ export function MainMeeting() {
                         <div className="div-38">
                           <div className="div-39">
                             <picture>
-                              <source 
+                              <source
                                 srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc"
                                 type="image/webp"
                               />
@@ -150,13 +196,10 @@ export function MainMeeting() {
                           <div className="div-40">13:45</div>
                         </div>
                         <div className="div-41">
-                          <div className="div-42">
-                            <div className="div-43">Username</div>
-                            <div className="lorem-ipsum-dolor-sit-amet-co-2">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit.
-                            </div>
-                          </div>
+                          {meeting.messages.chat.length > 0 &&
+                            meeting.messages.chat.map((chat) => {
+                              return <Chat key={chat.id} {...chat} />;
+                            })}
                           <div className="div-44">
                             <div className="div-45">
                               <picture>
