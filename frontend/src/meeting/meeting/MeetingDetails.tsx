@@ -3,6 +3,7 @@ import { EndTime, StartTime } from "../controlPanel/AddTimeSet";
 import "./MeetingDetails.css"
 import React,{useState} from "react";
 import meeting from '../../image/Meeting.jpg'
+import 'bootstrap/dist/css/bootstrap.css';
 
 export function MeetingDetails() {
   const [value, onChange] = useState(new Date())
@@ -34,29 +35,23 @@ export function MeetingDetails() {
                     backgroundImage:`url(${meeting})`
                   }
               }>
-        <div className="div-2">
-          <div className="builder-columns div-3">
-            <div className="builder-column column">
-              <div className="div-4">
-                <div className="div-5">
-                  <div className="div-6">ID:</div>
-                  <div className="div-7"></div>
-                </div>
-                <div className="div-8">
-                  <div className="div-9">Start Time:</div>
-                  <StartTime value={value} onChange={onChange} />
-                </div>
-                <div className="div-11">
-                  <div className="div-12">End Time:</div>
-                  <EndTime value={value} endvalue={endvalue} endOnChange={endOnChange} />
-                </div>
-                {InputLiveStreamSource({iframeLink,setIframeLink})}
-                
-                <button onClick={submitForm} className="div-17" id="save">Save</button>
-              </div>
-            </div>
+        <form>
+          <div className="div-5">
+            <div className="div-6">ID:</div>
+            <div className="div-7"></div>
           </div>
-        </div>
+          <div className="div-8">
+            <div className="div-9">Start Time:</div>
+            <StartTime value={value} onChange={onChange} />
+          </div>
+          <div className="div-11">
+            <div className="div-12">End Time:</div>
+            <EndTime value={value} endvalue={endvalue} endOnChange={endOnChange} />
+          </div>
+          {InputLiveStreamSource({iframeLink,setIframeLink})}
+          
+          <button onClick={submitForm} className="div-17" id="save">Save</button>
+        </form>
       </div>
     </>
   );
