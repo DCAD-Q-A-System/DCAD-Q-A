@@ -4,9 +4,10 @@ import { setData } from "../store/loginSlice";
 import { sha256 } from "crypto-hash";
 import jwt_decode from "jwt-decode";
 import { JWT } from "../utils/interfaces";
+import login from '../image/Login.jpg';
 import "./Login.css";
 
-import logo from "../image/Meeting.jpg";
+import logo from "../image/durham_logo.png";
 
 export function Login() {
   const dispatch = useAppDispatch();
@@ -27,7 +28,10 @@ export function Login() {
   };
   return (
     <>
-      <div className="div">
+      <div className="div" style={
+                  {
+                    backgroundImage:`url(${login})`
+                  }}>
         <div className="div-2">
           <div className="div-3">
             <div className="builder-columns div-4">

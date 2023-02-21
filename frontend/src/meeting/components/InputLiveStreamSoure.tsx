@@ -9,10 +9,6 @@ export function InputLiveStreamSource(
     //   iframe.src = "https://www.youtube.com/embed/hzNDAhLlWZ8";
     //   document.body.appendChild(iframe);
     // });
-
-
-
-
     return (
         <div className="div-14">
             <div className="div-15">Iframe Link:</div>

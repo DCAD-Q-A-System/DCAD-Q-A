@@ -2,6 +2,7 @@ import { InputLiveStreamSource } from "../components/InputLiveStreamSoure";
 import { EndTime, StartTime } from "../controlPanel/AddTimeSet";
 import "./MeetingDetails.css"
 import React,{useState} from "react";
+import meeting from '../../image/Meeting.jpg'
 
 export function MeetingDetails() {
   const [value, onChange] = useState(new Date())
@@ -28,7 +29,11 @@ export function MeetingDetails() {
 
   return (
     <>
-      <div className="div">
+      <div className="div" style={
+                  {
+                    backgroundImage:`url(${meeting})`
+                  }
+              }>
         <div className="div-2">
           <div className="builder-columns div-3">
             <div className="builder-column column">

@@ -1,11 +1,15 @@
 import React from "react";
 import "./LoginPanel.css"
 import logo from "../image/durham_logo.png"
+import login from '../image/Login.jpg'
 
 export function LoginPanel(props: any) {
   return (
     <>
-      <div className="div">
+      <div className="div" style={
+                  {
+                    backgroundImage:`url(${login})`
+                  }}>
         <div className="div-2">
           <div className="div-3">
             <div className="builder-columns div-4">
