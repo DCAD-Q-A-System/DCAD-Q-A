@@ -10,21 +10,27 @@ export interface MeetingIds {
   ids: { id: string; name: string; startTime: string; endTime: string }[];
 }
 
-interface MessageStructure {
+export interface MessageStructure {
   id: string;
   content: string;
   timeCreated: string;
+  userId: string;
+  username: string;
 }
 
-interface Chat extends MessageStructure {
+export interface Chat extends MessageStructure {
   replies: Reply[];
 }
 
-interface Reply extends MessageStructure {
+export interface Reply extends MessageStructure {
   parentChatId: string;
 }
 export interface MeetingData {
   id: string;
-  chats: Chat[];
-  questions: MessageStructure[];
+  name: string;
+  messages: { questions: MessageStructure[]; chat: Chat[] };
+  iframeLink: string;
+  startTime: number;
+  endTime: number;
+  onlineMembers: string[];
 }

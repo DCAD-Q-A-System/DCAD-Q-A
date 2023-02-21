@@ -17,7 +17,7 @@ type MongoConnection struct {
 }
 
 type GetMeetingData struct {
-	MeetingId string `json:"meeting_id"`
+	MeetingId string `json:"meetingId"`
 }
 
 type Question struct {
@@ -25,6 +25,7 @@ type Question struct {
 	Content string `bson:"content"`
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
 	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
+	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
 }
 
@@ -34,6 +35,7 @@ type Chat struct {
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
 	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
 	Replies []primitive.ObjectID `bson:"replies"`
+	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
 }
 
@@ -42,6 +44,7 @@ type Reply struct {
 	Content string `bson:"content"`
 	ParentChatId primitive.ObjectID `bson:"parentChatId"`
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
+	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
 }
 

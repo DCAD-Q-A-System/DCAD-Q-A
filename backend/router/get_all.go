@@ -103,6 +103,8 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 			bigObject["questions"][i] = map[string]interface{}{
 				"id":qs[i].Id.Hex(),
 				"content":qs[i].Content,
+				"userId":qs[i].UserId.Hex(),
+				"username":qs[i].UserName,
 				"timeCreated":qs[i].TimeCreated.Time().Unix(),
 			}
 		}
@@ -110,6 +112,8 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 		for i := range chats {
 			bigObject[utils.CHAT][i] = map[string]interface{} {
 				"id":chats[i].Id.Hex(),
+				"userId":chats[i].UserId.Hex(),
+				"username":chats[i].UserName,
 				"content":chats[i].Content,
 				"timeCreated":chats[i].TimeCreated.Time().Unix(),
 			}
@@ -124,6 +128,8 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 				for j := range r {
 					reps[j] = map[string]interface{} {
 						"id":r[i].Id.Hex(),
+						"username":r[i].UserName,
+						"userId":r[i].UserName,
 						"content":r[i].Content,
 						"parentChatId":r[i].ParentChatId.Hex(),
 						"timeCreated":r[i].TimeCreated.Time().Unix(),
@@ -134,6 +140,19 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 			}
 		}
 
-		c.JSON(http.StatusOK,bigObject)
+		onlineMembersIds := make([]string,len(meeting.OnlineMembers))
+		for i,memberId := range meeting.OnlineMembers {
+			onlineMembersIds[i] = memberId.Hex()
+		}
+
+		c.JSON(http.StatusOK,gin.H{
+			"id":body.MeetingId,
+			"messages":bigObject,
+			"name":meeting.Name,
+			"iframeLink":meeting.IframeLink,
+			"startTime":meeting.StartTime.Time().Unix(),
+			"endTime":meeting.EndTime.Time().Unix(),
+			"onlineMembers":onlineMembersIds,
+		})
 	}
 }
