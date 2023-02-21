@@ -22,6 +22,8 @@ const LEAVE_MEETING = PREFIX_API + "/leave-meeting";
 
 const GET_ALL_MEETINGS = PREFIX_API + "/get-all-meetings";
 
+const REFRESH_PATH = PREFIX_API + "/refresh";
+
 export {
   JOIN_MEETING,
   LOGIN,
@@ -33,4 +35,5 @@ export {
   CREATE_MEETING,
   EDIT_MEETING,
   LEAVE_MEETING,
+  REFRESH_PATH,
 };

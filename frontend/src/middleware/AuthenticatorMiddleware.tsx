@@ -9,6 +9,7 @@ export function AuthenticatorMiddleware({
 }) {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const location = useLocation();
+  console.log(loginData);
   return loginData ? (
     children
   ) : (

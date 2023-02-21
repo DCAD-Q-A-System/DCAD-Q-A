@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
@@ -9,57 +9,82 @@ import { LoginPanel } from "./login/LoginPanel";
 import { Login } from "./login/Login";
 import { AlreadyAuthenticated } from "./middleware/AlreadyAuthenticated";
 import { MeetingList } from "./meeting/meeting/MeetingList";
+import { LOCAL_STORAGE_LOGIN_KEY } from "./utils/constants";
+import { useAppDispatch, useAppSelector } from "./store/hooks";
+import { setData } from "./store/loginSlice";
+import { checkIfInitiallyLoggedIn } from "./utils/funcs";
+import { MainMeeting } from "./meeting/meeting/MainMeeting";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const loginData = useAppSelector((state) => state.loginReducer.data);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    console.log(loginData);
+    console.log(localStorage);
+    if (localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY)) {
+      const getIfInitiallyLoggedIn = async () => {
+        const res = await checkIfInitiallyLoggedIn();
+        console.log(res);
+        dispatch(setData({ data: res }));
+      };
+      getIfInitiallyLoggedIn();
+    }
+    console.log(loginData);
+  }, []);
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <AuthenticatorMiddleware>
-                <Home />
-              </AuthenticatorMiddleware>
-            }
-          />
-          {/* To be filled in */}
-          <Route
-            path="/login"
-            element={
-              <AlreadyAuthenticated>
-                <LoginPanel />
-              </AlreadyAuthenticated>
-            }
-          />
-          <Route
-            path="/login/:type"
-            element={
-              <AlreadyAuthenticated>
-                <Login />
-              </AlreadyAuthenticated>
-            }
-          />
-          <Route
-            path="/meeting-list"
-            element={
-              <AuthenticatorMiddleware>
-                <MeetingList />
-              </AuthenticatorMiddleware>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <AuthenticatorMiddleware>
-                <Home />
-              </AuthenticatorMiddleware>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <AuthenticatorMiddleware>
+              <Home />
+            </AuthenticatorMiddleware>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <AlreadyAuthenticated>
+              <LoginPanel />
+            </AlreadyAuthenticated>
+          }
+        />
+        <Route
+          path="/login/:type"
+          element={
+            <AlreadyAuthenticated>
+              <Login />
+            </AlreadyAuthenticated>
+          }
+        />
+        <Route
+          path="/meeting-list"
+          element={
+            <AuthenticatorMiddleware>
+              <MeetingList />
+            </AuthenticatorMiddleware>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <AuthenticatorMiddleware>
+              <Home />
+            </AuthenticatorMiddleware>
+          }
+        />
+
+        <Route
+          path="/meeting/:meetingId"
+          element={
+            <AuthenticatorMiddleware>
+              <MainMeeting />
+            </AuthenticatorMiddleware>
+          }
+        />
+      </Routes>
     </div>
   );
 }

@@ -27,7 +27,12 @@ export function MeetingItem({
           </div>
         </div>
         <div className="builder-column panColumn-6">
-          <div className="panDiv-15">Join</div>
+          <button
+            className="panDiv-15"
+            onClick={() => navigate(`/meeting/${id}`)}
+          >
+            Join
+          </button>
         </div>
         <div className="builder-column panColumn-7">
           <div className="panDiv-16">Edit</div>

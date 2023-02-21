@@ -18,12 +18,12 @@ import (
 func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var body utils.GetMeetingData
-
-		if err := c.BindJSON(&body); err != nil {
-			fmt.Printf("json body err,%v", err)
-			c.AbortWithStatus(http.StatusBadRequest)
-			return 
-		}
+		body.MeetingId = c.Query("meetingId")
+		// if err := c.BindJSON(&body); err != nil {
+		// 	fmt.Printf("json body err,%v", err)
+		// 	c.AbortWithStatus(http.StatusBadRequest)
+		// 	return 
+		// }
 
 		ctx := context.Background()
 		db := conn.Client.Database(utils.DB_NAME)

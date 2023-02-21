@@ -1,8 +1,30 @@
+import React, { useEffect } from "react";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { credentialFetch } from "../../utils/credential_fetch";
+import { HTTP_METHODS } from "../../utils/http_methods";
+import { MeetingData } from "../../utils/interfaces";
 import "./MainMeeting.css";
 
 export function MainMeeting() {
-  
+  const { meetingId } = useParams();
+  const [meeting, setMeeting] = useState<MeetingData>({
+    id: "",
+    chats: [],
+    questions: [],
+  });
+  useEffect(() => {
+    const fetchMeeting = async () => {
+      const res = await credentialFetch(
+        `${GET_ALL_MESSAGES}?meetingId=${meetingId}`,
+        HTTP_METHODS.GET
+      );
+      if (res.status === 200) {
+        const data: MeetingData = res.data;
+        setMeeting(data);
+      }
+    };
+  }, []);
 
   return (
     <>
@@ -122,7 +144,15 @@ export function MainMeeting() {
                     <div className="div-32">
                       <div className="div-33">
                         <div className="div-34">
-                          <iframe width="1280" height="730" src="https://www.youtube.com/embed/hzNDAhLlWZ8" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
+                          <iframe
+                            width="1280"
+                            height="730"
+                            src="https://www.youtube.com/embed/hzNDAhLlWZ8"
+                            title="YouTube video player"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          ></iframe>
                         </div>
                       </div>
                       <div className="div-35">Current Question:</div>
@@ -134,7 +164,7 @@ export function MainMeeting() {
                         <div className="div-38">
                           <div className="div-39">
                             <picture>
-                              <source 
+                              <source
                                 srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fa959a53c971b40bc99d0bc71a21309fc"
                                 type="image/webp"
                               />

@@ -36,8 +36,7 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 		
 		var user utils.User
 		result.Decode(&user)
-		fmt.Println("User",user.Type)
-		fmt.Println("Body",body.Type)
+		fmt.Println("User",user.Username)
 		if user.Type != body.Type{
 			fmt.Println("incorrect type")
 			c.AbortWithStatus(http.StatusBadRequest)
@@ -56,7 +55,7 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 
 		
-		jwt,exp,err := GenerateJWT(body.Username)
+		jwt,exp,err := GenerateJWT(user.Username,user.Id.Hex(),user.Type)
 		if err != nil {
 			fmt.Printf("%v",err)
 			c.AbortWithStatus(500)
@@ -75,6 +74,7 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 		c.JSON(http.StatusOK,
 				gin.H{
 					"username":body.Username,
+					"userId":user.Id.Hex(),
 					"type":body.Type,
 				})
 	}

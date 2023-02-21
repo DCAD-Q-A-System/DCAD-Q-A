@@ -18,7 +18,7 @@ export function Home() {
             <div className="div-3">
               <picture>
                 <img
-                  onClick={() => navigate("/meeting")}
+                  onClick={() => navigate("/meeting-list")}
                   loading="lazy"
                   src={current}
                   className="image"

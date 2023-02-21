@@ -10,7 +10,7 @@ func CheckSocketMessage(socket_message *utils.SocketMessage) bool {
 		return false
 	}
 
-	if !auth.VerifyJWT(socket_message.Token){
+	if !auth.VerifyJWTSocket(socket_message.Token){
 		return false
 	}
 

@@ -2,6 +2,7 @@ package meeting
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -15,15 +16,17 @@ import (
 func GetAllMeetings(conn *utils.MongoConnection) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		c := context.Background()
-		var details utils.JoinMeeting
-
-		if err := ctx.BindJSON(details); err != nil {
-			ctx.AbortWithStatus(http.StatusBadRequest)
-			return
-		}
+		var details utils.GetAllMeetings
+		details.UserId = ctx.Query("userId")
+		// if err := ctx.BindJSON(&details); err != nil {
+		// 	fmt.Printf("bad request details %v",err)
+		// 	ctx.AbortWithStatus(http.StatusBadRequest)
+		// 	return
+		// }
 		meeting_collection := conn.Client.Database(utils.DB_NAME).Collection(utils.MEETINGS)
 		id,err := primitive.ObjectIDFromHex(details.UserId)
 		if err != nil {
+			fmt.Println("bad id")
 			ctx.AbortWithStatus(http.StatusBadRequest)
 			return
 		}
@@ -50,7 +53,7 @@ func GetAllMeetings(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 		ids := map[string][]map[string]string{}
 
-		ids["ids"] = []map[string]string{}
+		ids["ids"] = make([]map[string]string,len(bson_meetings))
 
 		for i,meeting := range bson_meetings {
 			ids["ids"][i] = map[string]string{

@@ -19,8 +19,7 @@ export function Login() {
   const [password, setPassword] = useState("");
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Hash function implement later
-    console.log(type);
+
     const res = await fetch(LOGIN, {
       method: HTTP_METHODS.POST,
       body: JSON.stringify({
@@ -29,11 +28,15 @@ export function Login() {
         type: type!.toUpperCase(),
       }),
     });
-
-    const decoded: LoginResponse = await res.json();
-    dispatch(setData({ data: decoded }));
-    localStorage.setItem(LOCAL_STORAGE_LOGIN_KEY, JSON.stringify(decoded));
-    navigate("/home");
+    if (res.status == 200) {
+      const decoded: LoginResponse = await res.json();
+      console.log(decoded);
+      localStorage.setItem(LOCAL_STORAGE_LOGIN_KEY, JSON.stringify(decoded));
+      dispatch(setData({ data: decoded }));
+      navigate("/home");
+    } else {
+      alert("login wrong");
+    }
   };
   return (
     <>

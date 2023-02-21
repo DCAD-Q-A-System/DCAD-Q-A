@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -79,6 +80,9 @@ type JoinMeeting struct {
 	MeetingId string `json:"meetingId"`
 	UserId string `json:"userId"`
 }
+type GetAllMeetings struct {
+	UserId string `json:"userId"`
+}
 
 
 type SocketMessage struct {
@@ -88,4 +92,12 @@ type SocketMessage struct {
 	MeetingId string `json:"meetingId"`
 	ChatId string `json:"chatId"` 
 	UserId string `json:"userId"`
+}
+
+
+type JwtClaims struct {
+	Username       string `json:"username"`
+	UserId 		   string `json:"userId"`
+	Type 		   string `json:"type"` 
+	jwt.StandardClaims
 }
