@@ -19,17 +19,13 @@ function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const dispatch = useAppDispatch();
   useEffect(() => {
-    console.log(loginData);
-    console.log(localStorage);
     if (localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY)) {
       const getIfInitiallyLoggedIn = async () => {
         const res = await checkIfInitiallyLoggedIn();
-        console.log(res);
         dispatch(setData({ data: res }));
       };
       getIfInitiallyLoggedIn();
     }
-    console.log(loginData);
   }, []);
 
   return (

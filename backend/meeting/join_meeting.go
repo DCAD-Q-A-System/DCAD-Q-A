@@ -29,7 +29,7 @@ func JoinMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 		u,err := primitive.ObjectIDFromHex(join_meeting.UserId)
 		if err != nil {
-			fmt.Printf("userid err %v",err)
+			fmt.Printf("userid err %s %v",join_meeting.UserId,err)
 			ctx.AbortWithStatus(http.StatusBadRequest)
 			return
 		}

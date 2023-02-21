@@ -38,6 +38,9 @@ func GetAllMeetings(conn *utils.MongoConnection) gin.HandlerFunc {
 		results, err := meeting_collection.Find(c,filter,options.Find().SetProjection(
 			bson.D{
 				{"_id",1},
+				{"name",1},
+				{"startTime",1},
+				{"endTime",1},
 			},
 		))
 		if err != nil {

@@ -18,7 +18,6 @@ export function MeetingList() {
         HTTP_METHODS.GET
       );
       if (res.status === 200) {
-        console.log(res);
         const data: MeetingIds = res.data;
         setIds(data);
       } else {

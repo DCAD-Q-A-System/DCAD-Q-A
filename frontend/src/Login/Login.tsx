@@ -30,7 +30,6 @@ export function Login() {
     });
     if (res.status == 200) {
       const decoded: LoginResponse = await res.json();
-      console.log(decoded);
       localStorage.setItem(LOCAL_STORAGE_LOGIN_KEY, JSON.stringify(decoded));
       dispatch(setData({ data: decoded }));
       navigate("/home");

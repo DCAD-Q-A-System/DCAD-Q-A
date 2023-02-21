@@ -11,7 +11,7 @@ import (
 
 func GenerateJWT(username string,user_id string,user_type string) (string, int, error) {
 	
-	expiration := time.Now().Add(5 * time.Minute)
+	expiration := time.Now().Add(20 * time.Minute)
 	claims := &utils.JwtClaims{
 		Username:username,
 		UserId:user_id,
@@ -37,7 +37,7 @@ func RefreshJWT(c *gin.Context, claims utils.JwtClaims) bool{
 	// 	return
 	// }
 
-	expirationTime := time.Now().Add(5 * time.Minute)
+	expirationTime := time.Now().Add(20 * time.Minute)
 	claims.ExpiresAt = expirationTime.Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenStr, err := token.SignedString(utils.JWT_KEY)
