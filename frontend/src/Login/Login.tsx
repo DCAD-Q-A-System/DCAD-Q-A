@@ -5,6 +5,7 @@ import { JWT, LoginResponse } from "../utils/interfaces";
 import "./Login.css";
 
 import logo from "../image/Meeting.jpg";
+import login from "../image/Login.jpg";
 import { LOGIN } from "../utils/paths";
 import { useNavigate, useParams } from "react-router-dom";
 import { HTTP_METHODS } from "../utils/http_methods";

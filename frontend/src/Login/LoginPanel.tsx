@@ -3,6 +3,7 @@ import "./LoginPanel.css";
 import logo from "../image/durham_logo.png";
 import { useNavigate } from "react-router-dom";
 import { LOGIN, PANELLIST_LOGIN, STUDENT_LOGIN } from "../utils/paths";
+import login from "../image/Login.jpg";
 
 export function LoginPanel(props: any) {
   const navigate = useNavigate();
