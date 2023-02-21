@@ -17,11 +17,14 @@ export function LoginPanel() {
     <>
       <div className="bg">
         <div className="color-overlay d-flex justify-content-center align-items-center">
-          <Card className="card-bg">
+          <div className="card-bg">
             <Button onClick={() => navigate("/login/student")}>
               Login as STUDENT
             </Button>
-          </Card>
+            <Button onClick={() => navigate("/login/panellist")}>
+              Login as Panellist
+            </Button>
+          </div>
         </div>
       </div>
       {/* <div

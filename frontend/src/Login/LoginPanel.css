@@ -15,7 +15,7 @@
   mix-blend-mode: normal;
 }
 
-.card-bg {
+div.card-bg {
   background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
