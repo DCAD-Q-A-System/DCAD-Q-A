@@ -8,7 +8,12 @@ export function LoginPanel(props: any) {
   const navigate = useNavigate();
   return (
     <>
-      <div className="div">
+      <div
+        className="div"
+        style={{
+          backgroundImage: `url(${login})`,
+        }}
+      >
         <div className="div-2">
           <div className="div-3">
             <div className="builder-columns div-4">

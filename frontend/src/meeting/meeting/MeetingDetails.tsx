@@ -3,6 +3,8 @@ import { EndTime, StartTime } from "../control_panel/AddTimeSet";
 import "./MeetingDetails.css";
 import React, { useState } from "react";
 import { PANOPTO_REGEX, YOUTUBE_REGEX } from "../../utils/regex";
+import "./MeetingDetails.css";
+import meeting from "../../image/Meeting.jpg";
 
 export function MeetingDetails() {
   const [value, onChange] = useState(new Date());
@@ -30,7 +32,12 @@ export function MeetingDetails() {
 
   return (
     <>
-      <div className="div">
+      <div
+        className="div"
+        style={{
+          backgroundImage: `url(${meeting})`,
+        }}
+      >
         <div className="div-2">
           <div className="builder-columns div-3">
             <div className="builder-column column">
