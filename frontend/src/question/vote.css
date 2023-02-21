@@ -1,0 +1,13 @@
+.div {
+    display: auto;
+    position: relative;
+    min-width: 20px;
+    min-height: 40px;
+    max-width: 39px;
+    font-size: 35px;
+    /* width: 19px; */
+}
+
+i:hover {
+    cursor: pointer;
+}
