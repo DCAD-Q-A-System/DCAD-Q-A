@@ -14,6 +14,7 @@ import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setData } from "./store/loginSlice";
 import { checkIfInitiallyLoggedIn } from "./utils/funcs";
 import { MainMeeting } from "./meeting/meeting/MainMeeting";
+import "bootstrap/dist/css/bootstrap.css";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
