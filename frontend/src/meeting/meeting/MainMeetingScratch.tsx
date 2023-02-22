@@ -7,6 +7,7 @@ import {
   Container,
   Image,
   Row,
+  Stack,
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
@@ -16,6 +17,10 @@ import { GET_ALL_MESSAGES } from "../../utils/paths";
 import anonSmall from "../../image/anon_small.png";
 
 import "./MainMeetingScratch.css";
+import { QuestionTabs } from "../components/question/QuestionTabs";
+import { Iframe } from "../components/iframe/Iframe";
+import { CurrentQuestion } from "../components/question/CurrentQuestion";
+import { ChatPanel } from "../components/chat/ChatPanel";
 
 export function MainMeetingScratch() {
   const { meetingId } = useParams<{ meetingId?: string }>();
@@ -59,14 +64,14 @@ export function MainMeetingScratch() {
   );
 
   return (
-    <div>
+    <>
       <Navbar
         className="meeting-banner-color navbar-dark"
         variant="light"
         fixed="top"
         expand="lg"
       >
-        <Container className="justify-content-center m-auto">
+        <Container className="justify-content-center ">
           <Navbar.Brand>Meeting Title</Navbar.Brand>
         </Container>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -96,13 +101,28 @@ export function MainMeetingScratch() {
         </Col>
         <Col className=" d-flex align-items-center">Chat</Col>
       </div> */}
-      <Container>
-        <Row>
-          <Col>Questions</Col>
-          <Col>Iframe</Col>
-          <Col>Chat</Col>
-        </Row>
-      </Container>
-    </div>
+
+      <Stack
+        style={{ width: "100%", height: "100%" }}
+        direction="horizontal"
+        gap={3}
+      >
+        <div>
+          <QuestionTabs />
+        </div>
+        <Stack direction="vertical" gap={3}>
+          <Iframe link="https://www.youtube.com/embed/sGHgBP9-zXo" />
+          <CurrentQuestion question={{ content: "hello" }} />
+        </Stack>
+        <div>
+          <ChatPanel
+            chats={[
+              { content: "Hello", id: "fnfnfnfn" },
+              { content: "goodbye", id: "dndndnnd" },
+            ]}
+          />
+        </div>
+      </Stack>
+    </>
   );
 }

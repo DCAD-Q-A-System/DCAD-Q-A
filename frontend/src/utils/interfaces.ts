@@ -18,7 +18,7 @@ export interface MessageStructure {
   username: string;
 }
 
-export interface Chat extends MessageStructure {
+export interface IChat extends MessageStructure {
   replies: Reply[];
 }
 
@@ -28,7 +28,7 @@ export interface Reply extends MessageStructure {
 export interface MeetingData {
   id: string;
   name: string;
-  messages: { questions: MessageStructure[]; chat: Chat[] };
+  messages: { questions: MessageStructure[]; chat: IChat[] };
   iframeLink: string;
   startTime: number;
   endTime: number;
