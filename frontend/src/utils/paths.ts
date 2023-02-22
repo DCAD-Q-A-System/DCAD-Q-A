@@ -2,7 +2,11 @@ const PREFIX_API = "/api";
 
 const JOIN_MEETING = PREFIX_API + "/join-meeting";
 
+const WS = PREFIX_API + "/ws";
+
 const LOGIN = PREFIX_API + "/login";
+
+const LOGOUT = PREFIX_API + "/logout";
 
 const STUDENT_LOGIN = LOGIN + "/student";
 
@@ -27,6 +31,8 @@ const REFRESH_PATH = PREFIX_API + "/refresh";
 export {
   JOIN_MEETING,
   LOGIN,
+  WS,
+  LOGOUT,
   STUDENT_LOGIN,
   ADMIN_LOGIN,
   PANELLIST_LOGIN,

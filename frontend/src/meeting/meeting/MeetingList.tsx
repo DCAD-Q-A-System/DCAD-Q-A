@@ -9,7 +9,7 @@ import { MeetingItem } from "../components/MeetingItem";
 import "./MeetingList.css";
 
 export function MeetingList() {
-  const [ids, setIds] = useState<MeetingIds>({ ids: [] });
+  const [ids, setIds] = useState<MeetingIds | null>(null);
   const loginData = useAppSelector((state) => state.loginReducer.data);
   useEffect(() => {
     const fetchMeetings = async () => {
@@ -31,7 +31,7 @@ export function MeetingList() {
     <>
       <div className="panDiv">
         <div className="panDiv-2">
-          {ids.ids.length > 0 ? (
+          {ids && ids.ids.length > 0 ? (
             ids.ids.map(({ name, id, startTime, endTime }) => {
               return (
                 <MeetingItem
@@ -43,6 +43,10 @@ export function MeetingList() {
                 />
               );
             })
+          ) : ids?.ids.length === 0 ? (
+            <div>
+              <p>No meetings assigned</p>
+            </div>
           ) : (
             <div>
               <p>Can't fetch meetings at the moment</p>

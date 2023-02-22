@@ -9,7 +9,7 @@ import { LoginPanel } from "./login/LoginPanel";
 import { Login } from "./login/Login";
 import { AlreadyAuthenticated } from "./middleware/AlreadyAuthenticated";
 import { MeetingList } from "./meeting/meeting/MeetingList";
-import { LOCAL_STORAGE_LOGIN_KEY } from "./utils/constants";
+import { LOCAL_STORAGE_LOGIN_KEY, socket } from "./utils/constants";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setData } from "./store/loginSlice";
 import { checkIfInitiallyLoggedIn } from "./utils/funcs";
@@ -19,10 +19,17 @@ import { GuestLogin } from "./Login/GuestLogin";
 import { LoginBackground } from "./backgrounds/LoginBackground";
 import { NotFound } from "./not_found/NotFound";
 import { MainMeetingScratch } from "./meeting/meeting/MainMeetingScratch";
+import { Logout } from "./Login/Logout";
+
+import { io } from "socket.io-client";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const dispatch = useAppDispatch();
+
+  const [isConnected, setIsConnected] = useState(socket.connected);
+  const [lastPong, setLasPong] = useState<string | null>(null);
+
   useEffect(() => {
     if (localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY)) {
       const getIfInitiallyLoggedIn = async () => {
@@ -31,6 +38,22 @@ function App() {
       };
       getIfInitiallyLoggedIn();
     }
+    socket.on("connect", () => {
+      setIsConnected(true);
+    });
+    socket.on("disconnect", () => {
+      setIsConnected(false);
+    });
+
+    socket.on("pong", () => {
+      setLasPong(new Date().toISOString());
+    });
+
+    return () => {
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("pong");
+    };
   }, []);
 
   return (
@@ -99,7 +122,14 @@ function App() {
             // </AuthenticatorMiddleware>
           }
         />
-
+        <Route
+          path="/logout"
+          element={
+            <AuthenticatorMiddleware>
+              <Logout />
+            </AuthenticatorMiddleware>
+          }
+        />
         <Route
           path="*"
           element={
