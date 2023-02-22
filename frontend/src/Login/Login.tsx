@@ -46,15 +46,25 @@ export function Login() {
     <>
       <div className="bg">
         <div className="color-overlay d-flex justify-content-center align-items-center">
-          <Form className="rounded p-4 p-sm-3">
+          <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3">
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter username"
+              />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
+              <Form.Control
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                placeholder="Password"
+              />
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
