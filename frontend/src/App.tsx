@@ -18,6 +18,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { GuestLogin } from "./Login/GuestLogin";
 import { LoginBackground } from "./backgrounds/LoginBackground";
 import { NotFound } from "./not_found/NotFound";
+import { MainMeetingScratch } from "./meeting/meeting/MainMeetingScratch";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -33,7 +34,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div>
       <Routes>
         <Route
           path="/"
@@ -107,6 +108,7 @@ function App() {
             </LoginBackground>
           }
         />
+        <Route path="meeting-scratch" element={<MainMeetingScratch />} />
       </Routes>
     </div>
   );

@@ -6,7 +6,6 @@ import logo from "../image/durham_logo.png";
 import login from "../image/Login.jpg";
 import { useNavigate } from "react-router-dom";
 import { LOGIN, PANELLIST_LOGIN, STUDENT_LOGIN } from "../utils/paths";
-import login from "../image/Login.jpg";
 import du from "../image/durham_university_logo_1.png";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";

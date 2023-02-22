@@ -9,6 +9,8 @@ import { Chat } from "../components/chat/Chat";
 import { Question } from "../components/question/Question";
 import "./MainMeeting.css";
 
+import anon from "../../image/anon.png";
+
 export function MainMeeting() {
   const { meetingId } = useParams<{ meetingId?: string }>();
 
@@ -54,7 +56,8 @@ export function MainMeeting() {
                   <div className="div-6">
                     <div className="div-7">Dark Mode</div>
                     <div className="div-8">
-                      <picture>
+                      {/*Replace with tick marker bootstrap*/}
+                      {/* <picture>
                         <source
                           srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739"
                           type="image/webp"
@@ -65,7 +68,7 @@ export function MainMeeting() {
                           srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2F69e145354fce49ceb6a49ad610373739"
                           className="image"
                         />
-                      </picture>
+                      </picture> */}
                       <div className="builder-image-sizer image-sizer"></div>
                     </div>
                   </div>
@@ -73,7 +76,8 @@ export function MainMeeting() {
                 <div className="builder-column column-2">
                   <div className="div-9">
                     <div className="div-10">
-                      <picture>
+                      <img className="image" src={anon} alt="" />
+                      {/* <picture>
                         <source
                           srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97"
                           type="image/webp"
@@ -84,7 +88,7 @@ export function MainMeeting() {
                           srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd041b3b975a24b9aa5f112109f3a1d97"
                           className="image"
                         />
-                      </picture>
+                      </picture> */}
                       <div className="builder-image-sizer image-sizer"></div>
                     </div>
                     <div className="div-11">My Account</div>
@@ -107,7 +111,8 @@ export function MainMeeting() {
                       <div className="div-21">
                         <div className="div-22">Newest</div>
                         <div className="div-23">
-                          <picture>
+                          {/**Done by rianna */}
+                          {/* <picture>
                             <source
                               srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7"
                               type="image/webp"
@@ -118,7 +123,7 @@ export function MainMeeting() {
                               srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Fd878d6fac1764ced940999da213766f7"
                               className="image"
                             />
-                          </picture>
+                          </picture> */}
                           <div className="builder-image-sizer image-sizer-2"></div>
                         </div>
                       </div>
@@ -126,7 +131,7 @@ export function MainMeeting() {
                     <div className="div-24">
                       <div className="div-25">
                         <div className="div-26">
-                          <picture>
+                          {/* <picture>
                             <source
                               srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?format=webp&width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?format=webp&width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?format=webp&width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?format=webp&width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?format=webp&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?format=webp&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?format=webp&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b"
                               type="image/webp"
@@ -137,7 +142,7 @@ export function MainMeeting() {
                               srcSet="https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?width=100 100w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?width=200 200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?width=400 400w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?width=800 800w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?width=1200 1200w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?width=1600 1600w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b?width=2000 2000w, https://cdn.builder.io/api/v1/image/assets%2FTEMP%2Ff3b0893e7a6644b3bc21f1a8d20ea71b"
                               className="image"
                             />
-                          </picture>
+                          </picture> */}
                           <div className="builder-image-sizer image-sizer-3"></div>
                         </div>
                       </div>
