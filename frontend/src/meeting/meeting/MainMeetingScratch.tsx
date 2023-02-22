@@ -9,11 +9,11 @@ import {
   Row,
   Stack,
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
 import { HTTP_METHODS } from "../../utils/http_methods";
 import { MeetingData } from "../../utils/interfaces";
-import { GET_ALL_MESSAGES } from "../../utils/paths";
+import { GET_ALL_MESSAGES, LEAVE_MEETING } from "../../utils/paths";
 import anonSmall from "../../image/anon_small.png";
 
 import "./MainMeetingScratch.css";
@@ -26,7 +26,7 @@ import { USER_TYPE } from "../../utils/enums";
 
 export function MainMeetingScratch() {
   const { meetingId } = useParams<{ meetingId?: string }>();
-
+  const navigate = useNavigate();
   const [meeting, setMeeting] = useState<MeetingData | null>(null);
 
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -79,7 +79,23 @@ export function MainMeetingScratch() {
                     Leave Meeting
                   </NavDropdown.Item>
                   {loginData && loginData !== USER_TYPE.GUEST && (
-                    <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+                    <NavDropdown.Item
+                      onClick={async () => {
+                        const res = await credentialFetch(
+                          LEAVE_MEETING,
+                          HTTP_METHODS.PUT,
+                          JSON.stringify({
+                            meetingId,
+                            userId: loginData?.userId,
+                          })
+                        );
+                        if (res.status === 200) {
+                          navigate("/logout");
+                        }
+                      }}
+                    >
+                      Logout
+                    </NavDropdown.Item>
                   )}
                 </NavDropdown>
               </Nav>

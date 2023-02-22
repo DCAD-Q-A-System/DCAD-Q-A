@@ -16,9 +16,9 @@ export function Logout() {
     async function logout() {
       const res = await credentialFetch(LOGOUT, HTTP_METHODS.POST);
       if (res.status === 200) {
-        dispatch(setData({ data: null }));
+        await dispatch(setData({ data: null }));
         localStorage.removeItem(LOCAL_STORAGE_LOGIN_KEY);
-        navigate("/", { replace: true });
+        navigate("/login", { replace: true });
       }
     }
     logout();
