@@ -19,22 +19,22 @@ export function LoginPanel() {
   const TYPES = ["Student", "Panellist", "Admin", "Guest"];
   return (
     <>
-      <div className="bg">
-        <div className="button-row color-overlay d-flex justify-content-center align-items-center">
-          <div className="card-bg button-col rounded p-4 p-sm-3">
-            {TYPES.map((t, i) => {
-              return (
-                <Button
-                  className={i < TYPES.length - 1 && "button-margin"}
-                  onClick={() => navigate(`/login/${t.toLowerCase()}`)}
-                >
-                  Login as {t}
-                </Button>
-              );
-            })}
-          </div>
+      <div className="button-row color-overlay d-flex justify-content-center align-items-center">
+        <div className="card-bg button-col rounded p-4 p-sm-3">
+          {TYPES.map((t, i) => {
+            return (
+              <Button
+                key={i}
+                className={i < TYPES.length - 1 && "button-margin"}
+                onClick={() => navigate(`/login/${t.toLowerCase()}`)}
+              >
+                Login as {t}
+              </Button>
+            );
+          })}
         </div>
       </div>
+
       {/* <div
         classNameName="div"
         style={{

@@ -15,6 +15,9 @@ import { setData } from "./store/loginSlice";
 import { checkIfInitiallyLoggedIn } from "./utils/funcs";
 import { MainMeeting } from "./meeting/meeting/MainMeeting";
 import "bootstrap/dist/css/bootstrap.css";
+import { GuestLogin } from "./Login/GuestLogin";
+import { LoginBackground } from "./backgrounds/LoginBackground";
+import { NotFound } from "./not_found/NotFound";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -44,7 +47,19 @@ function App() {
           path="/login"
           element={
             <AlreadyAuthenticated>
-              <LoginPanel />
+              <LoginBackground>
+                <LoginPanel />
+              </LoginBackground>
+            </AlreadyAuthenticated>
+          }
+        />
+        <Route
+          path="/login/guest"
+          element={
+            <AlreadyAuthenticated>
+              <LoginBackground>
+                <GuestLogin />
+              </LoginBackground>
             </AlreadyAuthenticated>
           }
         />
@@ -52,7 +67,9 @@ function App() {
           path="/login/:type"
           element={
             <AlreadyAuthenticated>
-              <Login />
+              <LoginBackground>
+                <Login />
+              </LoginBackground>
             </AlreadyAuthenticated>
           }
         />
@@ -76,9 +93,18 @@ function App() {
         <Route
           path="/meeting/:meetingId"
           element={
-            <AuthenticatorMiddleware>
-              <MainMeeting />
-            </AuthenticatorMiddleware>
+            // <AuthenticatorMiddleware>
+            <MainMeeting />
+            // </AuthenticatorMiddleware>
+          }
+        />
+
+        <Route
+          path="*"
+          element={
+            <LoginBackground>
+              <NotFound />
+            </LoginBackground>
           }
         />
       </Routes>
