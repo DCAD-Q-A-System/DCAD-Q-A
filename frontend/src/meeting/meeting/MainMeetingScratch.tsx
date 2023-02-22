@@ -75,9 +75,11 @@ export function MainMeetingScratch() {
               <Nav className="me-auto">
                 <NavDropdown title={MyAccount} id="basic-nav-dropdown">
                   <NavDropdown.Divider />
-                  <NavDropdown.Item>Leave Meeting</NavDropdown.Item>
+                  <NavDropdown.Item href={`/leave-meeting/${meetingId}`}>
+                    Leave Meeting
+                  </NavDropdown.Item>
                   {loginData && loginData !== USER_TYPE.GUEST && (
-                    <NavDropdown.Item href={"/logout"}>Logout</NavDropdown.Item>
+                    <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
                   )}
                 </NavDropdown>
               </Nav>

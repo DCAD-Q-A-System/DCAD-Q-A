@@ -17,6 +17,7 @@ export function MeetingList() {
         `${GET_ALL_MEETINGS}?userId=${loginData?.userId || ""}`,
         HTTP_METHODS.GET
       );
+
       if (res.status === 200) {
         const data: MeetingIds = res.data;
         setIds(data);
@@ -26,7 +27,7 @@ export function MeetingList() {
     };
     fetchMeetings();
   }, []);
-
+  console.log(ids);
   return (
     <>
       <div className="panDiv">

@@ -53,7 +53,7 @@ func JoinMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 		
 		}
 		update := bson.D{
-			{"$push",bson.D{
+			{"$addToSet",bson.D{
 				{"onlineMembers",u},
 			}},
 		}

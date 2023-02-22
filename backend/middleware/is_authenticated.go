@@ -50,6 +50,7 @@ func HandleCheckIfLoggedIn(c *gin.Context) {
 	fmt.Println(claims)
 	c.JSON(http.StatusOK,gin.H{
 		"username":claims.Username,
+		"userId":claims.UserId,
 		"type":claims.Type,
 	})
 }

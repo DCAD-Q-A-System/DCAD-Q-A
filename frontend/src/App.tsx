@@ -22,6 +22,7 @@ import { MainMeetingScratch } from "./meeting/meeting/MainMeetingScratch";
 import { Logout } from "./Login/Logout";
 
 import { io } from "socket.io-client";
+import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -122,6 +123,7 @@ function App() {
             // </AuthenticatorMiddleware>
           }
         />
+        <Route path="/leave-meeting/:meetingId" element={<LeaveMeeting />} />
         <Route
           path="/logout"
           element={
