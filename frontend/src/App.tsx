@@ -95,7 +95,7 @@ function App() {
           path="/meeting/:meetingId"
           element={
             // <AuthenticatorMiddleware>
-            <MainMeeting />
+            <MainMeetingScratch />
             // </AuthenticatorMiddleware>
           }
         />
@@ -108,7 +108,7 @@ function App() {
             </LoginBackground>
           }
         />
-        <Route path="meeting-scratch" element={<MainMeetingScratch />} />
+        {/* <Route path="meeting-scratch" element={<MainMeetingScratch />} /> */}
       </Routes>
     </div>
   );

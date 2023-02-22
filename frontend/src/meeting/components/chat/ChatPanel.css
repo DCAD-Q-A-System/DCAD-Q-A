@@ -1,3 +1,7 @@
 .chat-panel {
-  background-color: gray;
+  background-color: lightgray;
+}
+
+.solid {
+  border-top: 2px solid #999;
 }

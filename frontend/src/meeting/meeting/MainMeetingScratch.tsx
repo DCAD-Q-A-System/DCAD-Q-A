@@ -21,25 +21,18 @@ import { QuestionTabs } from "../components/question/QuestionTabs";
 import { Iframe } from "../components/iframe/Iframe";
 import { CurrentQuestion } from "../components/question/CurrentQuestion";
 import { ChatPanel } from "../components/chat/ChatPanel";
+import { useAppSelector } from "../../store/hooks";
+import { USER_TYPE } from "../../utils/enums";
 
 export function MainMeetingScratch() {
   const { meetingId } = useParams<{ meetingId?: string }>();
 
-  const [meeting, setMeeting] = useState<MeetingData>({
-    id: "",
-    name: "",
-    iframeLink: "",
-    startTime: 0,
-    endTime: 0,
-    onlineMembers: [],
-    messages: {
-      questions: [],
-      chat: [],
-    },
-  });
+  const [meeting, setMeeting] = useState<MeetingData | null>(null);
 
+  const loginData = useAppSelector((state) => state.loginReducer.data);
   useEffect(() => {
     const fetchMeeting = async () => {
+      console.log(meetingId);
       const res = await credentialFetch(
         `${GET_ALL_MESSAGES}?meetingId=${meetingId}`,
         HTTP_METHODS.GET
@@ -58,71 +51,64 @@ export function MainMeetingScratch() {
 
   const MyAccount = (
     <div>
-      <Image src={anonSmall} width="30vw" />
+      <Image className="rounded-circle" src={anonSmall} width="30vw" />
+
       <Navbar.Text>My Account</Navbar.Text>
     </div>
   );
 
   return (
     <>
-      <Navbar
-        className="meeting-banner-color navbar-dark"
-        variant="light"
-        fixed="top"
-        expand="lg"
-      >
-        <Container className="justify-content-center ">
-          <Navbar.Brand>Meeting Title</Navbar.Brand>
-        </Container>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            <NavDropdown title={MyAccount} id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      {/* <div className=" d-flex align-items-center justify-content-center">
-        <Col className="vertical-column-margin  d-flex align-items-center">
-          Questions
-        </Col>
-
-        <Col className="vertical-column-margin  d-flex align-items-center">
-          Ifrmae
-        </Col>
-        <Col className=" d-flex align-items-center">Chat</Col>
-      </div> */}
-
-      <Stack
-        style={{ width: "100%", height: "100%" }}
-        direction="horizontal"
-        gap={3}
-      >
+      {meeting !== null ? (
         <div>
-          <QuestionTabs />
+          <Navbar
+            className="meeting-banner-color navbar-dark"
+            variant="light"
+            fixed="top"
+            expand="lg"
+          >
+            <Container className="justify-content-center ">
+              <Navbar.Brand>{meeting.name}</Navbar.Brand>
+            </Container>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto">
+                <NavDropdown title={MyAccount} id="basic-nav-dropdown">
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="#action/3.4">
+                    Leave Meeting
+                  </NavDropdown.Item>
+                  {loginData && loginData !== USER_TYPE.GUEST && (
+                    <NavDropdown.Item href="#action/3.4">
+                      Logout
+                    </NavDropdown.Item>
+                  )}
+                </NavDropdown>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+
+          <div className="container">
+            <div className="row flex-grow-1">
+              <div className="col">
+                <QuestionTabs questions={meeting.messages.questions} />
+              </div>
+
+              <div className="col">
+                <Stack direction="vertical" gap={3}>
+                  <Iframe link={meeting.iframeLink} />
+                  <CurrentQuestion question={meeting.messages.questions[0]} />
+                </Stack>
+              </div>
+              <div className="col">
+                <ChatPanel chats={meeting.messages.chat} />
+              </div>
+            </div>
+          </div>
         </div>
-        <Stack direction="vertical" gap={3}>
-          <Iframe link="https://www.youtube.com/embed/sGHgBP9-zXo" />
-          <CurrentQuestion question={{ content: "hello" }} />
-        </Stack>
-        <div>
-          <ChatPanel
-            chats={[
-              { content: "Hello", id: "fnfnfnfn" },
-              { content: "goodbye", id: "dndndnnd" },
-            ]}
-          />
-        </div>
-      </Stack>
+      ) : (
+        <p className="text-center">Something's gone wrong</p>
+      )}
     </>
   );
 }
