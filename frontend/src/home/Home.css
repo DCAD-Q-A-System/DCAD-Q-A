@@ -1,86 +1,35 @@
-.div {
-    display: flex;
-    flex-direction: column;
-    max-width: 1900px;
-    padding-top: 340px;
-    padding-right: 220px;
-    padding-bottom: 340px;
-    padding-left: 220px;
-    background-size: cover;
+#background-image {
+    background-image: url('../image/Meeting.jpg');
     background-repeat: no-repeat;
-    background-position: center;
+    background-size: cover;
 }
 
-.div-2 {
+.container {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
 }
 
-@media (max-width: 999px) {
-    .div-2 {
-        flex-direction: column;
-        align-items: stretch;
-    }
+.box {
+    width: 300px;
+    height: 300px;
+    background-color: blue;
+    margin: 100px;
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: calc(92.42% - 10px);
-    margin-left: 0px;
+.icon {
+    color: white;
+    width: 200px;
+    height: 200px;
+    margin-left: 50px;
+    margin-top: 10px;
 }
 
-@media (max-width: 999px) {
-    .column {
-        width: 100%;
-    }
-}
-
-.div-3 {
-    display: flex;
-    position: relative;
-    min-width: 20px;
-    min-height: 20px;
-    max-width: 500px;
-    width: 68.49%;
-}
-
-.image {
-    object-fit: cover;
-    object-position: center;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-}
-
-.image-sizer {
-    width: 100%;
-    padding-top: 80%;
-    pointer-events: none;
-    font-size: 0;
-}
-
-.column-2 {
-    display: flex;
-    flex-direction: column;
-    line-height: normal;
-    width: calc(92.42% - 10px);
-    margin-left: 20px;
-}
-
-@media (max-width: 999px) {
-    .column-2 {
-        width: 100%;
-    }
-}
-
-.div-4 {
-    display: flex;
-    position: relative;
-    min-width: 20px;
-    min-height: 20px;
-    max-width: 500px;
-    width: 68.49%;
+.word {
+    font-size: 30px;
+    font-weight: 1000;
+    margin-top: 20px;
+    margin-left: 15px;
+    color: aliceblue;
 }
