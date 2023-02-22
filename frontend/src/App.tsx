@@ -21,15 +21,13 @@ import { NotFound } from "./not_found/NotFound";
 import { MainMeetingScratch } from "./meeting/meeting/MainMeetingScratch";
 import { Logout } from "./Login/Logout";
 
-import { io } from "socket.io-client";
 import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const dispatch = useAppDispatch();
 
-  const [isConnected, setIsConnected] = useState(socket.connected);
-  const [lastPong, setLasPong] = useState<string | null>(null);
+  const [isConnected, setIsConnected] = useState(socket.OPEN);
 
   useEffect(() => {
     if (localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY)) {
@@ -39,21 +37,22 @@ function App() {
       };
       getIfInitiallyLoggedIn();
     }
-    socket.on("connect", () => {
-      setIsConnected(true);
-    });
-    socket.on("disconnect", () => {
-      setIsConnected(false);
+    socket.addEventListener("open", (event) => {
+      socket.send(str2ab("Hello Server!"));
     });
 
-    socket.on("pong", () => {
-      setLasPong(new Date().toISOString());
-    });
+    function str2ab(str: string) {
+      var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
+      var bufView = new Uint16Array(buf);
+      for (var i = 0, strLen = str.length; i < strLen; i++) {
+        bufView[i] = str.charCodeAt(i);
+      }
+      return buf;
+    }
 
     return () => {
       socket.off("connect");
       socket.off("disconnect");
-      socket.off("pong");
     };
   }, []);
 
