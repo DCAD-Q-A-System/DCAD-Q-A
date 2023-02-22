@@ -10,13 +10,3 @@ div.card-bg {
   background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
 }
-
-.button-col {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.button-margin {
-  margin-bottom: 10%;
-}

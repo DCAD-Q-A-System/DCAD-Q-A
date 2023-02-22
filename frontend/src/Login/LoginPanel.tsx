@@ -10,23 +10,31 @@ import du from "../image/durham_university_logo_1.png";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { Row, Container } from "react-bootstrap";
+import Col from "react-bootstrap/esm/Col";
 
 export function LoginPanel() {
   const navigate = useNavigate();
+
+  const TYPES = ["Student", "Panellist", "Admin", "Guest"];
   return (
     <>
-      <div className="bg">
-        <div className="color-overlay d-flex justify-content-center align-items-center">
-          <div className="card-bg">
-            <Button onClick={() => navigate("/login/student")}>
-              Login as STUDENT
-            </Button>
-            <Button onClick={() => navigate("/login/panellist")}>
-              Login as Panellist
-            </Button>
-          </div>
+      <div className="button-row color-overlay d-flex justify-content-center align-items-center">
+        <div className="card-bg button-col rounded p-4 p-sm-3">
+          {TYPES.map((t, i) => {
+            return (
+              <Button
+                key={i}
+                className={i < TYPES.length - 1 && "button-margin"}
+                onClick={() => navigate(`/login/${t.toLowerCase()}`)}
+              >
+                Login as {t}
+              </Button>
+            );
+          })}
         </div>
       </div>
+
       {/* <div
         classNameName="div"
         style={{
