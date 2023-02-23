@@ -8,6 +8,7 @@ import {
   Image,
   Row,
   Stack,
+  Form
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
@@ -32,6 +33,7 @@ import { socket } from "../../utils/constants";
 import { setData } from "../../store/loginSlice";
 
 export function MainMeetingScratch() {
+  const [darkMode, setDarkMode] = useState(false);
   const { meetingId } = useParams<{ meetingId?: string }>();
   const navigate = useNavigate();
   const [meeting, setMeeting] = useState<MeetingData | null>(null);
@@ -148,7 +150,6 @@ export function MainMeetingScratch() {
   const MyAccount = (
     <div>
       <Image className="rounded-circle" src={anonSmall} width="30vw" />
-
       <Navbar.Text>My Account</Navbar.Text>
     </div>
   );
@@ -163,12 +164,21 @@ export function MainMeetingScratch() {
             fixed="top"
             expand="lg"
           >
-            <Container className="justify-content-center ">
+            <Container className="justify-content-center">
               <Navbar.Brand>{meeting.name}</Navbar.Brand>
             </Container>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
+                <label className="switch-bg mx-auto">
+                  Dark Mode
+                  <input
+                    type="checkbox"
+                    id="dark-mode-switch"
+                    checked={darkMode}
+                    onChange={() => setDarkMode(!darkMode)}
+                  />
+                </label>
                 <NavDropdown title={MyAccount} id="basic-nav-dropdown">
                   <NavDropdown.Divider />
                   <NavDropdown.Item href={`/leave-meeting/${meetingId}`}>
