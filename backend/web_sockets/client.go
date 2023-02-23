@@ -48,7 +48,6 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			})
 			continue
 		}
-		fmt.Println("Socket message",socket_message.Username)
 
 		var valid utils.SOCKET_ERROR_TYPE = middleware.CheckSocketMessage(&socket_message)
 		if valid != utils.NONE {
@@ -69,9 +68,6 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			fmt.Println("Message type wrong")
 			c.Conn.WriteJSON(map[string]string{
 				"error":"something went wrong with message",
-
-
-
 			})
 			continue 
 		}
@@ -87,7 +83,7 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			c.Username = socket_message.Username[:]
 		}
 
-		fmt.Println()
+		
 		c.Pool.Broadcast <- utils.BroadcastMessage{
 			Message: res,
 			UserId: c.ID,

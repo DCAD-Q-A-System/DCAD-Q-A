@@ -117,14 +117,13 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 				"content":chats[i].Content,
 				"timeCreated":chats[i].TimeCreated.Time().Unix(),
 			}
-			fmt.Println(chats[i].Replies)
+			
 			if len(chats[i].Replies) > 0 {
 				r,err := replies.GetAllReplies(db,chats[i].Replies)
 				if err != nil {
 					fmt.Printf("get all replies %v",err)
 					continue
 				}
-				fmt.Println("THE LENGTH OF REPLIES ARE",len(r))
 				reps := make([]map[string]interface{},len(r))
 				for j := range r {
 					reps[j] = map[string]interface{} {

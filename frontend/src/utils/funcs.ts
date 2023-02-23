@@ -22,3 +22,7 @@ export var jsonToArray = function (json) {
   }
   return ret;
 };
+
+export function isOpen(ws) {
+  return ws.readyState === ws.OPEN;
+}

@@ -11,7 +11,7 @@ func Logout(c *gin.Context) {
 		"token",
 		"",
 		0,
-		"",
+		"/",
 		c.Request.URL.Hostname(),
 		true,
 		true,

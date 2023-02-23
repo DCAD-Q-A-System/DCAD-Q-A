@@ -56,12 +56,13 @@ export function MainMeetingScratch() {
     fetchMeeting();
 
     const onOpen = (event: MessageEvent<any>) => {
-      console.log("sent msg");
+      console.log(event, "Open");
     };
     socket.addEventListener("open", onOpen);
 
     const onClose = (e: MessageEvent<any>) => {
       console.log(e.data);
+      console.log("CLOSING SOCKET!");
     };
 
     socket.addEventListener("close", onClose);

@@ -10,7 +10,7 @@ import {
 import { useAppSelector } from "../../../store/hooks";
 import { socket } from "../../../utils/constants";
 import { USER_TYPE } from "../../../utils/enums";
-import { jsonToArray } from "../../../utils/funcs";
+import { isOpen, jsonToArray } from "../../../utils/funcs";
 import { IChat } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { Chat } from "./Chat";
@@ -54,6 +54,10 @@ export function ChatPanel({
               };
               console.log(socketMessage);
               const bytes = jsonToArray(socketMessage);
+              if (!isOpen(socket)) {
+                alert("connection lost");
+                return;
+              }
               socket.send(bytes);
               setChat("");
             }}
