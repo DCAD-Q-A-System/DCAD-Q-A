@@ -34,7 +34,14 @@ export function QuestionTabs({
 
   return (
     <div className="question-panel">
-      <Tabs activeKey={key} onSelect={(k) => setKey(k)} className="mb-3" fill>
+      <Tabs
+        activeKey={key}
+        onSelect={(k) => {
+          if (k) setKey(k);
+        }}
+        className="mb-3"
+        fill
+      >
         <Tab eventKey={TABS.CURRENT.toLowerCase()} title={TABS.CURRENT}>
           {questionElements}
         </Tab>
@@ -42,7 +49,7 @@ export function QuestionTabs({
           {questionElements}
         </Tab>
       </Tabs>
-      {loginData && loginData !== USER_TYPE.GUEST && (
+      {loginData && loginData.type !== USER_TYPE.GUEST && (
         <InputGroup>
           <Form.Control
             value={question}

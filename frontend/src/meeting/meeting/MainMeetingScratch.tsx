@@ -8,7 +8,7 @@ import {
   Image,
   Row,
   Stack,
-  Form
+  Form,
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
@@ -57,12 +57,12 @@ export function MainMeetingScratch() {
     };
     fetchMeeting();
 
-    const onOpen = (event: MessageEvent<any>) => {
+    const onOpen = (event: any) => {
       console.log(event, "Open");
     };
     socket.addEventListener("open", onOpen);
 
-    const onClose = (e: MessageEvent<any>) => {
+    const onClose = (e: any) => {
       console.log(e.data);
       console.log("CLOSING SOCKET!");
     };
@@ -77,7 +77,7 @@ export function MainMeetingScratch() {
   }, []);
 
   useEffect(() => {
-    const onMessage = async (e: MessageEvent<any>) => {
+    const onMessage = (e: any) => {
       console.log(e.data);
 
       const data: ISocketMessageReceive = JSON.parse(e.data);
@@ -110,12 +110,14 @@ export function MainMeetingScratch() {
                 ...data.message.questions,
               ];
             }
-          } else if (newMeeting.message.onlineMembers) {
+          } else if (newMeeting.onlineMembers) {
             if (
               data.message?.newOnlineMembers &&
               data.message.newOnlineMembers.length > 0
             ) {
-              console.log(`These are new members ${data.newOnlineMembers}`);
+              console.log(
+                `These are new members ${data.message.newOnlineMembers}`
+              );
               newMeeting.onlineMembers = [
                 ...newMeeting.onlineMembers,
                 ...data.message.newOnlineMembers,
@@ -184,7 +186,7 @@ export function MainMeetingScratch() {
                   <NavDropdown.Item href={`/leave-meeting/${meetingId}`}>
                     Leave Meeting
                   </NavDropdown.Item>
-                  {loginData && loginData !== USER_TYPE.GUEST && (
+                  {loginData && loginData.type !== USER_TYPE.GUEST && (
                     <NavDropdown.Item
                       onClick={async () => {
                         const res = await credentialFetch(
@@ -212,7 +214,7 @@ export function MainMeetingScratch() {
               <div className="row flex-grow-1">
                 <div className="col">
                   <QuestionTabs
-                    meetingId={meetingId}
+                    meetingId={meetingId!}
                     questions={meeting.messages.questions}
                   />
                 </div>
@@ -225,7 +227,7 @@ export function MainMeetingScratch() {
                 </div>
                 <div className="col">
                   <ChatPanel
-                    meetingId={meetingId}
+                    meetingId={meetingId!}
                     chats={meeting.messages.chat}
                   />
                 </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setData } from "../store/loginSlice";
-import { JWT, LoginResponse } from "../utils/interfaces";
+import { LoginResponse } from "../utils/interfaces";
 import "./Login.css";
 
 import logo from "../image/Meeting.jpg";

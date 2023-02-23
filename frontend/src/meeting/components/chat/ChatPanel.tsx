@@ -34,7 +34,7 @@ export function ChatPanel({
           </div>
         ))}
       </ListGroup>
-      {loginData && loginData !== USER_TYPE.GUEST && (
+      {loginData && loginData.type !== USER_TYPE.GUEST && (
         <InputGroup>
           <Form.Control
             value={chat}
@@ -48,7 +48,7 @@ export function ChatPanel({
               const socketMessage: ISocketMessageSend = {
                 reqType: REQ_TYPES.INSERT_CHAT,
                 content: chat,
-                meetingId: meetingId,
+                meetingId: meetingId!,
                 userId: loginData?.userId,
                 username: loginData?.username,
               };

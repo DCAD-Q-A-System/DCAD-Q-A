@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { HTTP_METHODS } from "../../../utils/http_methods";
 import { JOIN_MEETING } from "../../../utils/paths";
 import "./JoinMeeting.css";
 

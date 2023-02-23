@@ -15,11 +15,11 @@ import { setData } from "./store/loginSlice";
 import { checkIfInitiallyLoggedIn } from "./utils/funcs";
 import { MainMeeting } from "./meeting/meeting/MainMeeting";
 import "bootstrap/dist/css/bootstrap.css";
-import { GuestLogin } from "./Login/GuestLogin";
+import { GuestLogin } from "./login/GuestLogin";
 import { LoginBackground } from "./backgrounds/LoginBackground";
 import { NotFound } from "./not_found/NotFound";
 import { MainMeetingScratch } from "./meeting/meeting/MainMeetingScratch";
-import { Logout } from "./Login/Logout";
+import { Logout } from "./login/Logout";
 
 import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
 

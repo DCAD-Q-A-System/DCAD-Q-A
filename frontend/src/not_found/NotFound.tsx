@@ -1,5 +1,4 @@
 import React from "react";
-import { Tex } from "react-bootstrap";
 import "./NotFound.css";
 export function NotFound() {
   return (
