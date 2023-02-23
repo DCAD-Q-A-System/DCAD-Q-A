@@ -8,6 +8,7 @@ import {
   Image,
   Row,
   Stack,
+  Form
 } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
@@ -25,6 +26,7 @@ import { useAppSelector } from "../../store/hooks";
 import { USER_TYPE } from "../../utils/enums";
 
 export function MainMeetingScratch() {
+  const [darkMode, setDarkMode] = useState(false);
   const { meetingId } = useParams<{ meetingId?: string }>();
 
   const [meeting, setMeeting] = useState<MeetingData | null>(null);
@@ -52,7 +54,6 @@ export function MainMeetingScratch() {
   const MyAccount = (
     <div>
       <Image className="rounded-circle" src={anonSmall} width="30vw" />
-
       <Navbar.Text>My Account</Navbar.Text>
     </div>
   );
@@ -67,12 +68,21 @@ export function MainMeetingScratch() {
             fixed="top"
             expand="lg"
           >
-            <Container className="justify-content-center ">
+            <Container className="justify-content-center">
               <Navbar.Brand>{meeting.name}</Navbar.Brand>
             </Container>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="me-auto">
+                <label className="switch-bg mx-auto">
+                  Dark Mode
+                  <input
+                    type="checkbox"
+                    id="dark-mode-switch"
+                    checked={darkMode}
+                    onChange={() => setDarkMode(!darkMode)}
+                  />
+                </label>
                 <NavDropdown title={MyAccount} id="basic-nav-dropdown">
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="#action/3.4">
@@ -88,23 +98,22 @@ export function MainMeetingScratch() {
             </Navbar.Collapse>
           </Navbar>
 
-          <div className="container">
-            <div className="row flex-grow-1">
-              <div className="col">
+          <Container fluid>
+            <Row className="row flex-grow-1 h-100">
+              <Col className="col-md-4 h-100">
                 <QuestionTabs questions={meeting.messages.questions} />
-              </div>
-
-              <div className="col">
+              </Col>
+              <Col className="col-md-4 h-100">
                 <Stack direction="vertical" gap={3}>
                   <Iframe link={meeting.iframeLink} />
                   <CurrentQuestion question={meeting.messages.questions[0]} />
                 </Stack>
-              </div>
-              <div className="col">
+              </Col>
+              <Col className="col-md-4 h-100">
                 <ChatPanel chats={meeting.messages.chat} />
-              </div>
-            </div>
-          </div>
+              </Col>
+            </Row>
+          </Container>
         </div>
       ) : (
         <p className="text-center">Something's gone wrong</p>
