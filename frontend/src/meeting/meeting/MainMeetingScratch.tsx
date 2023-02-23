@@ -21,14 +21,21 @@ import { QuestionTabs } from "../components/question/QuestionTabs";
 import { Iframe } from "../components/iframe/Iframe";
 import { CurrentQuestion } from "../components/question/CurrentQuestion";
 import { ChatPanel } from "../components/chat/ChatPanel";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { USER_TYPE } from "../../utils/enums";
+import {
+  ISocketMessageReceive,
+  SOCKET_ERRORS_TYPE,
+} from "../../utils/socket_types";
+import { checkIfInitiallyLoggedIn } from "../../utils/funcs";
+import { socket } from "../../utils/constants";
+import { setData } from "../../store/loginSlice";
 
 export function MainMeetingScratch() {
   const { meetingId } = useParams<{ meetingId?: string }>();
   const navigate = useNavigate();
   const [meeting, setMeeting] = useState<MeetingData | null>(null);
-
+  const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
   useEffect(() => {
     const fetchMeeting = async () => {
@@ -47,6 +54,79 @@ export function MainMeetingScratch() {
       }
     };
     fetchMeeting();
+
+    const onOpen = (event: MessageEvent<any>) => {
+      console.log("sent msg");
+    };
+    socket.addEventListener("open", onOpen);
+    const onMessage = async (e: MessageEvent<any>) => {
+      console.log(e.data);
+
+      const data: ISocketMessageReceive = e.data;
+      console.log(data.error);
+      if (data.error) {
+        switch (data.error) {
+          case SOCKET_ERRORS_TYPE.INVALID_JWT:
+            const res = await checkIfInitiallyLoggedIn();
+            if (res) {
+              dispatch(setData({ data: res }));
+            }
+            break;
+          case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
+          case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
+            alert("something went wrong with connection, leave and rejoin");
+            break;
+        }
+      } else {
+        const newMeeting = { ...meeting };
+        console.log("New data", data);
+        if (newMeeting.messages) {
+          if (data.message.chats.length > 0) {
+            newMeeting.messages.chat = [
+              ...newMeeting.messages.chat,
+              ...data.message.chats,
+            ];
+          }
+          if (data.message.questions.length > 0) {
+            newMeeting.messages.questions = [
+              ...newMeeting.messages.questions,
+              ...data.message.questions,
+            ];
+          }
+        }
+        if (newMeeting.onlineMembers) {
+          if (data.message.newOnlineMembers.length > 0) {
+            console.log(`These are new members ${data.newOnlineMembers}`);
+            newMeeting.onlineMembers = [
+              ...newMeeting.onlineMembers,
+              ...data.message.newOnlineMembers,
+            ];
+          }
+          if (data.message.membersWhoLeft.length > 0) {
+            console.log(`These are new members ${data.message.membersWhoLeft}`);
+
+            newMeeting.onlineMembers = [
+              ...newMeeting.onlineMembers,
+              ...data.message.newOnlineMembers,
+            ];
+          }
+        }
+        setMeeting(newMeeting);
+      }
+    };
+    socket.addEventListener("message", onMessage);
+
+    const onClose = (e: MessageEvent<any>) => {
+      console.log(e.data);
+    };
+
+    socket.addEventListener("close", onClose);
+
+    return () => {
+      socket.removeEventListener("open", onOpen);
+      socket.removeEventListener("message", onMessage);
+      socket.removeEventListener("close", onClose);
+    };
   }, []);
 
   const MyAccount = (
@@ -101,24 +181,30 @@ export function MainMeetingScratch() {
               </Nav>
             </Navbar.Collapse>
           </Navbar>
+          {meeting.messages ? (
+            <div className="container">
+              <div className="row flex-grow-1">
+                <div className="col">
+                  <QuestionTabs questions={meeting.messages.questions} />
+                </div>
 
-          <div className="container">
-            <div className="row flex-grow-1">
-              <div className="col">
-                <QuestionTabs questions={meeting.messages.questions} />
-              </div>
-
-              <div className="col">
-                <Stack direction="vertical" gap={3}>
-                  <Iframe link={meeting.iframeLink} />
-                  <CurrentQuestion question={meeting.messages.questions[0]} />
-                </Stack>
-              </div>
-              <div className="col">
-                <ChatPanel chats={meeting.messages.chat} />
+                <div className="col">
+                  <Stack direction="vertical" gap={3}>
+                    <Iframe link={meeting.iframeLink} />
+                    <CurrentQuestion question={meeting.messages.questions[0]} />
+                  </Stack>
+                </div>
+                <div className="col">
+                  <ChatPanel
+                    meetingId={meetingId}
+                    chats={meeting.messages.chat}
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <p className="text-center"> Not fetched right, reload again </p>
+          )}
         </div>
       ) : (
         <p className="text-center">Something's gone wrong</p>

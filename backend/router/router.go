@@ -1,6 +1,7 @@
 package router
 
 import (
+	"net/http"
 	"time"
 
 	"dcad_q_a_system.com/auth"
@@ -57,7 +58,12 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		pool := web_sockets.NewPool()
 		go pool.Start()
 		superGroup.GET("/ws",func(ctx *gin.Context) {
-			web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request)
+			tokenString,err := ctx.Cookie("token")
+			if err != nil {
+				ctx.AbortWithStatus(http.StatusUnauthorized)
+				return
+			}
+			web_sockets.SetUpSocketServer(conn,tokenString,pool,ctx.Writer,ctx.Request)
 		})
 	}
 

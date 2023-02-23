@@ -6,6 +6,7 @@ import (
 	"log"
 	"sync"
 
+	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/middleware"
 	"dcad_q_a_system.com/utils"
 	"github.com/gorilla/websocket"
@@ -13,15 +14,15 @@ import (
 
 type Client struct {
 	ID   string
+	MeetingId string
+	Username string
+	Jwt string
 	Conn *websocket.Conn
 	Pool *Pool
 	mu   sync.Mutex
 }
 
-type Message struct {
-	Id string    `json:"id"`
-	Content string `json:"content"`
-}
+
 
 func (c *Client) Read(conn *utils.MongoConnection) {
 	defer func() {
@@ -43,22 +44,37 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 		var socket_message utils.SocketMessage
 		err = json.Unmarshal(p,&socket_message)
 		if err != nil {
-			fmt.Printf("Json marshal error %v",err)
+			fmt.Printf("Json marshal error %v\n",err)
 			c.Conn.WriteJSON(map[string]string{
-				"error":"wrong format",
+				"error":"wrong json format",
 			})
-			continue 
+			continue
 		}
-		if !middleware.CheckSocketMessage(&socket_message) {
+
+		var valid utils.SOCKET_ERROR_TYPE
+		valid = middleware.CheckSocketMessage(&socket_message)
+		if valid == utils.NONE {
+			if !auth.VerifyJWTSocket(c.Jwt){
+				valid = utils.INVALID_JWT
+			}
+		}
+		if valid != utils.NONE {
 			fmt.Println("Message format wrong")
-			c.Conn.WriteJSON(map[string]string{
-				"error":"wrong format",
-			})
+			msg := map[string]string{}
+			switch valid {
+			case utils.INVALID_REQ_TYPE:
+				msg["error"] = "INVALID_REQ_TYPE"
+			case utils.INVALID_JWT:
+				msg["error"] = "INVALID_JWT"
+			case utils.MEETING_ID_EMPTY:
+				msg["error"] = "MEETING_ID_EMPTY"
+			}
+			c.Conn.WriteJSON(msg)
 			continue 
 		}
 
 		res := SocketRouter(conn,&socket_message)
-		if len(res) == 0 || res["id"] == "" {
+		if res.MeetingId == "" {
 			fmt.Println("Message type wrong")
 			c.Conn.WriteJSON(map[string]string{
 				"error":"something went wrong with message",
@@ -66,10 +82,25 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			continue 
 		}
 
-		message := Message{Id:res["id"], Content:socket_message.Content}
-		c.Pool.Broadcast <- message
 
-		fmt.Printf("Message Received: %+v\n", message)
+		if c.ID == "" {
+			c.ID = socket_message.UserId
+		}
+		if c.MeetingId == ""{
+			c.MeetingId = socket_message.MeetingId
+		}
+		if c.Username == ""{
+			c.Username = socket_message.Username
+		}
+
+	
+		c.Pool.Broadcast <- utils.BroadcastMessage{
+			Message: res,
+			UserId: c.ID,
+		}
+
+		
+		fmt.Printf("Message Received: %+v\n", res)
 
 	}
 }
