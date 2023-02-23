@@ -59,62 +59,6 @@ export function MainMeetingScratch() {
       console.log("sent msg");
     };
     socket.addEventListener("open", onOpen);
-    const onMessage = async (e: MessageEvent<any>) => {
-      console.log(e.data);
-
-      const data: ISocketMessageReceive = e.data;
-      console.log(data.error);
-      if (data.error) {
-        switch (data.error) {
-          case SOCKET_ERRORS_TYPE.INVALID_JWT:
-            const res = await checkIfInitiallyLoggedIn();
-            if (res) {
-              dispatch(setData({ data: res }));
-            }
-            break;
-          case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
-          case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
-            alert("something went wrong with connection, leave and rejoin");
-            break;
-        }
-      } else {
-        const newMeeting = { ...meeting };
-        console.log("New data", data);
-        if (newMeeting.messages) {
-          if (data.message.chats.length > 0) {
-            newMeeting.messages.chat = [
-              ...newMeeting.messages.chat,
-              ...data.message.chats,
-            ];
-          }
-          if (data.message.questions.length > 0) {
-            newMeeting.messages.questions = [
-              ...newMeeting.messages.questions,
-              ...data.message.questions,
-            ];
-          }
-        }
-        if (newMeeting.onlineMembers) {
-          if (data.message.newOnlineMembers.length > 0) {
-            console.log(`These are new members ${data.newOnlineMembers}`);
-            newMeeting.onlineMembers = [
-              ...newMeeting.onlineMembers,
-              ...data.message.newOnlineMembers,
-            ];
-          }
-          if (data.message.membersWhoLeft.length > 0) {
-            console.log(`These are new members ${data.message.membersWhoLeft}`);
-
-            newMeeting.onlineMembers = [
-              ...newMeeting.onlineMembers,
-              ...data.message.newOnlineMembers,
-            ];
-          }
-        }
-        setMeeting(newMeeting);
-      }
-    };
-    socket.addEventListener("message", onMessage);
 
     const onClose = (e: MessageEvent<any>) => {
       console.log(e.data);
@@ -124,10 +68,81 @@ export function MainMeetingScratch() {
 
     return () => {
       socket.removeEventListener("open", onOpen);
-      socket.removeEventListener("message", onMessage);
+
       socket.removeEventListener("close", onClose);
     };
   }, []);
+
+  useEffect(() => {
+    const onMessage = async (e: MessageEvent<any>) => {
+      console.log(e.data);
+
+      const data: ISocketMessageReceive = JSON.parse(e.data);
+      console.log(data.error);
+
+      if (data.error) {
+        switch (data.error) {
+          case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
+          case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
+            alert("something went wrong with connection, leave and rejoin");
+            break;
+        }
+      } else {
+        if (meeting) {
+          const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
+          console.log("copy of meeting", newMeeting, meeting);
+          console.log("New data", data);
+          if (newMeeting.messages) {
+            if (data.message.chat && data.message.chat.length > 0) {
+              data.message?.chat.forEach((chatElement) => {
+                newMeeting.messages.chat.push(chatElement);
+                console.log("After push", newMeeting.messages.chat);
+              });
+            } else if (
+              data.message.questions &&
+              data.message.questions.length > 0
+            ) {
+              newMeeting.messages.questions = [
+                ...newMeeting.messages.questions,
+                ...data.message.questions,
+              ];
+            }
+          } else if (newMeeting.message.onlineMembers) {
+            if (
+              data.message?.newOnlineMembers &&
+              data.message.newOnlineMembers.length > 0
+            ) {
+              console.log(`These are new members ${data.newOnlineMembers}`);
+              newMeeting.onlineMembers = [
+                ...newMeeting.onlineMembers,
+                ...data.message.newOnlineMembers,
+              ];
+            }
+            if (
+              data.message?.membersWhoLeft &&
+              data.message.membersWhoLeft.length > 0
+            ) {
+              console.log(
+                `These are new members ${data.message.membersWhoLeft}`
+              );
+
+              newMeeting.onlineMembers = [
+                ...newMeeting.onlineMembers,
+                ...data.message.newOnlineMembers,
+              ];
+            }
+          }
+          console.log("NEW MEETING BEFORE UPDATE", newMeeting);
+          setMeeting(newMeeting);
+        }
+      }
+    };
+    socket.addEventListener("message", onMessage);
+
+    return () => {
+      socket.removeEventListener("message", onMessage);
+    };
+  });
 
   const MyAccount = (
     <div>
@@ -185,7 +200,10 @@ export function MainMeetingScratch() {
             <div className="container">
               <div className="row flex-grow-1">
                 <div className="col">
-                  <QuestionTabs questions={meeting.messages.questions} />
+                  <QuestionTabs
+                    meetingId={meetingId}
+                    questions={meeting.messages.questions}
+                  />
                 </div>
 
                 <div className="col">

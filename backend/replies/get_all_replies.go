@@ -15,7 +15,7 @@ func GetAllReplies(db *mongo.Database,meeting_replies_ids []primitive.ObjectID) 
 	ctx := context.Background()
 	chat_collection := db.Collection(utils.REPLIES, options.Collection())
 	opts := options.Find().SetSort(bson.D{
-		{"timeCreated",-1},
+		{"timeCreated",1},
 	})
 	res, err := chat_collection.Find(ctx, bson.D{
 		{"_id",bson.D{

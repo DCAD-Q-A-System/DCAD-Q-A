@@ -1,12 +1,18 @@
 import React from "react";
+import { ListGroup } from "react-bootstrap";
 import { IChat } from "../../../utils/interfaces";
 import "./Chat.css";
 
 export function Chat({ id, username, content, timeCreated }: IChat) {
   return (
-    <div className="chat-bg">
-      <div className="div-43">{username}</div>
-      <div className="lorem-ipsum-dolor-sit-amet-co-2">{content}</div>
-    </div>
+    <ListGroup.Item
+      as="li"
+      className="chat-bg d-flex justify-content align-items-start"
+    >
+      <div className="ms-2 me-auto">
+        <div>{content}</div>
+        <p className="fw-bold">{username}</p>
+      </div>
+    </ListGroup.Item>
   );
 }

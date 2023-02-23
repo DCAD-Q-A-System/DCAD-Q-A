@@ -14,7 +14,7 @@ var wsupgrader = websocket.Upgrader{
     ReadBufferSize:  1024,
     WriteBufferSize: 1024,
 }
-func SetUpSocketServer(conn *utils.MongoConnection,jwt string,pool *Pool, w http.ResponseWriter, r *http.Request) {
+func SetUpSocketServer(conn *utils.MongoConnection,pool *Pool, w http.ResponseWriter, r *http.Request) {
 	fmt.Println("WebSocket Endpoint Hit")
 	sock_conn, err := Upgrade(w, r)
 	if err != nil {
@@ -23,7 +23,6 @@ func SetUpSocketServer(conn *utils.MongoConnection,jwt string,pool *Pool, w http
 
 	client := &Client{
 		Conn: sock_conn,
-		Jwt: jwt,
 		Pool: pool,
 	}
 

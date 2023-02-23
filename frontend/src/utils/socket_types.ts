@@ -2,7 +2,6 @@ import { IChat, Reply } from "./interfaces";
 
 export enum SOCKET_ERRORS_TYPE {
   INVALID_REQ_TYPE = "INVALID_REQ_TYPE",
-  INVALID_JWT = "INVALID_JWT",
   MEETING_ID_EMPTY = "MEETING_ID_EMPTY",
 }
 
@@ -12,11 +11,11 @@ export interface ISocketMember {
 }
 
 export interface ISocketMessageReceive {
-  userId: string;
+  userId?: string;
   error: SOCKET_ERRORS_TYPE;
-  message: {
+  message?: {
     meetingId: string;
-    chats: IChat[];
+    chat: IChat[];
     questions: MessageStructure[];
     newOnlineMembers: ISocketMember[];
     membersWhoLeft: ISocketMember[];

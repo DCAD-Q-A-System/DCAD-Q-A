@@ -78,6 +78,7 @@ func InsertChat(conn *utils.MongoConnection, content string, meetingId string,us
 	chat := utils.SocketChat{}
 	chat.Content = content
 	chat.Id = id.Hex()
+	chat.Username = username
 	chat.Replies = []utils.SocketReply{}
 	chat.TimeCreated = timeNow.Time().Format(time.RFC3339)
 	chat.UserId = userId

@@ -59,7 +59,7 @@ func GetAllQuestions(db *mongo.Database,meeting_question_ids []primitive.ObjectI
 	// }
 	// res, err := question_collection.Aggregate(ctx, mongo.Pipeline{groupStage, matchStage, descendingSortStage})
 	opts := options.Find().SetSort(bson.D{
-		{"timeCreated",-1},
+		{"timeCreated",1},
 	})
 	res, err := question_collection.Find(ctx, bson.D{
 		{"_id",bson.D{

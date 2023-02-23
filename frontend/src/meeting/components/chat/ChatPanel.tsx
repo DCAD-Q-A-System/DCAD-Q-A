@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Button, Container, Form, InputGroup, Stack } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Form,
+  InputGroup,
+  ListGroup,
+  Stack,
+} from "react-bootstrap";
 import { useAppSelector } from "../../../store/hooks";
 import { socket } from "../../../utils/constants";
 import { USER_TYPE } from "../../../utils/enums";
@@ -20,14 +27,13 @@ export function ChatPanel({
   const [chat, setChat] = useState("");
   return (
     <Container fluid className="chat-panel">
-      <Stack direction="vertical">
+      <ListGroup as="ol">
         {chats.map((chat, i) => (
           <div key={i}>
             <Chat {...chat} />
-            <hr className="solid" />
           </div>
         ))}
-      </Stack>
+      </ListGroup>
       {loginData && loginData !== USER_TYPE.GUEST && (
         <InputGroup>
           <Form.Control
@@ -36,7 +42,7 @@ export function ChatPanel({
             placeholder="Enter chat"
             as="textarea"
           />
-          {/* TODO */}
+
           <Button
             onClick={() => {
               const socketMessage: ISocketMessageSend = {
@@ -46,6 +52,7 @@ export function ChatPanel({
                 userId: loginData?.userId,
                 username: loginData?.username,
               };
+              console.log(socketMessage);
               const bytes = jsonToArray(socketMessage);
               socket.send(bytes);
               setChat("");

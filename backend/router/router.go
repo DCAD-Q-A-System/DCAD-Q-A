@@ -1,7 +1,6 @@
 package router
 
 import (
-	"net/http"
 	"time"
 
 	"dcad_q_a_system.com/auth"
@@ -57,13 +56,9 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		superGroup.PUT("/leave-meeting",auth_middleware,meeting.LeaveMeeting(conn))
 		pool := web_sockets.NewPool()
 		go pool.Start()
-		superGroup.GET("/ws",func(ctx *gin.Context) {
-			tokenString,err := ctx.Cookie("token")
-			if err != nil {
-				ctx.AbortWithStatus(http.StatusUnauthorized)
-				return
-			}
-			web_sockets.SetUpSocketServer(conn,tokenString,pool,ctx.Writer,ctx.Request)
+		superGroup.GET("/ws",auth_middleware,func(ctx *gin.Context) {
+			
+			web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request)
 		})
 	}
 

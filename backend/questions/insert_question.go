@@ -77,6 +77,7 @@ func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string
 		question.Id = id.Hex()
 		question.TimeCreated = timeNow.Time().Format(time.RFC3339)
 		question.UserId = userId
+		question.Username = username
 
 		response.Questions = []utils.MessageStructure{}
 		response.Questions = append(response.Questions,question)

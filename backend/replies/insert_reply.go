@@ -91,6 +91,7 @@ func InsertReply(conn *utils.MongoConnection,
 	reply.ParentChatId = chatId
 	reply.TimeCreated = timeNow.Time().Format(time.RFC3339)
 	reply.UserId = userId
+	reply.Username = username
 	chat.Replies = append(chat.Replies,reply)
 	response.Chat = append(response.Chat,chat)
 	

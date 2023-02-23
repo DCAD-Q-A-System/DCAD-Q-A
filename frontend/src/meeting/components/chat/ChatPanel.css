@@ -2,6 +2,13 @@
   background-color: lightgray;
 }
 
+.list-group {
+  max-height: 100px;
+  margin-bottom: 10%;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
 .solid {
   border-top: 2px solid #999;
 }

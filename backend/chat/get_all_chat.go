@@ -15,7 +15,7 @@ func GetAllChat(db *mongo.Database, meeting_chat_ids []primitive.ObjectID) ([]ut
 	ctx := context.Background()
 	chat_collection := db.Collection(utils.CHAT, options.Collection())
 	opts := options.Find().SetSort(bson.D{
-		{"timeCreated",-1},
+		{"timeCreated",1},
 	})
 	res, err := chat_collection.Find(ctx, bson.D{
 		{"_id",bson.D{
