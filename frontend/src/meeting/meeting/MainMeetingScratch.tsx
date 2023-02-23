@@ -10,11 +10,11 @@ import {
   Stack,
   Form
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
 import { HTTP_METHODS } from "../../utils/http_methods";
 import { MeetingData } from "../../utils/interfaces";
-import { GET_ALL_MESSAGES } from "../../utils/paths";
+import { GET_ALL_MESSAGES, LEAVE_MEETING } from "../../utils/paths";
 import anonSmall from "../../image/anon_small.png";
 
 import "./MainMeetingScratch.css";
@@ -22,15 +22,22 @@ import { QuestionTabs } from "../components/question/QuestionTabs";
 import { Iframe } from "../components/iframe/Iframe";
 import { CurrentQuestion } from "../components/question/CurrentQuestion";
 import { ChatPanel } from "../components/chat/ChatPanel";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { USER_TYPE } from "../../utils/enums";
+import {
+  ISocketMessageReceive,
+  SOCKET_ERRORS_TYPE,
+} from "../../utils/socket_types";
+import { checkIfInitiallyLoggedIn } from "../../utils/funcs";
+import { socket } from "../../utils/constants";
+import { setData } from "../../store/loginSlice";
 
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);
   const { meetingId } = useParams<{ meetingId?: string }>();
-
+  const navigate = useNavigate();
   const [meeting, setMeeting] = useState<MeetingData | null>(null);
-
+  const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
   useEffect(() => {
     const fetchMeeting = async () => {
@@ -49,7 +56,95 @@ export function MainMeetingScratch() {
       }
     };
     fetchMeeting();
+
+    const onOpen = (event: MessageEvent<any>) => {
+      console.log("sent msg");
+    };
+    socket.addEventListener("open", onOpen);
+
+    const onClose = (e: MessageEvent<any>) => {
+      console.log(e.data);
+    };
+
+    socket.addEventListener("close", onClose);
+
+    return () => {
+      socket.removeEventListener("open", onOpen);
+
+      socket.removeEventListener("close", onClose);
+    };
   }, []);
+
+  useEffect(() => {
+    const onMessage = async (e: MessageEvent<any>) => {
+      console.log(e.data);
+
+      const data: ISocketMessageReceive = JSON.parse(e.data);
+      console.log(data.error);
+
+      if (data.error) {
+        switch (data.error) {
+          case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
+          case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
+            alert("something went wrong with connection, leave and rejoin");
+            break;
+        }
+      } else {
+        if (meeting) {
+          const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
+          console.log("copy of meeting", newMeeting, meeting);
+          console.log("New data", data);
+          if (newMeeting.messages) {
+            if (data.message.chat && data.message.chat.length > 0) {
+              data.message?.chat.forEach((chatElement) => {
+                newMeeting.messages.chat.push(chatElement);
+                console.log("After push", newMeeting.messages.chat);
+              });
+            } else if (
+              data.message.questions &&
+              data.message.questions.length > 0
+            ) {
+              newMeeting.messages.questions = [
+                ...newMeeting.messages.questions,
+                ...data.message.questions,
+              ];
+            }
+          } else if (newMeeting.message.onlineMembers) {
+            if (
+              data.message?.newOnlineMembers &&
+              data.message.newOnlineMembers.length > 0
+            ) {
+              console.log(`These are new members ${data.newOnlineMembers}`);
+              newMeeting.onlineMembers = [
+                ...newMeeting.onlineMembers,
+                ...data.message.newOnlineMembers,
+              ];
+            }
+            if (
+              data.message?.membersWhoLeft &&
+              data.message.membersWhoLeft.length > 0
+            ) {
+              console.log(
+                `These are new members ${data.message.membersWhoLeft}`
+              );
+
+              newMeeting.onlineMembers = [
+                ...newMeeting.onlineMembers,
+                ...data.message.newOnlineMembers,
+              ];
+            }
+          }
+          console.log("NEW MEETING BEFORE UPDATE", newMeeting);
+          setMeeting(newMeeting);
+        }
+      }
+    };
+    socket.addEventListener("message", onMessage);
+
+    return () => {
+      socket.removeEventListener("message", onMessage);
+    };
+  });
 
   const MyAccount = (
     <div>
@@ -85,11 +180,25 @@ export function MainMeetingScratch() {
                 </label>
                 <NavDropdown title={MyAccount} id="basic-nav-dropdown">
                   <NavDropdown.Divider />
-                  <NavDropdown.Item href="#action/3.4">
+                  <NavDropdown.Item href={`/leave-meeting/${meetingId}`}>
                     Leave Meeting
                   </NavDropdown.Item>
                   {loginData && loginData !== USER_TYPE.GUEST && (
-                    <NavDropdown.Item href="#action/3.4">
+                    <NavDropdown.Item
+                      onClick={async () => {
+                        const res = await credentialFetch(
+                          LEAVE_MEETING,
+                          HTTP_METHODS.PUT,
+                          JSON.stringify({
+                            meetingId,
+                            userId: loginData?.userId,
+                          })
+                        );
+                        if (res.status === 200) {
+                          navigate("/logout");
+                        }
+                      }}
+                    >
                       Logout
                     </NavDropdown.Item>
                   )}
@@ -97,23 +206,33 @@ export function MainMeetingScratch() {
               </Nav>
             </Navbar.Collapse>
           </Navbar>
+          {meeting.messages ? (
+            <div className="container">
+              <div className="row flex-grow-1">
+                <div className="col">
+                  <QuestionTabs
+                    meetingId={meetingId}
+                    questions={meeting.messages.questions}
+                  />
+                </div>
 
-          <Container fluid>
-            <Row className="row flex-grow-1 h-100">
-              <Col className="col-md-4 h-100">
-                <QuestionTabs questions={meeting.messages.questions} />
-              </Col>
-              <Col className="col-md-4 h-100">
-                <Stack direction="vertical" gap={3}>
-                  <Iframe link={meeting.iframeLink} />
-                  <CurrentQuestion question={meeting.messages.questions[0]} />
-                </Stack>
-              </Col>
-              <Col className="col-md-4 h-100">
-                <ChatPanel chats={meeting.messages.chat} />
-              </Col>
-            </Row>
-          </Container>
+                <div className="col">
+                  <Stack direction="vertical" gap={3}>
+                    <Iframe link={meeting.iframeLink} />
+                    <CurrentQuestion question={meeting.messages.questions[0]} />
+                  </Stack>
+                </div>
+                <div className="col">
+                  <ChatPanel
+                    meetingId={meetingId}
+                    chats={meeting.messages.chat}
+                  />
+                </div>
+              </div>
+            </div>
+          ) : (
+            <p className="text-center"> Not fetched right, reload again </p>
+          )}
         </div>
       ) : (
         <p className="text-center">Something's gone wrong</p>

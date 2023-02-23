@@ -9,6 +9,16 @@ export const checkIfInitiallyLoggedIn = async () => {
     const rj: LoginResponse = res.data;
     return rj;
   } else {
+    console.log(res.status);
     return null;
   }
+};
+
+export var jsonToArray = function (json) {
+  var str = JSON.stringify(json, null, 0);
+  var ret = new Uint8Array(str.length);
+  for (var i = 0; i < str.length; i++) {
+    ret[i] = str.charCodeAt(i);
+  }
+  return ret;
 };

@@ -7,7 +7,7 @@ import (
 	"dcad_q_a_system.com/utils"
 )
 
-func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessage) map[string]string {
+func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessage) utils.SocketMesageSend {
 	switch socket_message.ReqType {
 	case "INSERT_CHAT":
 		return chat.InsertChat(
@@ -15,6 +15,7 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 			socket_message.Content,
 			socket_message.MeetingId,
 			socket_message.UserId,
+			socket_message.Username,
 		)
 	
 	case "INSERT_QUESTION":
@@ -23,6 +24,7 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 				socket_message.Content,
 				socket_message.MeetingId,
 				socket_message.UserId,
+				socket_message.Username,
 			)
 	case "INSERT_REPLY":
 		return replies.InsertReply(
@@ -30,8 +32,9 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 				socket_message.Content,
 				socket_message.ChatId,
 				socket_message.UserId,
+				socket_message.Username,
 			)
 	default:
-		return nil
+		return utils.SocketMesageSend{}
 	}
 }

@@ -47,9 +47,9 @@ func HandleCheckIfLoggedIn(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadGateway)
 		return
 	}
-	fmt.Println(claims)
 	c.JSON(http.StatusOK,gin.H{
 		"username":claims.Username,
+		"userId":claims.UserId,
 		"type":claims.Type,
 	})
 }

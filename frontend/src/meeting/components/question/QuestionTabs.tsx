@@ -1,18 +1,37 @@
 import React, { useState } from "react";
-import { Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, InputGroup, Form, Button } from "react-bootstrap";
+import { useAppSelector } from "../../../store/hooks";
+import { socket } from "../../../utils/constants";
+import { USER_TYPE } from "../../../utils/enums";
+import { jsonToArray } from "../../../utils/funcs";
 import { MessageStructure } from "../../../utils/interfaces";
+import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { Question } from "./Question";
 import "./QuestionTabs.css";
 
-export function QuestionTabs({ questions }: { questions: MessageStructure[] }) {
+export function QuestionTabs({
+  meetingId,
+  questions,
+}: {
+  meetingId: string;
+  questions: MessageStructure[];
+}) {
   enum TABS {
     CURRENT = "Current",
     ANSWERED = "Answered",
   }
   const [key, setKey] = useState(TABS.CURRENT.toLowerCase());
-  const questionElements = questions.map((question, i) => (
-    <Question key={i} {...question} />
-  ));
+  const questionElements = (
+    <div className="list-group">
+      {questions.map((question, i) => (
+        <Question key={i} {...question} />
+      ))}
+    </div>
+  );
+
+  const [question, setQuestion] = useState("");
+  const loginData = useAppSelector((state) => state.loginReducer.data);
+
   return (
     <div className="question-panel">
       <Tabs activeKey={key} onSelect={(k) => setKey(k)} className="mb-3" fill>
@@ -23,6 +42,34 @@ export function QuestionTabs({ questions }: { questions: MessageStructure[] }) {
           {questionElements}
         </Tab>
       </Tabs>
+      {loginData && loginData !== USER_TYPE.GUEST && (
+        <InputGroup>
+          <Form.Control
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="Enter chat"
+            as="textarea"
+          />
+
+          <Button
+            onClick={() => {
+              const socketMessage: ISocketMessageSend = {
+                reqType: REQ_TYPES.INSERT_QUESTION,
+                content: question,
+                meetingId: meetingId,
+                userId: loginData?.userId,
+                username: loginData?.username,
+              };
+              console.log(socketMessage);
+              const bytes = jsonToArray(socketMessage);
+              socket.send(bytes);
+              setQuestion("");
+            }}
+          >
+            Send
+          </Button>
+        </InputGroup>
+      )}
     </div>
   );
 }

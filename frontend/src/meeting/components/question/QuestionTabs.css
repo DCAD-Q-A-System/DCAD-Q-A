@@ -1,3 +1,10 @@
 .question-panel {
   background-color: lightgray;
 }
+
+.list-group {
+  max-height: 100px;
+  margin-bottom: 10%;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}

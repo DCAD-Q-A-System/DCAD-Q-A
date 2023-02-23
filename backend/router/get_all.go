@@ -124,15 +124,16 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 					fmt.Printf("get all replies %v",err)
 					continue
 				}
+				fmt.Println("THE LENGTH OF REPLIES ARE",len(r))
 				reps := make([]map[string]interface{},len(r))
 				for j := range r {
 					reps[j] = map[string]interface{} {
-						"id":r[i].Id.Hex(),
-						"username":r[i].UserName,
-						"userId":r[i].UserName,
-						"content":r[i].Content,
-						"parentChatId":r[i].ParentChatId.Hex(),
-						"timeCreated":r[i].TimeCreated.Time().Unix(),
+						"id":r[j].Id.Hex(),
+						"username":r[j].UserName,
+						"userId":r[j].UserName,
+						"content":r[j].Content,
+						"parentChatId":r[j].ParentChatId.Hex(),
+						"timeCreated":r[j].TimeCreated.Time().Unix(),
 					}
 				}
 				bigObject[utils.CHAT][i][utils.REPLIES] = reps

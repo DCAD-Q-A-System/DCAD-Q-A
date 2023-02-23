@@ -11,8 +11,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string,userId string) map[string]string {
-		response := map[string]string{}
+func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string,userId string,username string) utils.SocketMesageSend {
+		response := utils.SocketMesageSend{}
 		ctx := context.Background()
 		db := conn.Client.Database(utils.DB_NAME)
 		question_collection := db.Collection(utils.QUESTIONS)
@@ -44,6 +44,7 @@ func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string
 				"timeCreated":timeNow,
 				"parentMeetingId":meetingIdObj,
 				"userId":userIdObj,
+				"username":username,
 			},
 		)
 		if err != nil {
@@ -71,7 +72,15 @@ func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string
 			return response
 		}
 		
-		
-		response["id"] = id.Hex()
+		question := utils.MessageStructure{}
+		question.Content = content
+		question.Id = id.Hex()
+		question.TimeCreated = timeNow.Time().Format(time.RFC3339)
+		question.UserId = userId
+		question.Username = username
+
+		response.Questions = []utils.MessageStructure{}
+		response.Questions = append(response.Questions,question)
+		response.MeetingId = meetingId
 		return response
 }

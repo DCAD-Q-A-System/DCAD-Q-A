@@ -1,23 +1,17 @@
 package middleware
 
 import (
-	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/utils"
 )
 
-func CheckSocketMessage(socket_message *utils.SocketMessage) bool {
+func CheckSocketMessage(socket_message *utils.SocketMessage) utils.SOCKET_ERROR_TYPE {
 	if !utils.ALLOWED_REQ_TYPES[socket_message.ReqType] {
-		return false
+		return utils.INVALID_REQ_TYPE
 	}
-
-	if !auth.VerifyJWTSocket(socket_message.Token){
-		return false
-	}
-
 	if socket_message.MeetingId == "" {
-		return false
+		return utils.MEETING_ID_EMPTY
 	}
 
-	return true
+	return utils.NONE
 
 }

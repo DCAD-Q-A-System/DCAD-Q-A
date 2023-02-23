@@ -26,3 +26,11 @@ var ALLOWED_REQ_TYPES = map[string]bool{
 	// "DELETE_QUESTION": true,
 	// "DELETE_CHAT":     true,
 }
+
+type SOCKET_ERROR_TYPE int
+
+const (
+	INVALID_REQ_TYPE SOCKET_ERROR_TYPE = iota
+	NONE
+	MEETING_ID_EMPTY
+)

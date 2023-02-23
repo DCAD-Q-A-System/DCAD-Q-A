@@ -95,6 +95,7 @@ type SocketMessage struct {
 	MeetingId string `json:"meetingId"`
 	ChatId string `json:"chatId"` 
 	UserId string `json:"userId"`
+	Username string `json:"username"`
 }
 
 

@@ -9,7 +9,7 @@ import { LoginPanel } from "./login/LoginPanel";
 import { Login } from "./login/Login";
 import { AlreadyAuthenticated } from "./middleware/AlreadyAuthenticated";
 import { MeetingList } from "./meeting/meeting/MeetingList";
-import { LOCAL_STORAGE_LOGIN_KEY } from "./utils/constants";
+import { LOCAL_STORAGE_LOGIN_KEY, socket } from "./utils/constants";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setData } from "./store/loginSlice";
 import { checkIfInitiallyLoggedIn } from "./utils/funcs";
@@ -19,10 +19,14 @@ import { GuestLogin } from "./Login/GuestLogin";
 import { LoginBackground } from "./backgrounds/LoginBackground";
 import { NotFound } from "./not_found/NotFound";
 import { MainMeetingScratch } from "./meeting/meeting/MainMeetingScratch";
+import { Logout } from "./Login/Logout";
+
+import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY)) {
       const getIfInitiallyLoggedIn = async () => {
@@ -99,7 +103,15 @@ function App() {
             // </AuthenticatorMiddleware>
           }
         />
-
+        <Route path="/leave-meeting/:meetingId" element={<LeaveMeeting />} />
+        <Route
+          path="/logout"
+          element={
+            <AuthenticatorMiddleware>
+              <Logout />
+            </AuthenticatorMiddleware>
+          }
+        />
         <Route
           path="*"
           element={
