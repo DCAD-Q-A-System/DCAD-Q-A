@@ -1,4 +1,4 @@
-.div 
+/* .div 
 {
     display: flex;
     flex-direction: row;
@@ -172,9 +172,6 @@ font-family: "Inter", sans-serif;
 
     color: #000000;
 
-
-    /* Inside auto layout */
-
     flex: none;
     order: 0;
     flex-grow: 0;
@@ -210,4 +207,17 @@ font-family: "Inter", sans-serif;
     letter-spacing: 0%;
     text-align: left;
     font-family: "Inter", sans-serif;
-}
+} */
+
+.color-overlay {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 100%;
+    width: 100%;
+    mix-blend-mode: normal;
+  }
+  
+  form {
+    background-color: white;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  }

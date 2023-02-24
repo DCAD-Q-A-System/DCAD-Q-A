@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import DateTimePicker from 'react-datetime-picker'
-import '../meeting/MeetingDetails.css'
+import '../meeting/CreateMeeting.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 type startTimeSetProps = {

@@ -1,23 +1,17 @@
 import "./Home.css"
 import { AiOutlinePlus } from 'react-icons/ai'
 import { BsClockFill } from 'react-icons/bs'
-import { MeetingDetails } from "./MeetingDetails";
+import { CreateMeeting, } from "./CreateMeeting";
 import { useAppSelector } from "../../store/hooks";
 import { USER_TYPE } from "../../utils/enums";
+import { useNavigate } from "react-router-dom";
+import { CREATE_MEETING } from "../../utils/paths";
 
 
 export function Home() {
     const loginData = useAppSelector((state) => state.loginReducer.data);
+    const navigate = useNavigate()
 
-    window.addEventListener('resize', function () {
-        const background = document.getElementById('background-image');
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-        if (background !== null) {
-            background.style.width = `${width}px`;
-            background.style.height = `${height}px`;
-        }
-    });
 
     return (
         <>
@@ -31,7 +25,7 @@ export function Home() {
                     {loginData?.type !== USER_TYPE.STUDENT &&
                         <div className="box" onClick={() => { }}>
                             <AiOutlinePlus className="icon" />
-                            <div className="word">Creating Meeting</div>
+                            <div className="word" onClick={()=>{navigate("/create-meeting")}}>Creating Meeting</div>
                         </div>
                     }
                 </div>

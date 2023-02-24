@@ -23,6 +23,7 @@ import { Logout } from "./login/Logout";
 
 import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
 import { MeetingBackground } from "./backgrounds/MeetingBackground";
+import { CreateMeeting } from "./meeting/meeting/CreateMeeting";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -45,7 +46,9 @@ function App() {
           path="/"
           element={
             <AuthenticatorMiddleware>
+              <MeetingBackground>
               <Home />
+              </MeetingBackground>
             </AuthenticatorMiddleware>
           }
         />
@@ -111,6 +114,12 @@ function App() {
           path="/home"
           element={<AuthenticatorMiddleware><LoginBackground><Home /></LoginBackground></AuthenticatorMiddleware>}
         />
+
+        <Route
+        path="/create-meeting"
+        element={<AuthenticatorMiddleware><MeetingBackground><CreateMeeting /></MeetingBackground></AuthenticatorMiddleware>}
+        />
+        
         <Route
           path="*"
           element={

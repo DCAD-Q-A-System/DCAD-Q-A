@@ -94,8 +94,8 @@ export function MainMeetingScratch() {
           const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
-          if (newMeeting.messages) {
-            if (data?.message.chat && data.message.chat.length > 0) {
+          if (newMeeting.messages && data) {
+            if (data.message.chat && data.message.chat.length > 0) {
               data.message?.chat.forEach((chatElement) => {
                 newMeeting.messages.chat.push(chatElement);
                 console.log("After push", newMeeting.messages.chat);
