@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
+
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Router, Routes } from "react-router";
@@ -22,6 +22,7 @@ import { MainMeetingScratch } from "./meeting/meeting/MainMeetingScratch";
 import { Logout } from "./login/Logout";
 
 import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
+import { MeetingBackground } from "./backgrounds/MeetingBackground";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -82,15 +83,9 @@ function App() {
           path="/meeting-list"
           element={
             <AuthenticatorMiddleware>
-              <MeetingList />
-            </AuthenticatorMiddleware>
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <AuthenticatorMiddleware>
-              <Home />
+             <MeetingBackground>
+                <MeetingList />
+              </MeetingBackground>
             </AuthenticatorMiddleware>
           }
         />
@@ -113,6 +108,10 @@ function App() {
           }
         />
         <Route
+          path="/home"
+          element={<AuthenticatorMiddleware><LoginBackground><Home /></LoginBackground></AuthenticatorMiddleware>}
+        />
+        <Route
           path="*"
           element={
             <LoginBackground>
@@ -122,6 +121,12 @@ function App() {
         />
         {/* <Route path="meeting-scratch" element={<MainMeetingScratch />} /> */}
       </Routes>
+ 
+
+
+
+      {/* <MeetingListStudent /> */}
+      
     </div>
   );
 }

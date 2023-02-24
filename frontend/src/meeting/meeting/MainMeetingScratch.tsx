@@ -95,14 +95,14 @@ export function MainMeetingScratch() {
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
           if (newMeeting.messages) {
-            if (data.message.chat && data.message.chat.length > 0) {
+            if (data?.message.chat && data.message.chat.length > 0) {
               data.message?.chat.forEach((chatElement) => {
                 newMeeting.messages.chat.push(chatElement);
                 console.log("After push", newMeeting.messages.chat);
               });
             } else if (
-              data.message.questions &&
-              data.message.questions.length > 0
+              data?.message.questions &&
+              data?.message.questions.length > 0
             ) {
               newMeeting.messages.questions = [
                 ...newMeeting.messages.questions,
