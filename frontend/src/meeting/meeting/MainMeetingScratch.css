@@ -15,55 +15,18 @@
   height: 20px;
   margin-right: 10px;
   }
- /* Set the container height to 100% */
-.container-fluid {
-  height: 100%;
-}
 
-/* Set the row height to 100% */
-.row {
-  height: 100%;
-}
+  .main {
+    width: 100vw;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 
-/* Set the column heights to 100% */
-.col-md-4 {
-  height: 100%;
-}
-
-/* Set the column backgrounds */
-.col-md-4:first-child {
-  background-color: #f7f7f7;
-}
-
-.col-md-4:nth-child(2) {
-  background-color: #e7e7e7;
-}
-
-.col-md-4:last-child {
-  background-color: #d7d7d7;
-}
-
-/* Set the column margins and paddings */
-.col-md-4 {
-  margin: 0;
-  padding: 15px;
-}
-
-/* Set the column borders */
-.col-md-4 {
-  border: 1px solid #ccc;
-  border-top: none;
-}
-
-.col-md-4:first-child {
-  border-left: none;
-}
-
-.col-md-4:last-child {
-  border-right: none;
-}
-
-/* Set the column overflow */
-.col-md-4 {
-  overflow: auto;
-}
+  .iframe {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }

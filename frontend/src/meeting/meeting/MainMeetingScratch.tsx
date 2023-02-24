@@ -8,7 +8,8 @@ import {
   Image,
   Row,
   Stack,
-  Form
+  Form,
+  Card
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
@@ -207,29 +208,30 @@ export function MainMeetingScratch() {
             </Navbar.Collapse>
           </Navbar>
           {meeting.messages ? (
-            <div className="container">
-              <div className="row flex-grow-1">
-                <div className="col">
+            <Container fluid className="main">
+              <Row className="row gutter-0 flex-grow-1">
+                <Col className="col">
                   <QuestionTabs
                     meetingId={meetingId}
                     questions={meeting.messages.questions}
                   />
-                </div>
-
-                <div className="col">
-                  <Stack direction="vertical" gap={3}>
-                    <Iframe link={meeting.iframeLink} />
-                    <CurrentQuestion question={meeting.messages.questions[0]} />
-                  </Stack>
-                </div>
-                <div className="col">
+                </Col>
+                <Col xs={6} className="col">
+                  <Container fluid className="iframe">
+                    <Stack direction="vertical" gap={3}>
+                      <Iframe link={meeting.iframeLink} />
+                      <CurrentQuestion question={meeting.messages.questions[0]} />
+                    </Stack>
+                  </Container>
+                </Col>
+                <Col className="col">
                   <ChatPanel
                     meetingId={meetingId}
                     chats={meeting.messages.chat}
                   />
-                </div>
-              </div>
-            </div>
+                </Col>
+              </Row>
+            </Container>
           ) : (
             <p className="text-center"> Not fetched right, reload again </p>
           )}
