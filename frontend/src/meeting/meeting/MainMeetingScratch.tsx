@@ -8,9 +8,6 @@ import {
   Image,
   Row,
   Stack,
-  Form,
-  Form,
-  Card
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
