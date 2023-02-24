@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
+
 import "./App.css";
 import { BrowserRouter } from "react-router-dom";
 import { Route, Router, Routes } from "react-router";
 import { AuthenticatorMiddleware } from "./middleware/AuthenticatorMiddleware";
 import { Home } from "./home/Home";
-import { LoginPanel } from "./login/LoginPanel";
-import { Login } from "./login/Login";
+import { LoginPanel } from "./Login/LoginPanel";
+import { Login } from "./Login/Login";
 import { AlreadyAuthenticated } from "./middleware/AlreadyAuthenticated";
 import { MeetingList } from "./meeting/meeting/MeetingList";
 import { LOCAL_STORAGE_LOGIN_KEY } from "./utils/constants";
@@ -18,6 +18,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import { GuestLogin } from "./Login/GuestLogin";
 import { LoginBackground } from "./backgrounds/LoginBackground";
 import { NotFound } from "./not_found/NotFound";
+import { MeetingBackground } from "./backgrounds/MeetingBackground";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -33,7 +34,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <div>
       <Routes>
         <Route
           path="/"
@@ -77,15 +78,9 @@ function App() {
           path="/meeting-list"
           element={
             <AuthenticatorMiddleware>
-              <MeetingList />
-            </AuthenticatorMiddleware>
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <AuthenticatorMiddleware>
-              <Home />
+             <MeetingBackground>
+                <MeetingList />
+              </MeetingBackground>
             </AuthenticatorMiddleware>
           }
         />
@@ -100,6 +95,10 @@ function App() {
         />
 
         <Route
+          path="/home"
+          element={<AuthenticatorMiddleware><LoginBackground><Home /></LoginBackground></AuthenticatorMiddleware>}
+        />
+        <Route
           path="*"
           element={
             <LoginBackground>
@@ -108,6 +107,12 @@ function App() {
           }
         />
       </Routes>
+ 
+
+
+
+      {/* <MeetingListStudent /> */}
+      
     </div>
   );
 }

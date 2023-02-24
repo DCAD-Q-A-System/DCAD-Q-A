@@ -14,7 +14,7 @@
 .box{
     width: 50%;
     height: 70%;
-    background-color: rgba(248, 241, 248, 0.5);
+    background-color: white;
     border-radius: 20px;
     display:flex;
     flex-direction:column;
@@ -60,7 +60,7 @@
 }
 
 .join{
-    width: 15%;
+    width: 125px;
     height: 85px;
     background-color: #9747FF;
     border-radius: 10px;
@@ -68,11 +68,12 @@
 }
 
 .edit{
-    width: 15%;
+    width: 125px;
     height: 85px;
     background-color: #FF7347;
     border-radius: 10px;
     margin-top: 50px;
+    hover:pointer
 }
 
 .content-1{

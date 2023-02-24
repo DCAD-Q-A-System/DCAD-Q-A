@@ -1,0 +1,8 @@
+#background-image {
+    background-image: url('../image/Meeting.jpg');
+    height: 100vh;
+    width: 100vw;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
