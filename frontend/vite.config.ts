@@ -8,8 +8,13 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "http://localhost:8080",
-        changeOrigin: false,
+        changeOrigin: true,
         secure: false,
+      },
+      "/ws": {
+        target: "ws://localhost:8080/api/ws",
+        // changeOrigin: true,
+        ws: true,
       },
     },
   },

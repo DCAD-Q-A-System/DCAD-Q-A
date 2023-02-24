@@ -1,4 +1,5 @@
 import { USER_TYPE } from "./enums";
+import { ISocketMember } from "./socket_types";
 
 export interface LoginResponse {
   username: string;
@@ -28,9 +29,14 @@ export interface Reply extends MessageStructure {
 export interface MeetingData {
   id: string;
   name: string;
-  messages: { questions: MessageStructure[]; chat: IChat[] };
+  messages: IMsg;
   iframeLink: string;
   startTime: number;
   endTime: number;
-  onlineMembers: string[];
+  onlineMembers: ISocketMember[];
+}
+
+export interface IMsg {
+  questions: MessageStructure[];
+  chat: IChat[];
 }

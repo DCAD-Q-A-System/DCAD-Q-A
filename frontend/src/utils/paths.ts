@@ -2,7 +2,7 @@ const PREFIX_API = "/api";
 
 const JOIN_MEETING = PREFIX_API + "/join-meeting";
 
-const WS = PREFIX_API + "/ws";
+const WS = "/ws";
 
 const LOGIN = PREFIX_API + "/login";
 

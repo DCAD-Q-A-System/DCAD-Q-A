@@ -39,8 +39,6 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 			return true
 		},
 		MaxAge: 12 * time.Hour,
-		
-		
 	}))
 	auth_middleware := middleware.AuthenticateRequestMiddleware()
 	superGroup := server.Group("/api")

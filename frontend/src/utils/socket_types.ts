@@ -1,4 +1,4 @@
-import { IChat, Reply } from "./interfaces";
+import { IChat, MessageStructure, Reply } from "./interfaces";
 
 export enum SOCKET_ERRORS_TYPE {
   INVALID_REQ_TYPE = "INVALID_REQ_TYPE",

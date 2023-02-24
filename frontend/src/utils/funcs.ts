@@ -14,7 +14,7 @@ export const checkIfInitiallyLoggedIn = async () => {
   }
 };
 
-export var jsonToArray = function (json) {
+export var jsonToArray = function (json: any) {
   var str = JSON.stringify(json, null, 0);
   var ret = new Uint8Array(str.length);
   for (var i = 0; i < str.length; i++) {
@@ -22,3 +22,7 @@ export var jsonToArray = function (json) {
   }
   return ret;
 };
+
+export function isOpen(ws: any) {
+  return ws.readyState === ws.OPEN;
+}

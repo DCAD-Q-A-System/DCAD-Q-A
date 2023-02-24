@@ -10,7 +10,7 @@ import {
 import { useAppSelector } from "../../../store/hooks";
 import { socket } from "../../../utils/constants";
 import { USER_TYPE } from "../../../utils/enums";
-import { jsonToArray } from "../../../utils/funcs";
+import { isOpen, jsonToArray } from "../../../utils/funcs";
 import { IChat } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { Chat } from "./Chat";
@@ -34,7 +34,7 @@ export function ChatPanel({
           </div>
         ))}
       </ListGroup>
-      {loginData && loginData !== USER_TYPE.GUEST && (
+      {loginData && loginData.type !== USER_TYPE.GUEST && (
         <InputGroup>
           <Form.Control
             value={chat}
@@ -48,12 +48,16 @@ export function ChatPanel({
               const socketMessage: ISocketMessageSend = {
                 reqType: REQ_TYPES.INSERT_CHAT,
                 content: chat,
-                meetingId: meetingId,
+                meetingId: meetingId!,
                 userId: loginData?.userId,
                 username: loginData?.username,
               };
               console.log(socketMessage);
               const bytes = jsonToArray(socketMessage);
+              if (!isOpen(socket)) {
+                alert("connection lost");
+                return;
+              }
               socket.send(bytes);
               setChat("");
             }}

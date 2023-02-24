@@ -29,7 +29,7 @@ func (pool *Pool) Start() {
 			pool.Clients[client] = true
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
 			for c := range pool.Clients {
-				fmt.Println(client)
+				
 				if c.MeetingId == client.MeetingId {
 					client.Conn.WriteJSON(utils.SocketMesageSend{NewOnlineMembers: []utils.SocketMember{
 						{
@@ -43,7 +43,7 @@ func (pool *Pool) Start() {
 		case client := <-pool.Unregister:
 			delete(pool.Clients, client)
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
-			for c, _ := range pool.Clients {
+			for c := range pool.Clients {
 				if c.MeetingId == client.MeetingId {
 					client.Conn.WriteJSON(utils.SocketMesageSend{MembersWhoLeft: []utils.SocketMember{
 						{

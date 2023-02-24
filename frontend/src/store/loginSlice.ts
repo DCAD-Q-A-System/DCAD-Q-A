@@ -4,7 +4,7 @@ import { LoginResponse } from "../utils/interfaces";
 
 const init: { data: LoginResponse | null } = {
   data: localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY)
-    ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY))
+    ? JSON.parse(localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY) || "")
     : null,
 };
 
