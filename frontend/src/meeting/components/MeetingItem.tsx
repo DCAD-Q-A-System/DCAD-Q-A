@@ -21,24 +21,25 @@ export function MeetingItem({
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
   return (
-    <div className="panDiv-10">
-      <div className="builder-columns panDiv-11">
-        <div className="builder-column panColumn">
-          <div className="panDiv-12">
-            <div className="builder-columns panDiv-13">
-              <div className="builder-column panColumn-5">
-                <div className="panDiv-14">Name: {name}</div>
-                <div className="panDiv-14">
+    
+      <div className="box1">
+        <div className="box2">
+          
+            
+             
+                <p className="content">Name: {name}</p>
+                
+                <p className="content">
                   Start: {moment(startTime).format("LLLL")}
-                </div>
-                <div className="panDiv-14">
+                </p>
+                <p className="content">
                   End: {moment(endTime).format("LLLL")}
-                </div>
-              </div>
-            </div>
-          </div>
+                </p>
+              
+            
+          
         </div>
-        <div className="builder-column panColumn-6">
+  
           <button
             className="panDiv-15"
             onClick={async () => {
@@ -59,14 +60,19 @@ export function MeetingItem({
           >
             Join
           </button>
-        </div>
+          {/* <JoinMeeting meetingId={''} userId={''} /> */}
+        
         {(loginData?.type === USER_TYPE.PANELLIST ||
           loginData?.type === USER_TYPE.ADMIN) && (
-          <div className="builder-column panColumn-7">
-            <div className="panDiv-16">Edit</div>
-          </div>
+          
+            <button className='edit'>
+                  <p className='content-1'>
+                    Edit
+                  </p>
+                </button>
+          
         )}
       </div>
-    </div>
+    
   );
 }
