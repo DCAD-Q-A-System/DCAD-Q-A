@@ -10,13 +10,14 @@ export function InputLiveStreamSource(
     //   document.body.appendChild(iframe);
     // });
     return (
-        <div className="div-14">
-            <div className="div-15">Iframe Link:</div>
+        <div>
+            <div style={{fontSize:"20px"}}>Iframe Link:</div>
 
             <input
                 value={iframeLink} 
                 onChange={(e)=>setIframeLink(e.target.value)}
-                type="text" className="div-16"/>
+                type="text" style={{width:"90%",height:"50px" }} 
+                className="fs-4"/>
         </div>
     )
 }

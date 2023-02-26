@@ -6,11 +6,14 @@ import { useEffect, useState } from 'react';
 import { MeetingIds } from '../../utils/interfaces';
 import { credentialFetch } from '../../utils/credential_fetch';
 import { MeetingItem } from '../components/MeetingItem';
+import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 
 export function MeetingList() {
   const [ids, setIds] = useState<MeetingIds | null>(null);
   const loginData = useAppSelector((state) => state.loginReducer.data);
+  const navigate = useNavigate()
   useEffect(() => {
     const fetchMeetings = async () => {
       const res = await credentialFetch(
@@ -34,7 +37,7 @@ export function MeetingList() {
         <div className="box">
           {ids && ids.ids.length > 0 ? (
             ids.ids.map(({ name, id, startTime, endTime }) => {
-              return (
+              return (<>
                 <MeetingItem
                   key={id}
                   id={id}
@@ -42,8 +45,10 @@ export function MeetingList() {
                   startTime={startTime}
                   endTime={endTime}
                 />
+                </>
               );
-            })
+            }
+            )
            
           ) : ids?.ids.length === 0 ? (
             <div>
@@ -56,6 +61,8 @@ export function MeetingList() {
               </div>
             )
           }
+        <Button className='return' style={{fontSize:"25px"}} variant="secondary" onClick={()=>navigate('/')} >Return</Button>
+
         </div>
       </div>
     </>

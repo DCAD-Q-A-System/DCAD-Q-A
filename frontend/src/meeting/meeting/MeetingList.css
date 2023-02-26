@@ -21,6 +21,21 @@
     margin: 0 auto;
     align-items:normal;
     overflow: auto;
+    position: relative;
+}
+
+.return{
+    position:absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 20%;
+    height: 10%;
+    font-size: 30px;
+    color: white;
+    padding-left: 2%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 
@@ -30,12 +45,13 @@
 
 .box2{
     width: 50%;
-    height:85px;
+    /* height:85px; */
+    height: 170px;
     background-color: blue;
     border-radius: 10px;
-    display: flex;
+    display: block;
     margin-right: 0px;
-    margin-left: 10%;
+    margin-left: 8%;
     margin-top: 50px;
 }
 
@@ -57,6 +73,20 @@
     margin-left: 20px;
     font-weight:800;
     color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.content-item{
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    font-weight: 700;
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .join{
@@ -68,12 +98,12 @@
 }
 
 .edit{
-    width: 125px;
-    height: 85px;
+    width: 17%;
+    height: 170px;
     background-color: #FF7347;
     border-radius: 10px;
+    /* margin-right: 10%; */
     margin-top: 50px;
-    hover:pointer
 }
 
 .content-1{
