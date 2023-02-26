@@ -12,9 +12,9 @@ export default defineConfig({
         secure: false,
       },
       "/ws": {
-        target: "ws://localhost:8080/api/ws",
+        target: "ws://localhost:8080/ws",
         // changeOrigin: true,
-        ws: true,
+        // ws: true,
       },
     },
   },

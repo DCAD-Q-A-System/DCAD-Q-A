@@ -38,6 +38,7 @@ export function MainMeetingScratch() {
   const [meeting, setMeeting] = useState<MeetingData | null>(null);
   const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
+
   useEffect(() => {
     const fetchMeeting = async () => {
       console.log(meetingId);
@@ -155,9 +156,11 @@ export function MainMeetingScratch() {
     </div>
   );
 
+  console.log("RENDER", meeting?.messages);
+
   return (
     <>
-      {meeting !== null ? (
+      {meeting ? (
         <div>
           <Navbar
             className="meeting-banner-color navbar-dark"
@@ -208,7 +211,7 @@ export function MainMeetingScratch() {
               </Nav>
             </Navbar.Collapse>
           </Navbar>
-          {meeting.messages ? (
+          {meeting?.messages ? (
             <Container fluid className="main">
               <Row className="row gutter-0 flex-grow-1">
                 <Col className="col">
@@ -221,7 +224,9 @@ export function MainMeetingScratch() {
                   <Container fluid className="iframe">
                     <Stack direction="vertical" gap={3}>
                       <Iframe link={meeting.iframeLink} />
-                      <CurrentQuestion question={meeting.messages.questions[0]} />
+                      <CurrentQuestion
+                        question={meeting.messages.questions[0]}
+                      />
                     </Stack>
                   </Container>
                 </Col>

@@ -9,7 +9,7 @@ export const LOCAL_STORAGE_LOGIN_KEY = "loginData";
 console.log(window.location.host);
 const URL = location.protocol !== "https:" ? "ws" : "wss";
 export const socket = new ReconnectingWebSocket(
-  `${URL}://${window.location.host}`,
+  `${URL}://localhost:8080/ws`,
   [],
   { connectionTimeout: 1000, maxRetries: 10 }
 );

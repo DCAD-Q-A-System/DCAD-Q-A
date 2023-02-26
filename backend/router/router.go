@@ -52,13 +52,13 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		superGroup.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
 		superGroup.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))
 		superGroup.PUT("/leave-meeting",auth_middleware,meeting.LeaveMeeting(conn))
-		pool := web_sockets.NewPool()
-		go pool.Start()
-		superGroup.GET("/ws",auth_middleware,func(ctx *gin.Context) {
-			
-			web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request)
-		})
+		
 	}
+	pool := web_sockets.NewPool()
+	go pool.Start()
+	server.GET("/ws",auth_middleware,func(ctx *gin.Context) {
+		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request)
+	})
 
 	
 	

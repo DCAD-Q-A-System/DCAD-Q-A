@@ -1,32 +1,32 @@
-.meeting-banner-color {
-  background-color: #800080;
-  }
-  
-  .switch-bg {
+/*  .meeting-banner-color { 
+ background-color: white; 
+ } 
+
+.switch-bg {
   display: flex;
   align-items: center;
   height: 100%;
   padding: 0 15px;
-  background-color: #800080;
-  }
-  
-  .switch-bg input[type="checkbox"] {
+  /* background-color: #800080; 
+}
+
+.switch-bg input[type="checkbox"] {
   width: 20px;
   height: 20px;
   margin-right: 10px;
-  }
+}
 
-  .main {
-    width: 100vw;
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+.main {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  .iframe {
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+.iframe {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
