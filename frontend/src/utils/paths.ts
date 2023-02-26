@@ -18,6 +18,8 @@ const GUEST_LOGIN = PREFIX_API + LOGIN + "/guest";
 
 const GET_ALL_MESSAGES = PREFIX_API + "/get-all-messages";
 
+const GET_ALL_USERS = PREFIX_API + "/get-all-users";
+
 const CREATE_MEETING = PREFIX_API + "/create-meeting";
 
 const EDIT_MEETING = PREFIX_API + "/edit-meeting";
@@ -38,6 +40,7 @@ export {
   PANELLIST_LOGIN,
   GET_ALL_MESSAGES,
   GET_ALL_MEETINGS,
+  GET_ALL_USERS,
   CREATE_MEETING,
   EDIT_MEETING,
   LEAVE_MEETING,

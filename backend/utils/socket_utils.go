@@ -23,6 +23,7 @@ type SocketMesageSend struct {
 	Questions        []MessageStructure `json:"questions"`
 	NewOnlineMembers []SocketMember     `json:"newOnlineMembers"`
 	MembersWhoLeft   []SocketMember     `json:"membersWhoLeft"`
+	AllUsers         []SocketMember     `json:"allUsers"`
 }
 
 type SocketMember struct {

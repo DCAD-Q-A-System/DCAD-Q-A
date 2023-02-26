@@ -34,6 +34,7 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 				socket_message.UserId,
 				socket_message.Username,
 			)
+		
 	default:
 		return utils.SocketMesageSend{}
 	}

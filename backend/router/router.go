@@ -6,6 +6,7 @@ import (
 	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/meeting"
 	"dcad_q_a_system.com/middleware"
+	"dcad_q_a_system.com/users"
 	"dcad_q_a_system.com/utils"
 	"dcad_q_a_system.com/web_sockets"
 	"github.com/gin-contrib/cors"
@@ -48,6 +49,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		superGroup.GET("/refresh",middleware.HandleCheckIfLoggedIn)
 		superGroup.GET("/get-all-messages",GetAll(conn))
 		superGroup.GET("/get-all-meetings",meeting.GetAllMeetings(conn))
+		superGroup.GET("/get-all-users",users.GetAllUsers(conn))
 		superGroup.POST("/create-meeting",auth_middleware,meeting.InsertMeeting(conn))
 		superGroup.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
 		superGroup.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))

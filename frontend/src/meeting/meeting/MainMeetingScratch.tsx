@@ -32,6 +32,7 @@ import {
 import { checkIfInitiallyLoggedIn } from "../../utils/funcs";
 import { socket } from "../../utils/constants";
 import { setData } from "../../store/loginSlice";
+import { UsersList } from "../components/users_list/UsersList";
 
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);
@@ -40,6 +41,8 @@ export function MainMeetingScratch() {
   const [meeting, setMeeting] = useState<MeetingData | null>(null);
   const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
+
+  const [usersList, setUsersList] = useState(false);
 
   useEffect(() => {
     const fetchMeeting = async () => {
@@ -93,7 +96,7 @@ export function MainMeetingScratch() {
             break;
         }
       } else {
-        if (meeting) {
+        if (meeting && data) {
           const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
@@ -164,12 +167,7 @@ export function MainMeetingScratch() {
     <>
       {meeting ? (
         <>
-          <Navbar
-            fixed="top"
-            expand="lg"
-            light
-            className="meeting-banner-color"
-          >
+          <Navbar fixed="top" expand="lg" className="meeting-banner-color">
             <Container fluid>
               {/* <Container className="justify-content-center"> */}
               <Navbar.Brand className="justify-content-center">
@@ -189,6 +187,9 @@ export function MainMeetingScratch() {
                     <NavDropdown.Divider />
                     <NavDropdown.Item href={`/leave-meeting/${meetingId}`}>
                       Leave Meeting
+                    </NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => setUsersList(true)}>
+                      Users List
                     </NavDropdown.Item>
                     {loginData && loginData.type !== USER_TYPE.GUEST && (
                       <NavDropdown.Item
@@ -214,6 +215,13 @@ export function MainMeetingScratch() {
               </Navbar.Collapse>
             </Container>
           </Navbar>
+
+          <UsersList
+            show={usersList}
+            setShow={setUsersList}
+            meetingId={meetingId}
+          />
+
           {meeting?.messages ? (
             <Container fluid className="main">
               <Row className="row gutter-0 flex-grow-1">
