@@ -26,14 +26,14 @@ function CalenderIcon() {
 export function StartTime({ value, onChange }: startTimeSetProps) {
 
     return (
-        <div>
+        <div >
             <DateTimePicker
                 calendarIcon={<CalenderIcon />}
-                format='yyyy-MM-dd h:mm:ss a'
+                format='yyyy-MM-dd h:mm a'
                 minDate={new Date()}
                 value={value}
                 onChange={onChange}
-                className="div-13" />
+                className="length fw-bold" />
         </div>
 
     )
@@ -45,11 +45,11 @@ export function EndTime({ value, endvalue, endOnChange }: endTimeSetProps) {
         <div>
             <DateTimePicker
                 calendarIcon={<CalenderIcon />}
-                format='yyyy-MM-dd h:mm:ss a'
+                format='yyyy-MM-dd h:mm a'
                 minDate={value}
                 value={endvalue}
                 onChange={endOnChange}
-                className="div-13" />
+                className="length fw-bold" />
         </div>
 
     )

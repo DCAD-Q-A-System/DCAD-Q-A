@@ -45,28 +45,35 @@ export function Login() {
   return (
     <>
       <div className="color-overlay d-flex justify-content-center align-items-center">
-        <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3">
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Username</Form.Label>
+        <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3" style={{height:"400px"}}>
+          <Form.Group className="mb-4" controlId="formBasicEmail">
+            <Form.Label className="fs-3">Username</Form.Label>
             <Form.Control
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter username"
+              className="p-3 fs-4"
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
+          <Form.Group className="mb-4" controlId="formBasicPassword">
+            <Form.Label className="fs-3">Password</Form.Label>
             <Form.Control
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="Password"
+              className="p-3 fs-4"
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" className="fs-4 mt-4">
             Submit
+          </Button>
+          <Button variant="secondary" type="submit" 
+          className="fs-4 mt-4" style={{marginLeft:"2%"}}
+          onClick={()=>navigate('/login')}>
+            Return
           </Button>
         </Form>
       </div>
