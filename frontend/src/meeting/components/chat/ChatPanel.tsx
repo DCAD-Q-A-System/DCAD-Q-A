@@ -26,7 +26,7 @@ export function ChatPanel({
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [chat, setChat] = useState("");
   return (
-    <Container fluid className="chat-panel">
+    <div className="chat-panel">
       <ListGroup as="ol">
         {chats.map((chat, i) => (
           <div key={i}>
@@ -66,6 +66,6 @@ export function ChatPanel({
           </Button>
         </InputGroup>
       )}
-    </Container>
+    </div>
   );
 }

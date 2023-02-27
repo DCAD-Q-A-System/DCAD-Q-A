@@ -1,11 +1,11 @@
 .question-panel {
   background-color: lightgray;
-  width: 20vw;
-  height: 80vh;
+  width: 15vw;
+  height: 70vh;
 }
 
 .list-group {
-  height: 70vh;
+  height: 65vh;
   margin-bottom: 5%;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;

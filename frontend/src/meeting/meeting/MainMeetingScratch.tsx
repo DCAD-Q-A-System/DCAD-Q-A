@@ -167,53 +167,51 @@ export function MainMeetingScratch() {
     <>
       {meeting ? (
         <>
-          <Navbar fixed="top" expand="lg" className="meeting-banner-color">
-            <Container fluid>
-              {/* <Container className="justify-content-center"> */}
-              <Navbar.Brand className="justify-content-center">
-                {meeting.name}
-              </Navbar.Brand>
-              {/* </Container> */}
-              <Navbar.Toggle aria-controls="basic-navbar-nav" />
-              <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="me-auto">
-                  <Form.Check
-                    type="checkbox"
-                    id="dark-mode-switch"
-                    checked={darkMode}
-                    onChange={() => setDarkMode(!darkMode)}
-                  />
-                  <NavDropdown title={MyAccount} id="basic-nav-dropdown">
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href={`/leave-meeting/${meetingId}`}>
-                      Leave Meeting
-                    </NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => setUsersList(true)}>
-                      Users List
-                    </NavDropdown.Item>
-                    {loginData && loginData.type !== USER_TYPE.GUEST && (
-                      <NavDropdown.Item
-                        onClick={async () => {
-                          const res = await credentialFetch(
-                            LEAVE_MEETING,
-                            HTTP_METHODS.PUT,
-                            JSON.stringify({
-                              meetingId,
-                              userId: loginData?.userId,
-                            })
-                          );
-                          if (res.status === 200) {
-                            navigate("/logout");
-                          }
-                        }}
-                      >
-                        Logout
-                      </NavDropdown.Item>
-                    )}
-                  </NavDropdown>
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
+          <Navbar fixed="top" expand="lg" className="meeting-banner-color navbar-dark" variant="light">
+            <Navbar.Brand className="title">
+              {meeting.name}
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse className="justify-content-end">
+              <Form.Group controlId="formBasicCheckbox" className="form-check-inline">
+                <Form.Check
+                  reverse
+                  type="checkbox"
+                  label="Dark Mode"
+                  id="reverse-dark-mode-switch"
+                  checked={darkMode}
+                  onChange={() => setDarkMode(!darkMode)}
+                />
+              </Form.Group>
+              <NavDropdown title={MyAccount} id="basic-nav-dropdown">
+                <NavDropdown.Divider />
+                <NavDropdown.Item href={`/leave-meeting/${meetingId}`}>
+                  Leave Meeting
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={() => setUsersList(true)}>
+                  Users List
+                </NavDropdown.Item>
+                {loginData && loginData.type !== USER_TYPE.GUEST && (
+                  <NavDropdown.Item
+                    onClick={async () => {
+                      const res = await credentialFetch(
+                        LEAVE_MEETING,
+                        HTTP_METHODS.PUT,
+                        JSON.stringify({
+                          meetingId,
+                          userId: loginData?.userId,
+                        })
+                      );
+                      if (res.status === 200) {
+                        navigate("/logout");
+                      }
+                    }}
+                  >
+                    Logout
+                  </NavDropdown.Item>
+                )}
+              </NavDropdown>
+            </Navbar.Collapse>
           </Navbar>
           {usersList && (
             <UsersList
@@ -225,15 +223,17 @@ export function MainMeetingScratch() {
 
           {meeting?.messages ? (
             <Container fluid className="main">
-              <Row className="row gutter-0 flex-grow-1">
-                <Col className="col">
-                  <QuestionTabs
-                    meetingId={meetingId!}
-                    questions={meeting.messages.questions}
-                  />
+              <Row>
+                <Col sm={9} md={3} className="col">
+                  {/* <Container className="question"> */}
+                    <QuestionTabs
+                      meetingId={meetingId!}
+                      questions={meeting.messages.questions}
+                    />
+                  {/* </Container> */}
                 </Col>
-                <Col xs={6} className="col">
-                  <Container fluid className="iframe">
+                <Col sm={18} md={6} className="col">
+                  <Container className="iframe">
                     <Stack direction="vertical" gap={3}>
                       <Iframe link={meeting.iframeLink} />
                       <CurrentQuestion
@@ -242,10 +242,10 @@ export function MainMeetingScratch() {
                     </Stack>
                   </Container>
                 </Col>
-                <Col className="col">
+                <Col sm={9} md={{ span: 2, offset: 1 }} className="col">
                   <ChatPanel
-                    meetingId={meetingId!}
-                    chats={meeting.messages.chat}
+                  meetingId={meetingId!}
+                  chats={meeting.messages.chat}
                   />
                 </Col>
               </Row>
