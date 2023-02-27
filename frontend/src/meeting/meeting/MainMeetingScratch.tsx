@@ -215,12 +215,13 @@ export function MainMeetingScratch() {
               </Navbar.Collapse>
             </Container>
           </Navbar>
-
-          <UsersList
-            show={usersList}
-            setShow={setUsersList}
-            meetingId={meetingId}
-          />
+          {usersList && (
+            <UsersList
+              show={usersList}
+              setShow={setUsersList}
+              meetingId={meetingId}
+            />
+          )}
 
           {meeting?.messages ? (
             <Container fluid className="main">

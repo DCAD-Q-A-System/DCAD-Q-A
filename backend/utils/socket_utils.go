@@ -1,5 +1,7 @@
 package utils
 
+import "go.mongodb.org/mongo-driver/bson/primitive"
+
 type SocketReply struct {
 	MessageStructure
 	ParentChatId string `json:"parentChatId"`
@@ -29,6 +31,11 @@ type SocketMesageSend struct {
 type SocketMember struct {
 	Username string `json:"username"`
 	UserId   string `json:"userId"`
+}
+
+type BSocketMember struct {
+	Username string       `bson:"username"`
+	Id   primitive.ObjectID `bson:"_id"`
 }
 
 type BroadcastMessage struct {

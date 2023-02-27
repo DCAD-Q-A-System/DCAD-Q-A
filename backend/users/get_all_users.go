@@ -22,11 +22,11 @@ func GetAllUsers(conn *utils.MongoConnection) gin.HandlerFunc {
 			return
 		}
 
-		type User struct {
-			UserObjects []utils.SocketMember `bson:"userObjects"`
+		type Users struct {
+			UserObjects []utils.BSocketMember `bson:"userObjects"`
 		}
 
-		var users User
+		var users []Users
 
 		meetingCollection := conn.Client.Database(utils.DB_NAME).Collection(utils.MEETINGS)
 		// filter := bson.D{
@@ -38,7 +38,7 @@ func GetAllUsers(conn *utils.MongoConnection) gin.HandlerFunc {
 		// 	fmt.Println("something went wrong decoding meeting")
 		// 	return 
 		// }
-		id,err:=primitive.ObjectIDFromHex(meetingId)
+		id, err :=primitive.ObjectIDFromHex(meetingId)
 		if err != nil {
 			c.AbortWithStatus(http.StatusBadRequest)
 			return
@@ -60,27 +60,46 @@ func GetAllUsers(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 
 
-		// project := bson.D{
-		// 	{"$project",bson.D{
-		// 		{"_id",0},
-		// 		{"userObjects._id",1},
-		// 		{"userObjects.username",1},
-		// 	}},
-		// }
+		project := bson.D{
+			{"$project",bson.D{
+				{"_id",0},
+				{"userObjects._id",1},
+				{"userObjects.username",1},
+			}},
+		}
 
 		cur,err := meetingCollection.Aggregate(
 			ctx,
-			mongo.Pipeline{filter,lookup,},
+			mongo.Pipeline{filter,lookup,project},
 		)
 		if err != nil {
 			fmt.Printf("Error aggreg %v",err)
 			c.AbortWithStatus(http.StatusBadGateway)
 			return 
 		}
-		
-		cur.All(ctx,&users)
-		fmt.Println(users.UserObjects)
-		c.JSON(http.StatusOK,users)
+		if err := cur.All(ctx,&users); err != nil {
+			fmt.Printf("Error decoding %v",err)
+			c.AbortWithStatus(http.StatusBadGateway)
+			return
+		}
+		fmt.Println(users)
+		if len(users) != 1 {
+			fmt.Printf("not right num res")
+			c.AbortWithStatus(http.StatusBadGateway)
+			return
+		}
+		usersJson := make([]utils.SocketMember,len(users[0].UserObjects))
+		for i,val := range users[0].UserObjects {
+			usersJson[i] = utils.SocketMember{
+				Username: val.Username,
+				UserId: val.Id.Hex(),
+			}
+		} 
+		c.JSON(http.StatusOK,usersJson)
+
+		/*
+		  [map[userObjects:[map[_id:ObjectID("63ebcc9596fdf39b499b6477") username:username] map[_id:ObjectID("63f52367647d4c1efd740f26") username:admin]]]]
+		*/
 	
 	}
 }

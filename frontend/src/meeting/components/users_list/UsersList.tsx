@@ -40,9 +40,9 @@ export function UsersList({
       <Modal.Body>
         <ListGroup>
           {users &&
-            users.map((member) => {
+            users.map((member, i) => {
               // add delete button
-              return <ListGroup.Item>{member.username}</ListGroup.Item>;
+              return <ListGroup.Item key={i}>{member.username}</ListGroup.Item>;
             })}
         </ListGroup>
       </Modal.Body>
