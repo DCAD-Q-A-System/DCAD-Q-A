@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Tabs, Tab, InputGroup, Form, Button } from "react-bootstrap";
+import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
-import { socket } from "../../../utils/constants";
 import { USER_TYPE } from "../../../utils/enums";
 import { jsonToArray } from "../../../utils/funcs";
 import { MessageStructure } from "../../../utils/interfaces";
@@ -12,9 +12,11 @@ import "./QuestionTabs.css";
 export function QuestionTabs({
   meetingId,
   questions,
+  socket,
 }: {
   meetingId: string;
   questions: MessageStructure[];
+  socket: ReconnectingWebSocket;
 }) {
   enum TABS {
     CURRENT = "Current",

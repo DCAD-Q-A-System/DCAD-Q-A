@@ -11,6 +11,7 @@ type Pool struct {
 	Unregister chan *Client
 	Clients    map[*Client]bool
 	Broadcast  chan utils.BroadcastMessage
+	CommandBroadcast chan utils.CommandMessage
 }
 
 func NewPool() *Pool {
@@ -19,6 +20,7 @@ func NewPool() *Pool {
 		Unregister: make(chan *Client),
 		Clients:    make(map[*Client]bool),
 		Broadcast:  make(chan utils.BroadcastMessage),
+		CommandBroadcast: make(chan utils.CommandMessage),
 	}
 }
 
@@ -59,6 +61,17 @@ func (pool *Pool) Start() {
 			for client := range pool.Clients {
 				if client.MeetingId == message.Message.MeetingId{
 					if err := client.Conn.WriteJSON(message); err != nil {
+						fmt.Println(err)
+						return
+					}
+				}
+			}
+		case command := <- pool.CommandBroadcast:
+			fmt.Println("sending command to one of clients",command.UserId)
+			for client := range pool.Clients {
+				fmt.Println(client.ID)
+				if client.ID == command.UserId {
+					if err := client.Conn.WriteJSON(command); err != nil {
 						fmt.Println(err)
 						return
 					}

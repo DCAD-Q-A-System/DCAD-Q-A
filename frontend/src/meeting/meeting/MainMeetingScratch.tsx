@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Navbar,
   Nav,
@@ -27,12 +27,15 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { USER_TYPE } from "../../utils/enums";
 import {
   ISocketMessageReceive,
+  ISocketMessageSend,
+  SOCKET_COMMAND_TYPE,
   SOCKET_ERRORS_TYPE,
 } from "../../utils/socket_types";
-import { checkIfInitiallyLoggedIn } from "../../utils/funcs";
-import { socket } from "../../utils/constants";
+import { checkIfInitiallyLoggedIn, jsonToArray } from "../../utils/funcs";
 import { setData } from "../../store/loginSlice";
 import { UsersList } from "../components/users_list/UsersList";
+import ReconnectingWebSocket from "reconnecting-websocket";
+import { URL } from "../../utils/constants";
 
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);
@@ -43,7 +46,7 @@ export function MainMeetingScratch() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
 
   const [usersList, setUsersList] = useState(false);
-
+  const ws = useRef<WebSocket>(null);
   useEffect(() => {
     const fetchMeeting = async () => {
       console.log(meetingId);
@@ -62,8 +65,20 @@ export function MainMeetingScratch() {
     };
     fetchMeeting();
 
+    const socket = new ReconnectingWebSocket(`${URL}://localhost:8080/ws`, [], {
+      connectionTimeout: 1000,
+      maxRetries: 10,
+    });
+
     const onOpen = (event: any) => {
       console.log(event, "Open");
+      const sockMsg: ISocketMessageSend = {
+        userId: loginData?.userId,
+        meetingId: meetingId,
+        username: loginData?.username,
+      };
+      const bytes = jsonToArray(sockMsg);
+      socket.send(bytes);
     };
     socket.addEventListener("open", onOpen);
 
@@ -73,11 +88,12 @@ export function MainMeetingScratch() {
     };
 
     socket.addEventListener("close", onClose);
-
+    ws.current = socket;
     return () => {
       socket.removeEventListener("open", onOpen);
 
       socket.removeEventListener("close", onClose);
+      socket.close();
     };
   }, []);
 
@@ -86,7 +102,7 @@ export function MainMeetingScratch() {
       console.log(e.data);
 
       const data: ISocketMessageReceive = JSON.parse(e.data);
-      console.log(data.error);
+      console.log("MESSAGE DATA", data);
 
       if (data.error) {
         switch (data.error) {
@@ -95,12 +111,20 @@ export function MainMeetingScratch() {
             alert("something went wrong with connection, leave and rejoin");
             break;
         }
+      } else if (data.command) {
+        switch (data.command) {
+          case SOCKET_COMMAND_TYPE.MAKE_USER_LEAVE:
+            navigate(-1);
+            break;
+          default:
+            break;
+        }
       } else {
-        if (meeting && data) {
+        if (meeting) {
           const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
-          if (newMeeting.messages && data) {
+          if (newMeeting.messages && data && data.message) {
             if (data.message.chat && data.message.chat.length > 0) {
               data.message?.chat.forEach((chatElement) => {
                 newMeeting.messages.chat.push(chatElement);
@@ -147,10 +171,10 @@ export function MainMeetingScratch() {
         }
       }
     };
-    socket.addEventListener("message", onMessage);
+    ws.current.addEventListener("message", onMessage);
 
     return () => {
-      socket.removeEventListener("message", onMessage);
+      ws.current.removeEventListener("message", onMessage);
     };
   });
 
@@ -220,6 +244,7 @@ export function MainMeetingScratch() {
               show={usersList}
               setShow={setUsersList}
               meetingId={meetingId}
+              socket={ws.current}
             />
           )}
 
@@ -230,6 +255,7 @@ export function MainMeetingScratch() {
                   <QuestionTabs
                     meetingId={meetingId!}
                     questions={meeting.messages.questions}
+                    socket={ws.current}
                   />
                 </Col>
                 <Col xs={6} className="col">
@@ -246,6 +272,7 @@ export function MainMeetingScratch() {
                   <ChatPanel
                     meetingId={meetingId!}
                     chats={meeting.messages.chat}
+                    socket={ws.current}
                   />
                 </Col>
               </Row>
