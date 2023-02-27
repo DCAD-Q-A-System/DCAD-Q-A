@@ -76,9 +76,26 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 			return
 		}
 		fmt.Printf("%s\n", meeting.Id.Hex())
+		onlineMembersIds := make([]string,len(meeting.OnlineMembers))
+		for i,memberId := range meeting.OnlineMembers {
+			onlineMembersIds[i] = memberId.Hex()
+		}
 		if len(meeting.Chats) == 0 || len(meeting.Questions) == 0 {
 			fmt.Printf("No chats/questions")
-			c.AbortWithStatus(500)
+			// c.JSON(http.StatusOK,meeting)
+			// return
+			c.JSON(http.StatusOK,gin.H{
+				"id":body.MeetingId,
+				"messages":map[string]map[string]interface{}{
+					"questions":map[string]interface{}{},
+					"chat":map[string]interface{}{},
+				},
+				"name":meeting.Name,
+				"iframeLink":meeting.IframeLink,
+				"startTime":meeting.StartTime.Time().Unix(),
+				"endTime":meeting.EndTime.Time().Unix(),
+				"onlineMembers":onlineMembersIds,
+			})
 			return
 		}
 		
@@ -140,10 +157,7 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 			}
 		}
 
-		onlineMembersIds := make([]string,len(meeting.OnlineMembers))
-		for i,memberId := range meeting.OnlineMembers {
-			onlineMembersIds[i] = memberId.Hex()
-		}
+		
 
 		c.JSON(http.StatusOK,gin.H{
 			"id":body.MeetingId,

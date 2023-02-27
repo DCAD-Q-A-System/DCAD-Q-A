@@ -23,9 +23,9 @@ export function QuestionTabs({
   const [key, setKey] = useState(TABS.CURRENT.toLowerCase());
   const questionElements = (
     <div className="list-group">
-      {questions.map((question, i) => (
-        <Question key={i} {...question} />
-      ))}
+      {questions &&
+        questions.length > 0 &&
+        questions.map((question, i) => <Question key={i} {...question} />)}
     </div>
   );
 
