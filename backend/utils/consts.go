@@ -21,6 +21,7 @@ var ALLOWED_REQ_TYPES = map[string]bool{
 	"INSERT_CHAT":     true,
 	"INSERT_QUESTION": true,
 	"INSERT_REPLY":    true,
+	"MAKE_USER_LEAVE": true,
 	// for later
 	// "KICK_USER":       true,
 	// "DELETE_QUESTION": true,

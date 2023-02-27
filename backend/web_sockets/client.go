@@ -48,6 +48,19 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			})
 			continue
 		}
+		fmt.Println(c.ID)
+		fmt.Println(c.MeetingId)
+		fmt.Println(c.Username)
+		if c.ID == "" {
+			c.ID = socket_message.UserId
+		}
+		if c.MeetingId == ""{
+			fmt.Println("Meeting id",socket_message.MeetingId)
+			c.MeetingId = socket_message.MeetingId
+		}
+		if c.Username == "" {
+			c.Username = socket_message.Username[:]
+		}
 
 		var valid utils.SOCKET_ERROR_TYPE = middleware.CheckSocketMessage(&socket_message)
 		if valid != utils.NONE {
@@ -63,6 +76,15 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			continue 
 		}
 
+		if socket_message.ReqType == "MAKE_USER_LEAVE" {
+			if utils.SockAuth(conn,socket_message.UserId) {
+				c.Pool.CommandBroadcast <- utils.CommandMessage {
+					Command:"MAKE_USER_LEAVE",
+					UserId: socket_message.UserIdToSendCommand,
+				}
+			}
+			continue
+		}
 		res := SocketRouter(conn,&socket_message)
 		if res.MeetingId == "" {
 			fmt.Println("Message type wrong")
@@ -70,17 +92,6 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 				"error":"something went wrong with message",
 			})
 			continue 
-		}
-
-
-		if c.ID == "" {
-			c.ID = socket_message.UserId
-		}
-		if c.MeetingId == ""{
-			c.MeetingId = socket_message.MeetingId
-		}
-		if c.Username == "" {
-			c.Username = socket_message.Username[:]
 		}
 
 		
@@ -91,6 +102,5 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 
 		
 		fmt.Printf("Message Received: %+v\n", res)
-
 	}
 }

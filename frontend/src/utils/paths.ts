@@ -30,6 +30,8 @@ const GET_ALL_MEETINGS = PREFIX_API + "/get-all-meetings";
 
 const REFRESH_PATH = PREFIX_API + "/refresh";
 
+const BAN_USER = PREFIX_API + "/ban-user";
+
 export {
   JOIN_MEETING,
   LOGIN,
@@ -45,4 +47,5 @@ export {
   EDIT_MEETING,
   LEAVE_MEETING,
   REFRESH_PATH,
+  BAN_USER,
 };

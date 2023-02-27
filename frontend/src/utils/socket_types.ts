@@ -5,6 +5,10 @@ export enum SOCKET_ERRORS_TYPE {
   MEETING_ID_EMPTY = "MEETING_ID_EMPTY",
 }
 
+export enum SOCKET_COMMAND_TYPE {
+  MAKE_USER_LEAVE = "MAKE_USER_LEAVE",
+}
+
 export interface ISocketMember {
   userId: string;
   username: string;
@@ -20,6 +24,7 @@ export interface ISocketMessageReceive {
     newOnlineMembers: ISocketMember[];
     membersWhoLeft: ISocketMember[];
   };
+  command?: SOCKET_COMMAND_TYPE;
 }
 
 export interface ISocketMessageSend {
@@ -28,6 +33,7 @@ export interface ISocketMessageSend {
   meetingId: string;
   userId: string;
   username: string;
+  userIdToSendCommand?: string;
 }
 
 export enum REQ_TYPES {

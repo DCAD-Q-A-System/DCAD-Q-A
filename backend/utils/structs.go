@@ -91,11 +91,11 @@ type GetAllMeetings struct {
 type SocketMessage struct {
 	ReqType string `json:"reqType"`
 	Content string `json:"content"`
-	Token string `json:"token"`
 	MeetingId string `json:"meetingId"`
 	ChatId string `json:"chatId"` 
 	UserId string `json:"userId"`
 	Username string `json:"username"`
+	UserIdToSendCommand string `json:"userIdToSendCommand"`
 }
 
 

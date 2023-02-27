@@ -1,6 +1,12 @@
 package utils
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"context"
+	"fmt"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type SocketReply struct {
 	MessageStructure
@@ -41,4 +47,36 @@ type BSocketMember struct {
 type BroadcastMessage struct {
 	Message SocketMesageSend `json:"message"`
 	UserId  string           `json:"userId"`
+}
+
+type CommandMessage struct {
+	Command string `json:"command"`
+	UserId string `json:"userId"`
+}
+
+func SockAuth(conn *MongoConnection,userId string) bool {
+	ctx := context.Background()
+
+	meeting_collection := conn.Client.Database(DB_NAME).Collection(USERS)
+	userIdObj, err := primitive.ObjectIDFromHex(userId)
+	if err != nil {
+		return false
+	}
+	filter := bson.D{
+		{"_id",userIdObj},
+	}
+	res := meeting_collection.FindOne(ctx,filter)
+	var user User
+	if err := res.Decode(&user); err != nil {
+		fmt.Printf("Decode user err %v",err)
+		return false
+	}
+
+	
+	if user.Type == "ADMIN" || user.Type == "PANELLIST" {
+		return true
+	}
+	return false
+	
+
 }

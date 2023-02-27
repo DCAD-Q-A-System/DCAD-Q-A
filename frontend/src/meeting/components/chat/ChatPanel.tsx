@@ -7,8 +7,8 @@ import {
   ListGroup,
   Stack,
 } from "react-bootstrap";
+import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
-import { socket } from "../../../utils/constants";
 import { USER_TYPE } from "../../../utils/enums";
 import { isOpen, jsonToArray } from "../../../utils/funcs";
 import { IChat } from "../../../utils/interfaces";
@@ -19,9 +19,11 @@ import "./ChatPanel.css";
 export function ChatPanel({
   meetingId,
   chats,
+  socket,
 }: {
   meetingId: string;
   chats: IChat[];
+  socket: ReconnectingWebSocket;
 }) {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [chat, setChat] = useState("");
