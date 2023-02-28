@@ -6,6 +6,7 @@ import (
 	"log"
 	"sync"
 
+	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/middleware"
 	"dcad_q_a_system.com/utils"
 	"github.com/gorilla/websocket"
@@ -22,12 +23,12 @@ type Client struct {
 
 
 
-func (c *Client) Read(conn *utils.MongoConnection) {
+func (c *Client) Read(conn *utils.MongoConnection,jwt string) {
 	defer func() {
 		c.Pool.Unregister <- c
 		c.Conn.Close()
 	}()
-
+    
 	for {
 		messageType, p, err := c.Conn.ReadMessage()
 		if err != nil {
@@ -79,6 +80,20 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			continue 
 		}
 
+		
+		if jwt == "" || !auth.VerifyJWTSocket(jwt){
+			if socket_message.ReqType == "PING"{
+				c.Pool.Broadcast <- utils.BroadcastMessage{
+					Message: utils.SocketMesageSend{},
+					UserId: c.ID,
+				}
+			}else{
+				c.Conn.WriteJSON(map[string]string{
+					"error":"unauthorised",
+				})
+			}
+			continue
+		}
 		if socket_message.ReqType == "MAKE_USER_LEAVE" {
 			if utils.SockAuth(conn,socket_message.UserId) {
 				c.Pool.CommandBroadcast <- utils.CommandMessage {
@@ -88,6 +103,7 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			}
 			continue
 		}
+
 		res := SocketRouter(conn,&socket_message)
 		if res.MeetingId == "" {
 			fmt.Println("Message type wrong")

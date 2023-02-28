@@ -27,5 +27,12 @@ func SetUpSocketServer(conn *utils.MongoConnection,pool *Pool, w http.ResponseWr
 	}
 
 	pool.Register <- client
-	client.Read(conn)
+
+	cookie,err := r.Cookie("token")
+	if err != nil {
+		fmt.Printf("cookie not found %v",err)
+		client.Read(conn,"")
+	}else{
+		client.Read(conn,cookie.Value)
+	}
 }

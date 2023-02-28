@@ -82,7 +82,7 @@ export function MainMeetingScratch() {
     const onOpen = (event: any) => {
       console.log(event, "Open");
       console.log("IN OPEN");
-      if (meetingId && loginData?.userId && loginData?.username) {
+      if (meetingId) {
         const sockMsg: ISocketMessageSend = {
           reqType: REQ_TYPES.PING,
           userId: loginData?.userId,
