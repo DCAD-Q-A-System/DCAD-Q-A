@@ -4,8 +4,8 @@
   height: 70vh;
 }
 
-.list-group {
-  height: 65vh;
+.list-group-1 {
+  height: 60vh;
   margin-bottom: 5%;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
