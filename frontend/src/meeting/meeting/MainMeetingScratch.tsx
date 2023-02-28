@@ -255,14 +255,14 @@ export function MainMeetingScratch() {
           {meeting?.messages ? (
             <Container fluid className="main">
               <Row>
-                <Col sm={9} md={3} className="col">
+                <Col xs={3} md={3} className="col">
                   <QuestionTabs
                     meetingId={meetingId!}
                     questions={meeting.messages.questions}
                     socket={ws.current}
                   />
                 </Col>
-                <Col sm={18} md={6} className="col">
+                <Col xs={6} md={6} className="col">
                   <Container className="iframe">
                     <Stack direction="vertical" gap={3}>
                       <Iframe link={meeting.iframeLink} />
@@ -272,7 +272,7 @@ export function MainMeetingScratch() {
                     </Stack>
                   </Container>
                 </Col>
-                <Col sm={9} md={{ span: 2, offset: 1 }} className="col">
+                <Col xs={{ span: 2, offset: 1 }} md={{ span: 2, offset: 1 }} className="col">
                   <ChatPanel
                     meetingId={meetingId!}
                     chats={meeting.messages.chat}

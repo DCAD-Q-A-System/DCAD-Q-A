@@ -16,7 +16,7 @@
   /* width: 100vw;
   height: 75vh; */
   position: absolute;
-  top: calc(50% - 40vh);
+  top: 12.5%;
   left: 50%;
   transform: translate(-50%);
 }
@@ -29,4 +29,11 @@ iframe {
 .form-check-inline {
   display: flex;
   align-items: center;
+}
+
+@media (max-width: 767px) {
+  .col {
+    width: 100%;
+    margin-bottom: 20px;
+  }
 }
