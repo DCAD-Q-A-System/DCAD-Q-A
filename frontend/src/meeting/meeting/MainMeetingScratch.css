@@ -12,6 +12,10 @@
   transform: translateX(-50%);
 }
 
+.justify-content-end {
+  margin-right: 2vw;
+}
+
 .main {
   /* width: 100vw;
   height: 75vh; */
