@@ -24,7 +24,7 @@ export function QuestionTabs({
   }
   const [key, setKey] = useState(TABS.CURRENT.toLowerCase());
   const questionElements = (
-    <div className="list-group">
+    <div className="list-group-1">
       {questions &&
         questions.length > 0 &&
         questions.map((question, i) => <Question key={i} {...question} />)}
@@ -52,7 +52,7 @@ export function QuestionTabs({
         </Tab>
       </Tabs>
       {loginData && loginData.type !== USER_TYPE.GUEST && (
-        <InputGroup>
+        <InputGroup className="question_list">
           <Form.Control
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
