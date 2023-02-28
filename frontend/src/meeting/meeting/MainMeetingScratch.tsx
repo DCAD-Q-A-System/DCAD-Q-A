@@ -10,6 +10,7 @@ import {
   Stack,
   FormLabel,
   Form,
+  Spinner,
 } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
@@ -35,7 +36,8 @@ import { checkIfInitiallyLoggedIn, jsonToArray } from "../../utils/funcs";
 import { setData } from "../../store/loginSlice";
 import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
-import { HIGH_PRIVELAGE, URL } from "../../utils/constants";
+import { HIGH_PRIVELAGE, URL, WS } from "../../utils/constants";
+// import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);
@@ -46,7 +48,19 @@ export function MainMeetingScratch() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
 
   const [usersList, setUsersList] = useState(false);
-  const ws = useRef<WebSocket>(null);
+
+  const ws = useRef<ReconnectingWebSocket>(
+    new ReconnectingWebSocket(WS, [], {
+      connectionTimeout: 1000,
+      maxRetries: 10,
+    })
+  );
+  // const s = useWebSocket(WS, {
+  //   share: false,
+  //   reconnectAttempts: 5,
+  //   retryOnError: true,
+  // });
+
   useEffect(() => {
     const fetchMeeting = async () => {
       console.log(meetingId);
@@ -65,11 +79,6 @@ export function MainMeetingScratch() {
     };
     fetchMeeting();
 
-    const socket = new ReconnectingWebSocket(`${URL}://localhost:8080/ws`, [], {
-      connectionTimeout: 1000,
-      maxRetries: 10,
-    });
-
     const onOpen = (event: any) => {
       console.log(event, "Open");
       const sockMsg: ISocketMessageSend = {
@@ -78,22 +87,22 @@ export function MainMeetingScratch() {
         username: loginData?.username,
       };
       const bytes = jsonToArray(sockMsg);
-      socket.send(bytes);
+      ws.current.send(bytes);
     };
-    socket.addEventListener("open", onOpen);
+    ws.current.addEventListener("open", onOpen);
 
     const onClose = (e: any) => {
       console.log(e.data);
       console.log("CLOSING SOCKET!");
     };
 
-    socket.addEventListener("close", onClose);
-    ws.current = socket;
+    // s.getWebSocket()?.onopen = onOpen;
+    ws.current.addEventListener("open", onOpen);
     return () => {
-      socket.removeEventListener("open", onOpen);
+      ws.current.removeEventListener("open", onOpen);
 
-      socket.removeEventListener("close", onClose);
-      socket.close();
+      ws.current.removeEventListener("close", onClose);
+      ws.current.close();
     };
   }, []);
 
@@ -285,7 +294,9 @@ export function MainMeetingScratch() {
           )}
         </>
       ) : (
-        <p className="text-center">Something's gone wrong</p>
+        <Spinner className="text-center" animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
       )}
     </>
   );

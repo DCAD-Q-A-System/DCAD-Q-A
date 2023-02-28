@@ -62,7 +62,7 @@ func LeaveMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 			filter,
 			update,
 		)
-		if err != nil || res == nil || res.ModifiedCount == 0{
+		if err != nil || res == nil{
 			fmt.Printf("something went wrong with update %v",err)
 			ctx.AbortWithStatus(http.StatusBadGateway)
 			return
