@@ -33,7 +33,6 @@ func (pool *Pool) Start(conn *utils.MongoConnection) {
 			pool.Clients[client] = true
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
 			for c := range pool.Clients {
-				
 				if c.MeetingId == client.MeetingId {
 					client.Conn.WriteJSON(utils.SocketMesageSend{NewOnlineMembers: []utils.SocketMember{
 						{
@@ -52,6 +51,8 @@ func (pool *Pool) Start(conn *utils.MongoConnection) {
 			})
 			if errorNo != http.StatusOK {
 				fmt.Println("couldn't disconnect from server whiel unregistering")
+			}else{
+				fmt.Println("Disconnected successfully!")
 			}
 			delete(pool.Clients, client)
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))

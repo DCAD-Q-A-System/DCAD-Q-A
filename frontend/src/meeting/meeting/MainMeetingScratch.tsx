@@ -29,6 +29,7 @@ import { USER_TYPE } from "../../utils/enums";
 import {
   ISocketMessageReceive,
   ISocketMessageSend,
+  REQ_TYPES,
   SOCKET_COMMAND_TYPE,
   SOCKET_ERRORS_TYPE,
 } from "../../utils/socket_types";
@@ -49,21 +50,18 @@ export function MainMeetingScratch() {
 
   const [usersList, setUsersList] = useState(false);
 
-  const ws = useMemo(
-    () =>
-      new ReconnectingWebSocket(WS, [], {
-        connectionTimeout: 1000,
-        maxRetries: 10,
-      }),
-    []
-  );
-  // const s = useWebSocket(WS, {
+  const ws = useRef<ReconnectingWebSocket>(null);
+  // const s = useWebSocket(ws.current, {
   //   share: false,
   //   reconnectAttempts: 5,
   //   retryOnError: true,
   // });
 
   useEffect(() => {
+    ws.current = new ReconnectingWebSocket(WS, [], {
+      connectionTimeout: 1000,
+      maxRetries: 10,
+    });
     const fetchMeeting = async () => {
       console.log(meetingId);
       const res = await credentialFetch(
@@ -86,15 +84,16 @@ export function MainMeetingScratch() {
       console.log("IN OPEN");
       if (meetingId && loginData?.userId && loginData?.username) {
         const sockMsg: ISocketMessageSend = {
+          reqType: REQ_TYPES.PING,
           userId: loginData?.userId,
           meetingId: meetingId,
           username: loginData?.username,
         };
         const bytes = jsonToArray(sockMsg);
-        ws.send(bytes);
+        ws.current.send(bytes);
       }
     };
-    ws.addEventListener("open", onOpen);
+    ws.current.addEventListener("open", onOpen);
 
     const onClose = (e: any) => {
       console.log(e.data);
@@ -102,12 +101,12 @@ export function MainMeetingScratch() {
     };
 
     // s.getWebSocket()?.onopen = onOpen;
-    ws.addEventListener("close", onClose);
+    ws.current.addEventListener("close", onClose);
     return () => {
-      ws.removeEventListener("open", onOpen);
+      ws.current.removeEventListener("open", onOpen);
 
-      ws.removeEventListener("close", onClose);
-      ws.close();
+      ws.current.removeEventListener("close", onClose);
+      ws.current.close();
     };
   }, []);
 
@@ -185,10 +184,10 @@ export function MainMeetingScratch() {
         }
       }
     };
-    ws.addEventListener("message", onMessage);
+    ws.current.addEventListener("message", onMessage);
 
     return () => {
-      ws.removeEventListener("message", onMessage);
+      ws.current.removeEventListener("message", onMessage);
     };
   });
 
@@ -262,7 +261,7 @@ export function MainMeetingScratch() {
               show={usersList}
               setShow={setUsersList}
               meetingId={meetingId}
-              socket={ws}
+              socket={ws.current}
             />
           )}
 
@@ -273,7 +272,7 @@ export function MainMeetingScratch() {
                   <QuestionTabs
                     meetingId={meetingId!}
                     questions={meeting.messages.questions}
-                    socket={ws}
+                    socket={ws.current}
                   />
                 </Col>
                 <Col xs={6} md={6} className="col">
@@ -294,7 +293,7 @@ export function MainMeetingScratch() {
                   <ChatPanel
                     meetingId={meetingId!}
                     chats={meeting.messages.chat}
-                    socket={ws}
+                    socket={ws.current}
                   />
                 </Col>
               </Row>

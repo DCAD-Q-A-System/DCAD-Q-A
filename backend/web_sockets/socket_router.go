@@ -9,33 +9,35 @@ import (
 
 func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessage) utils.SocketMesageSend {
 	switch socket_message.ReqType {
-	case "INSERT_CHAT":
-		return chat.InsertChat(
-			conn,
-			socket_message.Content,
-			socket_message.MeetingId,
-			socket_message.UserId,
-			socket_message.Username,
-		)
-	
-	case "INSERT_QUESTION":
-		return questions.InsertQuestion(
+		case "INSERT_CHAT":
+			return chat.InsertChat(
 				conn,
 				socket_message.Content,
 				socket_message.MeetingId,
 				socket_message.UserId,
 				socket_message.Username,
 			)
-	case "INSERT_REPLY":
-		return replies.InsertReply(
-				conn,
-				socket_message.Content,
-				socket_message.ChatId,
-				socket_message.UserId,
-				socket_message.Username,
-			)
 		
-	default:
-		return utils.SocketMesageSend{}
+		case "INSERT_QUESTION":
+			return questions.InsertQuestion(
+					conn,
+					socket_message.Content,
+					socket_message.MeetingId,
+					socket_message.UserId,
+					socket_message.Username,
+				)
+		case "INSERT_REPLY":
+			return replies.InsertReply(
+					conn,
+					socket_message.Content,
+					socket_message.ChatId,
+					socket_message.UserId,
+					socket_message.Username,
+				)
+		case "REPLY":
+			return utils.SocketMesageSend{}
+			
+		default:
+			return utils.SocketMesageSend{}
 	}
 }
