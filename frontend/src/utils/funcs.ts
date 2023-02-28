@@ -1,3 +1,4 @@
+import ReconnectingWebSocket from "reconnecting-websocket";
 import { credentialFetch } from "./credential_fetch";
 import { LoginResponse } from "./interfaces";
 import { REFRESH_PATH } from "./paths";
@@ -23,6 +24,7 @@ export var jsonToArray = function (json: any) {
   return ret;
 };
 
-export function isOpen(ws: any) {
-  return ws.readyState === ws.OPEN;
+export function isOpen(ws: ReconnectingWebSocket) {
+  console.log(ws.readyState);
+  return ws.readyState !== ReconnectingWebSocket.CLOSED;
 }

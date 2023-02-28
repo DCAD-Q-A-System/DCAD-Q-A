@@ -83,13 +83,16 @@ export function MainMeetingScratch() {
 
     const onOpen = (event: any) => {
       console.log(event, "Open");
-      const sockMsg: ISocketMessageSend = {
-        userId: loginData?.userId,
-        meetingId: meetingId,
-        username: loginData?.username,
-      };
-      const bytes = jsonToArray(sockMsg);
-      ws.send(bytes);
+      console.log("IN OPEN");
+      if (meetingId && loginData?.userId && loginData?.username) {
+        const sockMsg: ISocketMessageSend = {
+          userId: loginData?.userId,
+          meetingId: meetingId,
+          username: loginData?.username,
+        };
+        const bytes = jsonToArray(sockMsg);
+        ws.send(bytes);
+      }
     };
     ws.addEventListener("open", onOpen);
 
@@ -99,7 +102,7 @@ export function MainMeetingScratch() {
     };
 
     // s.getWebSocket()?.onopen = onOpen;
-    ws.addEventListener("open", onOpen);
+    ws.addEventListener("close", onClose);
     return () => {
       ws.removeEventListener("open", onOpen);
 
@@ -110,7 +113,7 @@ export function MainMeetingScratch() {
 
   useEffect(() => {
     const onMessage = (e: any) => {
-      console.log(e.data);
+      console.log("Message data", e.data);
 
       const data: ISocketMessageReceive = JSON.parse(e.data);
       console.log("MESSAGE DATA", data);
@@ -291,6 +294,7 @@ export function MainMeetingScratch() {
                   <ChatPanel
                     meetingId={meetingId!}
                     chats={meeting.messages.chat}
+                    socket={ws}
                   />
                 </Col>
               </Row>

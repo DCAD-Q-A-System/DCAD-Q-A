@@ -2,7 +2,9 @@ package web_sockets
 
 import (
 	"fmt"
+	"net/http"
 
+	"dcad_q_a_system.com/meeting"
 	"dcad_q_a_system.com/utils"
 )
 
@@ -24,7 +26,7 @@ func NewPool() *Pool {
 	}
 }
 
-func (pool *Pool) Start() {
+func (pool *Pool) Start(conn *utils.MongoConnection) {
 	for {
 		select {
 		case client := <-pool.Register:
@@ -43,8 +45,17 @@ func (pool *Pool) Start() {
 			}
 			// break
 		case client := <-pool.Unregister:
+
+			errorNo := meeting.LeaveMeetingDb(conn,&utils.JoinMeeting{
+				MeetingId:client.MeetingId,
+				UserId: client.ID,
+			})
+			if errorNo != http.StatusOK {
+				fmt.Println("couldn't disconnect from server whiel unregistering")
+			}
 			delete(pool.Clients, client)
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
+
 			for c := range pool.Clients {
 				if c.MeetingId == client.MeetingId {
 					client.Conn.WriteJSON(utils.SocketMesageSend{MembersWhoLeft: []utils.SocketMember{
@@ -66,6 +77,7 @@ func (pool *Pool) Start() {
 					}
 				}
 			}
+			
 		case command := <- pool.CommandBroadcast:
 			fmt.Println("sending command to one of clients",command.UserId)
 			for client := range pool.Clients {

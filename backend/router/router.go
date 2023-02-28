@@ -58,7 +58,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		
 	}
 	pool := web_sockets.NewPool()
-	go pool.Start()
+	go pool.Start(conn)
 	server.GET("/ws",auth_middleware,func(ctx *gin.Context) {
 		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request)
 	})

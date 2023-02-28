@@ -48,9 +48,7 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 			})
 			continue
 		}
-		fmt.Println(c.ID)
-		fmt.Println(c.MeetingId)
-		fmt.Println(c.Username)
+		
 		if c.ID == "" {
 			c.ID = socket_message.UserId
 		}
@@ -61,6 +59,11 @@ func (c *Client) Read(conn *utils.MongoConnection) {
 		if c.Username == "" {
 			c.Username = socket_message.Username[:]
 		}
+		fmt.Println("After assigned")
+		fmt.Println(c.ID)
+		fmt.Println(c.MeetingId)
+		fmt.Println(c.Username)
+
 
 		var valid utils.SOCKET_ERROR_TYPE = middleware.CheckSocketMessage(&socket_message)
 		if valid != utils.NONE {
