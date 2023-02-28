@@ -35,7 +35,7 @@ import { checkIfInitiallyLoggedIn, jsonToArray } from "../../utils/funcs";
 import { setData } from "../../store/loginSlice";
 import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
-import { URL } from "../../utils/constants";
+import { HIGH_PRIVELAGE, URL } from "../../utils/constants";
 
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);
@@ -191,13 +191,19 @@ export function MainMeetingScratch() {
     <>
       {meeting ? (
         <>
-          <Navbar fixed="top" expand="lg" className="meeting-banner-color navbar-dark" variant="light">
-            <Navbar.Brand className="title">
-              {meeting.name}
-            </Navbar.Brand>
+          <Navbar
+            fixed="top"
+            expand="lg"
+            className="meeting-banner-color navbar-dark"
+            variant="light"
+          >
+            <Navbar.Brand className="title">{meeting.name}</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse className="justify-content-end">
-              <Form.Group controlId="formBasicCheckbox" className="form-check-inline">
+              <Form.Group
+                controlId="formBasicCheckbox"
+                className="form-check-inline"
+              >
                 <Form.Check
                   reverse
                   type="checkbox"
@@ -237,7 +243,7 @@ export function MainMeetingScratch() {
               </NavDropdown>
             </Navbar.Collapse>
           </Navbar>
-          {usersList && (
+          {HIGH_PRIVELAGE.includes(loginData?.type) && usersList && (
             <UsersList
               show={usersList}
               setShow={setUsersList}
@@ -250,11 +256,11 @@ export function MainMeetingScratch() {
             <Container fluid className="main">
               <Row>
                 <Col sm={9} md={3} className="col">
-                    <QuestionTabs
-                      meetingId={meetingId!}
-                      questions={meeting.messages.questions}
-                      socket={ws.current}
-                    />
+                  <QuestionTabs
+                    meetingId={meetingId!}
+                    questions={meeting.messages.questions}
+                    socket={ws.current}
+                  />
                 </Col>
                 <Col sm={18} md={6} className="col">
                   <Container className="iframe">
@@ -268,8 +274,8 @@ export function MainMeetingScratch() {
                 </Col>
                 <Col sm={9} md={{ span: 2, offset: 1 }} className="col">
                   <ChatPanel
-                  meetingId={meetingId!}
-                  chats={meeting.messages.chat}
+                    meetingId={meetingId!}
+                    chats={meeting.messages.chat}
                   />
                 </Col>
               </Row>

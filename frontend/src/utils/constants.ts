@@ -7,3 +7,5 @@ export const AXIOS_INSTANCE = axios.create();
 
 export const LOCAL_STORAGE_LOGIN_KEY = "loginData";
 export const URL = location.protocol !== "https:" ? "ws" : "wss";
+
+export const HIGH_PRIVELAGE = ["PANELLIST", "ADMIN"];
