@@ -6,7 +6,7 @@ export function CurrentQuestion({ question }: { question: MessageStructure }) {
   return (
     <div className="jumbotron">
       <h2>Current Question</h2>
-      <p>{question.content}</p>
+      <p>{question?.content}</p>
     </div>
   );
 }
