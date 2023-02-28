@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import {
   Navbar,
   Nav,
@@ -49,11 +49,13 @@ export function MainMeetingScratch() {
 
   const [usersList, setUsersList] = useState(false);
 
-  const ws = useRef<ReconnectingWebSocket>(
-    new ReconnectingWebSocket(WS, [], {
-      connectionTimeout: 1000,
-      maxRetries: 10,
-    })
+  const ws = useMemo(
+    () =>
+      new ReconnectingWebSocket(WS, [], {
+        connectionTimeout: 1000,
+        maxRetries: 10,
+      }),
+    []
   );
   // const s = useWebSocket(WS, {
   //   share: false,
@@ -87,9 +89,9 @@ export function MainMeetingScratch() {
         username: loginData?.username,
       };
       const bytes = jsonToArray(sockMsg);
-      ws.current.send(bytes);
+      ws.send(bytes);
     };
-    ws.current.addEventListener("open", onOpen);
+    ws.addEventListener("open", onOpen);
 
     const onClose = (e: any) => {
       console.log(e.data);
@@ -97,12 +99,12 @@ export function MainMeetingScratch() {
     };
 
     // s.getWebSocket()?.onopen = onOpen;
-    ws.current.addEventListener("open", onOpen);
+    ws.addEventListener("open", onOpen);
     return () => {
-      ws.current.removeEventListener("open", onOpen);
+      ws.removeEventListener("open", onOpen);
 
-      ws.current.removeEventListener("close", onClose);
-      ws.current.close();
+      ws.removeEventListener("close", onClose);
+      ws.close();
     };
   }, []);
 
@@ -180,10 +182,10 @@ export function MainMeetingScratch() {
         }
       }
     };
-    ws.current.addEventListener("message", onMessage);
+    ws.addEventListener("message", onMessage);
 
     return () => {
-      ws.current.removeEventListener("message", onMessage);
+      ws.removeEventListener("message", onMessage);
     };
   });
 
@@ -257,7 +259,7 @@ export function MainMeetingScratch() {
               show={usersList}
               setShow={setUsersList}
               meetingId={meetingId}
-              socket={ws.current}
+              socket={ws}
             />
           )}
 
@@ -268,7 +270,7 @@ export function MainMeetingScratch() {
                   <QuestionTabs
                     meetingId={meetingId!}
                     questions={meeting.messages.questions}
-                    socket={ws.current}
+                    socket={ws}
                   />
                 </Col>
                 <Col xs={6} md={6} className="col">
@@ -281,7 +283,11 @@ export function MainMeetingScratch() {
                     </Stack>
                   </Container>
                 </Col>
-                <Col xs={{ span: 2, offset: 1 }} md={{ span: 2, offset: 1 }} className="col">
+                <Col
+                  xs={{ span: 2, offset: 1 }}
+                  md={{ span: 2, offset: 1 }}
+                  className="col"
+                >
                   <ChatPanel
                     meetingId={meetingId!}
                     chats={meeting.messages.chat}
