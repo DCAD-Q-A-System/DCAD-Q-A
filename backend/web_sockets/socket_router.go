@@ -34,7 +34,11 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 					socket_message.UserId,
 					socket_message.Username,
 				)
-			
+		case "PING":
+			return utils.SocketMesageSend{
+				MeetingId: socket_message.MeetingId,
+			}
+		
 		default:
 			return utils.SocketMesageSend{}
 	}

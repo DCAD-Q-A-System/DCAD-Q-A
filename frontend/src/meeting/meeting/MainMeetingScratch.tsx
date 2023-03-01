@@ -80,7 +80,7 @@ export function MainMeetingScratch() {
       );
       if (res.status === 200) {
         const data: MeetingData = res.data;
-        console.log(data);
+        console.log("INITIAL DATA", data);
 
         setMeeting(data);
       } else {
@@ -153,7 +153,13 @@ export function MainMeetingScratch() {
           const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
-          if (newMeeting.messages && data && data.message) {
+          if (
+            newMeeting.messages &&
+            newMeeting.messages.chat &&
+            newMeeting.messages.chat.length &&
+            data &&
+            data.message
+          ) {
             if (data.message.chat && data.message.chat.length > 0) {
               data.message?.chat.forEach((chatElement) => {
                 newMeeting.messages.chat.push(chatElement);

@@ -80,15 +80,16 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 		for i,memberId := range meeting.OnlineMembers {
 			onlineMembersIds[i] = memberId.Hex()
 		}
-		if len(meeting.Chats) == 0 || len(meeting.Questions) == 0 {
+		
+		if len(meeting.Chats) == 0 && len(meeting.Questions) == 0 {
 			fmt.Printf("No chats/questions")
 			// c.JSON(http.StatusOK,meeting)
 			// return
 			c.JSON(http.StatusOK,gin.H{
 				"id":body.MeetingId,
-				"messages":map[string]map[string]interface{}{
-					"questions":map[string]interface{}{},
-					"chat":map[string]interface{}{},
+				"messages":map[string][]map[string]interface{}{
+					"questions":[]map[string]interface{}{},
+					"chat":[]map[string]interface{}{},
 				},
 				"name":meeting.Name,
 				"iframeLink":meeting.IframeLink,

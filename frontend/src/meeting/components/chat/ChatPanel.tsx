@@ -30,11 +30,13 @@ export function ChatPanel({
   return (
     <div className="chat-panel">
       <ListGroup as="ol">
-        {chats.map((chat, i) => (
-          <div key={i}>
-            <Chat {...chat} />
-          </div>
-        ))}
+        {chats &&
+          chats.length > 0 &&
+          chats.map((chat, i) => (
+            <div key={i}>
+              <Chat {...chat} />
+            </div>
+          ))}
       </ListGroup>
       {loginData && loginData.type !== USER_TYPE.GUEST && (
         <InputGroup>
