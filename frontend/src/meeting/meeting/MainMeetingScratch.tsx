@@ -8,7 +8,8 @@ import {
   Image,
   Row,
   Stack,
-  FormLabel,
+  Tabs,
+  Tab,
   Form,
   Spinner,
 } from "react-bootstrap";
@@ -49,6 +50,12 @@ export function MainMeetingScratch() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
 
   const [usersList, setUsersList] = useState(false);
+  const [activeTab, setActiveTab] = useState("tab1");
+  enum TABS_ {
+    CHAT = "Chat",
+    QUESTIONS = "Questions",
+  }
+  const [key, setKey] = useState(TABS_.CHAT.toLowerCase());
 
   const ws = useRef<ReconnectingWebSocket>(null);
   // const s = useWebSocket(ws.current, {
@@ -207,6 +214,21 @@ export function MainMeetingScratch() {
     </div>
   );
 
+  const question_tab = (
+    <QuestionTabs
+      meetingId={meetingId!}
+      questions={meeting.messages.questions}
+      socket={ws}
+    />
+  );
+
+  const chat_tab = (
+    <ChatPanel
+      meetingId={meetingId!}
+      chats={meeting.messages.chat}
+    />
+  );
+
   console.log("RENDER", meeting?.messages);
 
   return (
@@ -221,7 +243,7 @@ export function MainMeetingScratch() {
           >
             <Navbar.Brand className="title">{meeting.name}</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
-            <Navbar.Collapse className="justify-content-end">
+            <Navbar.Collapse className="right-end">
               <Form.Group
                 controlId="formBasicCheckbox"
                 className="form-check-inline"
@@ -275,7 +297,29 @@ export function MainMeetingScratch() {
           )}
 
           {meeting?.messages ? (
-            <Container fluid className="main">
+          <div>
+            <Stack className="iframe-r d-block d-sm-none"direction="vertical" gap={3}>
+              <Iframe link={meeting.iframeLink} />
+              <CurrentQuestion
+                question={meeting.messages.questions[0]}
+              />
+            </Stack>
+            <Tabs
+              activeKey={key}
+              onSelect={(k) => {
+                if (k) setKey(k);
+              }}
+              className="mb-3  d-block d-sm-none"
+              fill
+            >
+              <Tab eventKey={TABS_.QUESTIONS.toLowerCase()} title={TABS_.QUESTIONS}>
+                {/* {question_tab} */}
+              </Tab>
+              <Tab eventKey={TABS_.CHAT.toLowerCase()} title={TABS_.CHAT}>
+                {/* {chat_tab} */}
+              </Tab>
+            </Tabs>
+            <Container fluid className="main d-none d-sm-block">
               <Row>
                 <Col xs={3} md={3} className="col">
                   <QuestionTabs
@@ -307,6 +351,7 @@ export function MainMeetingScratch() {
                 </Col>
               </Row>
             </Container>
+          </div>
           ) : (
             <p className="text-center"> Not fetched right, reload again </p>
           )}
