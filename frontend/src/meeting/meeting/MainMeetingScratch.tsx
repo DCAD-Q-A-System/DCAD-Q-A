@@ -217,7 +217,11 @@ export function MainMeetingScratch() {
   const question_tab = (
     <QuestionTabs
       meetingId={meetingId!}
-      questions={meeting.messages.questions}
+      questions={
+        meeting && meeting.messages && meeting?.messages.questions
+          ? meeting.messages.questions
+          : []
+      }
       socket={ws}
     />
   );
@@ -225,7 +229,11 @@ export function MainMeetingScratch() {
   const chat_tab = (
     <ChatPanel
       meetingId={meetingId!}
-      chats={meeting.messages.chat}
+      chats={
+        meeting && meeting.messages && meeting.messages.chat
+          ? meeting.messages.chat
+          : []
+      }
     />
   );
 
@@ -297,61 +305,80 @@ export function MainMeetingScratch() {
           )}
 
           {meeting?.messages ? (
-          <div>
-            <Stack className="iframe-r d-block d-sm-none"direction="vertical" gap={3}>
-              <Iframe link={meeting.iframeLink} />
-              <CurrentQuestion
-                question={meeting.messages.questions[0]}
-              />
-            </Stack>
-            <Tabs
-              activeKey={key}
-              onSelect={(k) => {
-                if (k) setKey(k);
-              }}
-              className="mb-3  d-block d-sm-none"
-              fill
-            >
-              <Tab eventKey={TABS_.QUESTIONS.toLowerCase()} title={TABS_.QUESTIONS}>
-                {/* {question_tab} */}
-              </Tab>
-              <Tab eventKey={TABS_.CHAT.toLowerCase()} title={TABS_.CHAT}>
-                {/* {chat_tab} */}
-              </Tab>
-            </Tabs>
-            <Container fluid className="main d-none d-sm-block">
-              <Row>
-                <Col xs={3} md={3} className="col">
-                  <QuestionTabs
-                    meetingId={meetingId!}
-                    questions={meeting.messages.questions}
-                    socket={ws.current}
-                  />
-                </Col>
-                <Col xs={6} md={6} className="col">
-                  <Container className="iframe">
-                    <Stack direction="vertical" gap={3}>
-                      <Iframe link={meeting.iframeLink} />
-                      <CurrentQuestion
-                        question={meeting.messages.questions[0]}
-                      />
-                    </Stack>
-                  </Container>
-                </Col>
-                <Col
-                  xs={{ span: 2, offset: 1 }}
-                  md={{ span: 2, offset: 1 }}
-                  className="col"
+            <div>
+              <Stack
+                className="iframe-r d-block d-sm-none"
+                direction="vertical"
+                gap={3}
+              >
+                <Iframe link={meeting.iframeLink} />
+                <CurrentQuestion
+                  question={
+                    meeting.messages && meeting.messages.questions
+                      ? meeting.messages.questions[0]
+                      : []
+                  }
+                />
+              </Stack>
+              <Tabs
+                activeKey={key}
+                onSelect={(k) => {
+                  if (k) setKey(k);
+                }}
+                className="mb-3  d-block d-sm-none"
+                fill
+              >
+                <Tab
+                  eventKey={TABS_.QUESTIONS.toLowerCase()}
+                  title={TABS_.QUESTIONS}
                 >
-                  <ChatPanel
-                    meetingId={meetingId!}
-                    chats={meeting.messages.chat}
-                    socket={ws.current}
-                  />
-                </Col>
-              </Row>
-            </Container>
-          </div>
+                  {/* {question_tab} */}
+                </Tab>
+                <Tab eventKey={TABS_.CHAT.toLowerCase()} title={TABS_.CHAT}>
+                  {/* {chat_tab} */}
+                </Tab>
+              </Tabs>
+              <Container fluid className="main d-none d-sm-block">
+                <Row>
+                  <Col xs={3} md={3} className="col">
+                    <QuestionTabs
+                      meetingId={meetingId!}
+                      questions={meeting.messages.questions}
+                      socket={ws.current}
+                    />
+                  </Col>
+                  <Col xs={6} md={6} className="col">
+                    <Container className="iframe">
+                      <Stack direction="vertical" gap={3}>
+                        <Iframe link={meeting.iframeLink} />
+                        <CurrentQuestion
+                          question={
+                            meeting.messages && meeting.messages.questions
+                              ? meeting.messages.questions[0]
+                              : []
+                          }
+                        />
+                      </Stack>
+                    </Container>
+                  </Col>
+                  <Col
+                    xs={{ span: 2, offset: 1 }}
+                    md={{ span: 2, offset: 1 }}
+                    className="col"
+                  >
+                    <ChatPanel
+                      meetingId={meetingId!}
+                      chats={
+                        meeting.messages && meeting.messages.chat
+                          ? meeting.messages.chat
+                          : []
+                      }
+                      socket={ws.current}
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
           ) : (
             <p className="text-center"> Not fetched right, reload again </p>
           )}
