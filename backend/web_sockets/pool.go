@@ -30,17 +30,8 @@ func (pool *Pool) Start(conn *utils.MongoConnection) {
 	for {
 		select {
 		case client := <-pool.Register:
-			pool.Clients[client] = true
 
-			errNo := meeting.JoinMeetingDb(conn, utils.JoinMeeting{
-				MeetingId: client.MeetingId,
-				UserId: client.ID,
-			})
-			if errNo != http.StatusOK {
-				fmt.Println("couldn't join via db")
-			} else {
-				fmt.Println("joined via db")
-			}
+			pool.Clients[client] = true
 
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
 			for c := range pool.Clients {

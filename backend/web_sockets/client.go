@@ -94,6 +94,7 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string) {
 			}
 			continue
 		}
+		
 		if socket_message.ReqType == "MAKE_USER_LEAVE" {
 			if utils.SockAuth(conn,socket_message.UserId) {
 				c.Pool.CommandBroadcast <- utils.CommandMessage {

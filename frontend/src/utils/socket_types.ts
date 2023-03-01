@@ -3,6 +3,7 @@ import { IChat, MessageStructure, Reply } from "./interfaces";
 export enum SOCKET_ERRORS_TYPE {
   INVALID_REQ_TYPE = "INVALID_REQ_TYPE",
   MEETING_ID_EMPTY = "MEETING_ID_EMPTY",
+  UNAUTHORISED = "UNAUTHORISED",
 }
 
 export enum SOCKET_COMMAND_TYPE {

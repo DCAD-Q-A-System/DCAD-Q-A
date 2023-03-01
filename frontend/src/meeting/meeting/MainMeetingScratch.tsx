@@ -37,7 +37,7 @@ import { checkIfInitiallyLoggedIn, jsonToArray } from "../../utils/funcs";
 import { setData } from "../../store/loginSlice";
 import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
-import { HIGH_PRIVELAGE, URL, WS } from "../../utils/constants";
+import { HIGH_PRIVELAGE, WS } from "../../utils/constants";
 // import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 
 export function MainMeetingScratch() {
@@ -58,7 +58,10 @@ export function MainMeetingScratch() {
   // });
 
   useEffect(() => {
-    ws.current = new ReconnectingWebSocket(WS, [], {
+    const params = `?meetingId=${meetingId}&userId=${
+      loginData?.userId || ""
+    }&username=${loginData?.username || ""}`;
+    ws.current = new ReconnectingWebSocket(WS + params, [], {
       connectionTimeout: 1000,
       maxRetries: 10,
     });
@@ -98,6 +101,8 @@ export function MainMeetingScratch() {
     const onClose = (e: any) => {
       console.log(e.data);
       console.log("CLOSING SOCKET!");
+      alert("lost connection with socket");
+      navigate(-1);
     };
 
     // s.getWebSocket()?.onopen = onOpen;
@@ -119,6 +124,10 @@ export function MainMeetingScratch() {
 
       if (data.error) {
         switch (data.error) {
+          case SOCKET_ERRORS_TYPE.UNAUTHORISED:
+            alert("unauthorised to enter meeting");
+            navigate(-1);
+            break;
           case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
           case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
             alert("something went wrong with connection, leave and rejoin");

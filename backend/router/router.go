@@ -1,6 +1,7 @@
 package router
 
 import (
+	"net/http"
 	"time"
 
 	"dcad_q_a_system.com/auth"
@@ -60,7 +61,15 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 	pool := web_sockets.NewPool()
 	go pool.Start(conn)
 	server.GET("/ws",func(ctx *gin.Context) {
-		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request)
+		meetingId :=ctx.Query("meetingId")
+		userId := ctx.Query("userId")
+		username := ctx.Query("username")
+		if meetingId == "" && userId == "" && username == "" {
+			ctx.AbortWithStatus(http.StatusBadRequest)
+			return
+		}
+		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request,
+			meetingId,userId,username)
 	})
 
 	
