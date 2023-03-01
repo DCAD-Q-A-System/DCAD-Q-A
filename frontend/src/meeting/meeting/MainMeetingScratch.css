@@ -4,6 +4,7 @@
 
 .meeting-banner-color {
   background-color: purple;
+  height: 8%;
 }
 
 .title {
@@ -12,15 +13,17 @@
   transform: translateX(-50%);
 }
 
-.justify-content-end {
+.right-end {
+  justify-content: end;
   margin-right: 2vw;
+  background-color: purple;
 }
 
 .main {
   /* width: 100vw;
   height: 75vh; */
   position: absolute;
-  top: 12.5%;
+  top: 10%;
   left: 50%;
   transform: translate(-50%);
 }
@@ -28,6 +31,14 @@
 iframe {
   width: 60vw;
   height: 70vh;
+}
+
+.iframe-r {
+  position: absolute;
+  top: 8%;
+  margin: 0;
+  padding-left: 0;
+  justify-content: center;
 }
 
 .form-check-inline {
@@ -39,5 +50,9 @@ iframe {
   .col {
     width: 100%;
     margin-bottom: 20px;
+  }
+  iframe {
+    width: 100vw;
+    height: 40vh;
   }
 }
