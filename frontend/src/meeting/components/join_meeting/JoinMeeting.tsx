@@ -33,21 +33,20 @@ export function JoinMeeting({ meetingId }: JoinMeetingProps) {
   // };
 
   const handleJoinMeeting = async () => {
-    const res = await credentialFetch(
-      JOIN_MEETING,
-      HTTP_METHODS.PUT,
-      JSON.stringify({
-        meetingId: meetingId,
-        userId: loginData?.userId || "",
-      })
-    );
-    if (res.status === 200) {
-      navigate(`/meeting/${meetingId}`);
-    } else {
-      alert("cannot join meeting");
-    }
-  }
-
+    // const res = await credentialFetch(
+    //   JOIN_MEETING,
+    //   HTTP_METHODS.PUT,
+    //   JSON.stringify({
+    //     meetingId: meetingId,
+    //     userId: loginData?.userId || "",
+    //   })
+    // );
+    // if (res.status === 200) {
+    navigate(`/meeting/${meetingId}`);
+    // } else {
+    //   alert("cannot join meeting");
+    // }
+  };
 
   return (
     <div className="panColumn-3">

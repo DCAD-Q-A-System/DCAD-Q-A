@@ -2,7 +2,9 @@ package web_sockets
 
 import (
 	"fmt"
+	"net/http"
 
+	"dcad_q_a_system.com/meeting"
 	"dcad_q_a_system.com/utils"
 )
 
@@ -24,14 +26,24 @@ func NewPool() *Pool {
 	}
 }
 
-func (pool *Pool) Start() {
+func (pool *Pool) Start(conn *utils.MongoConnection) {
 	for {
 		select {
 		case client := <-pool.Register:
 			pool.Clients[client] = true
+
+			errNo := meeting.JoinMeetingDb(conn, utils.JoinMeeting{
+				MeetingId: client.MeetingId,
+				UserId: client.ID,
+			})
+			if errNo != http.StatusOK {
+				fmt.Println("couldn't join via db")
+			} else {
+				fmt.Println("joined via db")
+			}
+
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
 			for c := range pool.Clients {
-				
 				if c.MeetingId == client.MeetingId {
 					client.Conn.WriteJSON(utils.SocketMesageSend{NewOnlineMembers: []utils.SocketMember{
 						{
@@ -43,8 +55,19 @@ func (pool *Pool) Start() {
 			}
 			// break
 		case client := <-pool.Unregister:
+
+			errorNo := meeting.LeaveMeetingDb(conn,&utils.JoinMeeting{
+				MeetingId:client.MeetingId,
+				UserId: client.ID,
+			})
+			if errorNo != http.StatusOK {
+				fmt.Println("couldn't disconnect from server whiel unregistering")
+			}else{
+				fmt.Println("Disconnected successfully!")
+			}
 			delete(pool.Clients, client)
 			fmt.Println("Size of Connection Pool: ", len(pool.Clients))
+
 			for c := range pool.Clients {
 				if c.MeetingId == client.MeetingId {
 					client.Conn.WriteJSON(utils.SocketMesageSend{MembersWhoLeft: []utils.SocketMember{
@@ -66,6 +89,7 @@ func (pool *Pool) Start() {
 					}
 				}
 			}
+			
 		case command := <- pool.CommandBroadcast:
 			fmt.Println("sending command to one of clients",command.UserId)
 			for client := range pool.Clients {
