@@ -9,7 +9,11 @@ import { LoginPanel } from "./login/LoginPanel";
 import { Login } from "./login/Login";
 import { AlreadyAuthenticated } from "./middleware/AlreadyAuthenticated";
 import { MeetingList } from "./meeting/meeting/MeetingList";
-import { LOCAL_STORAGE_LOGIN_KEY, socket } from "./utils/constants";
+import {
+  AXIOS_INSTANCE,
+  LOCAL_STORAGE_LOGIN_KEY,
+  socket,
+} from "./utils/constants";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setData } from "./store/loginSlice";
 import { checkIfInitiallyLoggedIn } from "./utils/funcs";
@@ -37,6 +41,13 @@ function App() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    AXIOS_INSTANCE.interceptors.response.use(
+      (r) => r,
+      (error) => {
+        alert("Server error, contact admin");
+        return Promise.reject(error);
+      }
+    );
     if (localStorage.getItem(LOCAL_STORAGE_LOGIN_KEY)) {
       const getIfInitiallyLoggedIn = async () => {
         const res = await checkIfInitiallyLoggedIn();
@@ -165,7 +176,7 @@ function App() {
           element={
             <AdminMiddleware>
               <MeetingBackground>
-                <EditUsers />
+                <UserDetails userDetailsType={USER_DETAILS_TYPE.CREATE} />
               </MeetingBackground>
             </AdminMiddleware>
           }

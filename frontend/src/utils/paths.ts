@@ -22,11 +22,13 @@ const GET_ALL_USERS_IN_MEETING = PREFIX_API + "/get-all-users-in-meeting";
 
 const GET_ALL_USERS = PREFIX_API + "/get-all-users";
 
-const GET_USER = PREFIX_API + "/get-user";
+const GET_USER = PREFIX_API + "/get-user?userId=";
 
 const GET_USER_SUGGESTIONS = PREFIX_API + "/get-user-suggestions?username=";
 
 const CREATE_MEETING = PREFIX_API + "/create-meeting";
+
+const CREATE_USER = PREFIX_API + "/create-user";
 
 const EDIT_MEETING = PREFIX_API + "/edit-meeting";
 
@@ -52,6 +54,7 @@ export {
   GET_ALL_USERS,
   GET_USER,
   GET_USER_SUGGESTIONS,
+  CREATE_USER,
   CREATE_MEETING,
   EDIT_MEETING,
   LEAVE_MEETING,

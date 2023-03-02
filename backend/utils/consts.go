@@ -29,6 +29,11 @@ var ALLOWED_REQ_TYPES = map[string]bool{
 	// "DELETE_CHAT":     true,
 }
 
+var USER_CREATION_ALLOWED_TYPES = map[string]bool{
+	"PANELLIST": true,
+	"STUDENT":   true,
+}
+
 type SOCKET_ERROR_TYPE int
 
 const (

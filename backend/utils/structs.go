@@ -55,6 +55,14 @@ type User struct {
 	Salt string `bson:"salt"`
 	Type string `bson:"type"`
 }
+
+type UserJson struct {
+	UserId   string            `json:"userId"`
+	Username string            `json:"username"`
+	Password string             `json:"password"`
+	Type     string             `json:"type"`
+}
+
 type Meeting struct {
 	Id primitive.ObjectID `bson:"_id"`
 	Name string `bson:"name"`

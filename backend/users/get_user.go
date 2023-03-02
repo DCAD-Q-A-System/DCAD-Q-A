@@ -39,14 +39,8 @@ func GetUser(conn *utils.MongoConnection) gin.HandlerFunc {
 			return
 		}
 
-		type UserJson struct {
-			UserId   string            `json:"userId"`
-			Username string            `json:"username"`
-			Password string             `json:"password"`
-			Type     string             `json:"type"`
-		}
 
-		userJson := UserJson{
+		userJson := utils.UserJson{
 			Username: user.Username,
 			UserId: user.Id.Hex(),
 			Password: user.Password,
