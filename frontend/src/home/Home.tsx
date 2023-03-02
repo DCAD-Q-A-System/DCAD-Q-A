@@ -1,4 +1,4 @@
-import "./Home.css";
+import "./home.css";
 import { AiOutlinePlus, AiFillEdit } from "react-icons/ai";
 import { BsClockFill } from "react-icons/bs";
 import { useAppSelector } from "../store/hooks";
