@@ -4,6 +4,19 @@
   height: 70vh;
 }
 
+@media (max-width: 767px) {
+  .question-panel {
+    background-color: lightgray;
+    width: 100vw;
+    height: 75vh;
+    /* display: flex;
+    flex-direction: column; */
+  }
+  .question-input {
+    bottom: 5%;
+  }
+}
+
 .list-group-1 {
   height: 60vh;
   margin-bottom: 5%;

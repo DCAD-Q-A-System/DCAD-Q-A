@@ -52,7 +52,7 @@ export function QuestionTabs({
         </Tab>
       </Tabs>
       {loginData && loginData.type !== USER_TYPE.GUEST && (
-        <InputGroup className="question_list">
+        <InputGroup className="question-input">
           <Form.Control
             value={question}
             onChange={(e) => setQuestion(e.target.value)}

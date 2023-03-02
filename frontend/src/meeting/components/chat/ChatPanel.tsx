@@ -37,7 +37,7 @@ export function ChatPanel({
         ))}
       </ListGroup>
       {loginData && loginData.type !== USER_TYPE.GUEST && (
-        <InputGroup>
+        <InputGroup className="chat-input">
           <Form.Control
             value={chat}
             onChange={(e) => setChat(e.target.value)}

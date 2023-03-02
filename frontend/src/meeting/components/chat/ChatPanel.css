@@ -6,6 +6,19 @@
   flex-direction: column; */
 }
 
+@media (max-width: 767px) {
+  .chat-panel {
+    background-color: lightgray;
+    width: 100vw;
+    /* height: 30vh; */
+    /* display: flex;
+    flex-direction: column; */
+  }
+  .chat-input {
+    bottom: 5%;
+  }
+}
+
 .list-group {
   height: 70vh;
   margin-bottom: 5%;

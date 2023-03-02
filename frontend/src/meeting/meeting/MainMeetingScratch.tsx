@@ -50,12 +50,10 @@ export function MainMeetingScratch() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
 
   const [usersList, setUsersList] = useState(false);
-  const [activeTab, setActiveTab] = useState("tab1");
-  enum TABS_ {
-    CHAT = "Chat",
-    QUESTIONS = "Questions",
-  }
-  const [key, setKey] = useState(TABS_.CHAT.toLowerCase());
+  const [activeTab, setActiveTab] = useState("chat");
+  const handleSelect = (selectedTab) => {
+    setActiveTab(selectedTab);
+  };
 
   const ws = useRef<ReconnectingWebSocket>(null);
   // const s = useWebSocket(ws.current, {
@@ -205,20 +203,20 @@ export function MainMeetingScratch() {
     </div>
   );
 
-  const question_tab = (
-    <QuestionTabs
-      meetingId={meetingId!}
-      questions={meeting.messages.questions}
-      socket={ws}
-    />
-  );
+  // const question_tab = (
+  //   <QuestionTabs
+  //     meetingId={meetingId!}
+  //     questions={meeting.messages.questions}
+  //     socket={ws}
+  //   />
+  // );
 
-  const chat_tab = (
-    <ChatPanel
-      meetingId={meetingId!}
-      chats={meeting.messages.chat}
-    />
-  );
+  // const chat_tab = (
+  //   <ChatPanel
+  //     meetingId={meetingId!}
+  //     chats={meeting.messages.chat}
+  //   />
+  // );
 
   console.log("RENDER", meeting?.messages);
 
@@ -289,27 +287,35 @@ export function MainMeetingScratch() {
 
           {meeting?.messages ? (
           <div>
-            <Stack className="iframe-r d-block d-sm-none"direction="vertical" gap={3}>
+            <Stack className="iframe-r d-block d-sm-none" direction="vertical">
               <Iframe link={meeting.iframeLink} />
-              <CurrentQuestion
-                question={meeting.messages.questions[0]}
-              />
+              <Tab.Container activeKey={activeTab} onSelect={handleSelect}>
+                <Nav variant="tabs">
+                  <Nav.Item>
+                    <Nav.Link eventKey="chat">Chat</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="question">Questions</Nav.Link>
+                  </Nav.Item>
+                </Nav>
+                <Tab.Content>
+                  <Tab.Pane eventKey="chat">
+                    <ChatPanel
+                      meetingId={meetingId!}
+                      chats={meeting.messages.chat}
+                    />
+                  </Tab.Pane>
+                  <Tab.Pane eventKey="question">
+                    <QuestionTabs
+                      meetingId={meetingId!}
+                      questions={meeting.messages.questions}
+                      socket={ws}
+                    />
+                  </Tab.Pane>
+                </Tab.Content>
+              </Tab.Container>
             </Stack>
-            <Tabs
-              activeKey={key}
-              onSelect={(k) => {
-                if (k) setKey(k);
-              }}
-              className="mb-3  d-block d-sm-none"
-              fill
-            >
-              <Tab eventKey={TABS_.QUESTIONS.toLowerCase()} title={TABS_.QUESTIONS}>
-                {/* {question_tab} */}
-              </Tab>
-              <Tab eventKey={TABS_.CHAT.toLowerCase()} title={TABS_.CHAT}>
-                {/* {chat_tab} */}
-              </Tab>
-            </Tabs>
+
             <Container fluid className="main d-none d-sm-block">
               <Row>
                 <Col xs={3} md={3} className="col">
