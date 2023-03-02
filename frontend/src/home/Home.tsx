@@ -4,18 +4,58 @@ import { BsClockFill } from 'react-icons/bs'
 import { useAppSelector } from "../store/hooks";
 import { USER_TYPE } from "../utils/enums";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
+import { Dropdown, Navbar, Stack } from "react-bootstrap";
+import {BiMenu} from 'react-icons/bi'
+import {MdMenuOpen} from 'react-icons/md'
 
 export function Home() {
     const loginData = useAppSelector((state) => state.loginReducer.data);
     const navigate = useNavigate()
 
+    const [isOpen,setIsOpen] = useState(true)
+    const [showMenu, setShowMenu] = useState(false);
+
+    useEffect(() => {
+        const hideMenu = () => {
+          setShowMenu(false);
+        };
+        if (showMenu) {
+          document.addEventListener('click', hideMenu);
+        }
+        return () => {
+          document.removeEventListener('click', hideMenu);
+        };
+      }, [showMenu]);
+    
+      const handleMenuClick = (event:any) => {
+        event.stopPropagation();
+        setShowMenu(!showMenu);
+        setIsOpen(!isOpen)
+      };
+      const handleLogoutClick = () => {
+        // handle logout logic
+        setIsOpen(!isOpen)
+        navigate('/logout')
+      };
 
     return (
         <>
-            {/* {loginData && loginData.type !== USER_TYPE.GUEST ? */}
-            <div >
-                <div className="container">
+            {loginData && loginData.type !== USER_TYPE.GUEST ?
+            <div onClick={()=>{isOpen==false? setIsOpen(!isOpen):""}} >
+                <Navbar fixed="top" expand="lg" >
+                      <Stack>
+                        {   isOpen?<BiMenu type="button" className="menu" onClick={handleMenuClick} />
+                            :<MdMenuOpen type="button" className="menu" onClick={()=>setIsOpen(!isOpen)} />
+                        }  {showMenu && (
+                      <Dropdown >
+                        <Dropdown.Item  className="dropdown1"
+                        onClick={handleLogoutClick}>Logout</Dropdown.Item>
+                        {/* <Dropdown.Item onClick={()=>{setIsOpen(!isOpen)}} className="dropdown2">Return</Dropdown.Item> */}
+                      </Dropdown>
+                    )}
+                  </Stack>
+                </Navbar>                                                    <div className="container">
                     <div className="container-1" onClick={()=>{navigate("/meeting-list")}}>
                         <BsClockFill className="icon" />
                         <div className="word">Current Meeting</div>
@@ -28,10 +68,10 @@ export function Home() {
                     }
                 </div>
             </div>
-            {/* :
+             :
                 <p>not available</p>
 
-            } */}
+            }
         </>
     );
 }
