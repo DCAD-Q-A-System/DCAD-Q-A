@@ -3,6 +3,7 @@ import { Dropdown, Navbar, Stack } from "react-bootstrap";
 import { BiMenu } from "react-icons/bi";
 import { MdMenuOpen } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import './UsersHome.css'
 
 type MenuProps={
     path:string,
@@ -39,7 +40,7 @@ export function Menu({path,isOpen,setIsOpen}:MenuProps){
   
   
     return (
-        <Navbar fixed="top" expand="lg">
+        <Navbar fixed="top" expand="lg" className="home-nav">
         <Stack>
           {isOpen ? (
             <BiMenu
@@ -55,7 +56,7 @@ export function Menu({path,isOpen,setIsOpen}:MenuProps){
             />
           )}{" "}
           {showMenu && (
-            <Dropdown>
+            <Dropdown className="home-dropdown">
               <Dropdown.Item
                 className="dropdown1"
                 onClick={handleLogoutClick}

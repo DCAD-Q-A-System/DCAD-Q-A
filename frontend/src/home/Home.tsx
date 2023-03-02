@@ -1,4 +1,4 @@
-import "./home.css";
+import "./Home.css";
 import { AiOutlinePlus, AiFillEdit } from "react-icons/ai";
 import { BsClockFill } from "react-icons/bs";
 import { useAppSelector } from "../store/hooks";
@@ -83,7 +83,7 @@ export function Home() {
               }}
             >
               <BsClockFill className="icon" />
-              <div className="word">Current Meeting</div>
+              <div className="words">Current Meeting</div>
             </div>
             {loginData?.type !== USER_TYPE.STUDENT && (
               <div
@@ -93,7 +93,7 @@ export function Home() {
                 }}
               >
                 <AiOutlinePlus className="icon" />
-                <div className="word">Creating Meeting</div>
+                <div className="words">Creating Meeting</div>
               </div>
             )}
             {loginData?.type === USER_TYPE.ADMIN && (
@@ -104,7 +104,7 @@ export function Home() {
                 }}
               >
                 <AiFillEdit className="icon" />
-                <div className="word">Users</div>
+                <div className="word-2">Users</div>
               </div>
             )}
           </div>

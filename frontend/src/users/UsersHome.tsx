@@ -14,21 +14,15 @@ export function UsersHome() {
     <div className="container"
     onClick={()=>isOpen == false ? setIsOpen(!isOpen) : ""}>
       <Menu path="/" isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div className="container-1">
-        <AiFillEdit
-          className="icon"
-          onClick={() => {
+      <div className="container-1" onClick={() => {
             navigate("/edit-users");
-          }}
-        />
-        <div className="word">Edit users</div>
+          }}>
+        <AiFillEdit className="icon"/>
+        <div className="word-1 ">Edit users</div>
       </div>
-      <div className="container-1">
-        <AiOutlinePlus
-          className="icon"
-          onClick={() => navigate("/create-user")}
-        />
-        <div className="word">Create user</div>
+      <div className="container-1" onClick={() => navigate("/create-user")}>
+        <AiOutlinePlus className="icon"/>
+        <div className="word-1">Create user</div>
       </div>
     </div>
   );
