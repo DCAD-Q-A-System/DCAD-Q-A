@@ -47,7 +47,7 @@ export function Home() {
             isOpen == false ? setIsOpen(!isOpen) : "";
           }}
         >
-          <Navbar fixed="top" expand="lg">
+          <Navbar fixed="top" expand="lg" className="home-nav">
             <Stack>
               {isOpen ? (
                 <BiMenu
@@ -63,7 +63,7 @@ export function Home() {
                 />
               )}{" "}
               {showMenu && (
-                <Dropdown>
+                <Dropdown className="home-dropdown">
                   <Dropdown.Item
                     className="dropdown1"
                     onClick={handleLogoutClick}

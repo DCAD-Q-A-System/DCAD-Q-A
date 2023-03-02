@@ -35,7 +35,7 @@
   margin-right: 3%;
 }
 
-.navbar {
+.home-nav {
     padding: 20px;
     display: flex;
     max-width: 600px;
@@ -57,7 +57,7 @@
     color: white;
   }
 
-.dropdown{
+.home-dropdown{
   background-color: #2C5CDA;
   color:white;
   border-radius: 5%;
