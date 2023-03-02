@@ -21,7 +21,7 @@
     margin-top: 20px;
 }
 
-.word {
+.words {
     font-size: 35px;
     font-weight: 1000;
     margin-top: 10px;
@@ -29,13 +29,15 @@
     color: aliceblue;
 }
 
-.word:hover{
-  font-size: 40px;
-  margin-left:7%;
-  margin-right: 3%;
+.word-2 {
+  font-size: 35px;
+  font-weight: 1000;
+  margin-top: 10px;
+  margin-left: 35%;
+  color: aliceblue;
 }
 
-.navbar {
+.home-nav {
     padding: 20px;
     display: flex;
     max-width: 600px;
@@ -57,7 +59,7 @@
     color: white;
   }
 
-.dropdown{
+.home-dropdown{
   background-color: #2C5CDA;
   color:white;
   border-radius: 5%;

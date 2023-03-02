@@ -47,7 +47,7 @@ export function Home() {
             isOpen == false ? setIsOpen(!isOpen) : "";
           }}
         >
-          <Navbar fixed="top" expand="lg">
+          <Navbar fixed="top" expand="lg" className="home-nav">
             <Stack>
               {isOpen ? (
                 <BiMenu
@@ -63,7 +63,7 @@ export function Home() {
                 />
               )}{" "}
               {showMenu && (
-                <Dropdown>
+                <Dropdown className="home-dropdown">
                   <Dropdown.Item
                     className="dropdown1"
                     onClick={handleLogoutClick}
@@ -83,7 +83,7 @@ export function Home() {
               }}
             >
               <BsClockFill className="icon" />
-              <div className="word">Current Meeting</div>
+              <div className="words">Current Meeting</div>
             </div>
             {loginData?.type !== USER_TYPE.STUDENT && (
               <div
@@ -93,7 +93,7 @@ export function Home() {
                 }}
               >
                 <AiOutlinePlus className="icon" />
-                <div className="word">Creating Meeting</div>
+                <div className="words">Creating Meeting</div>
               </div>
             )}
             {loginData?.type === USER_TYPE.ADMIN && (
@@ -104,7 +104,7 @@ export function Home() {
                 }}
               >
                 <AiFillEdit className="icon" />
-                <div className="word">Users</div>
+                <div className="word-2">Users</div>
               </div>
             )}
           </div>

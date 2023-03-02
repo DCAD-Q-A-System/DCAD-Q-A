@@ -1,3 +1,13 @@
 .chat-bg {
   background-color: gray;
 }
+
+.bin {
+  margin-right: 3%;
+  margin-top: 3%;
+}
+
+.reply {
+  margin-bottom: 3%;
+  margin-right: 3%;
+}
