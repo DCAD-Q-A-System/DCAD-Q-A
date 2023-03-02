@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { credentialFetch } from "../utils/credential_fetch";
 import { USER_TYPE } from "../utils/enums";
@@ -63,7 +63,7 @@ export function UserDetails({
           <Form.Control
             type="text"
             value={username}
-            onChange={(e) => }
+            onChange={(e) => {}}
             placeholder="Enter username"
             className="p-3 fs-4"
           />

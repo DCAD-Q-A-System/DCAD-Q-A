@@ -5,3 +5,14 @@
   width: 100%;
   mix-blend-mode: normal;
 }
+
+.text{
+  height: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.form{
+  height: 250px;
+}

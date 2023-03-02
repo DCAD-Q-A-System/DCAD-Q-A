@@ -12,18 +12,24 @@ export function GuestLogin() {
   };
   return (
     <div className="color-overlay d-flex justify-content-center align-items-center">
-      <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3">
+      <Form onSubmit={handleSubmit} className="rounded p-4 form-control-sm form">
         <Form.Group className="mb-3">
-          <Form.Label>Meeting Id</Form.Label>
+          <Form.Label className="fs-3">Meeting Id</Form.Label>
           <Form.Control
             type="text"
             value={id}
             onChange={(e) => setId(e.target.value)}
             placeholder="Enter meeting id"
+            className="text fs-3"
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" className="btn btn-lg fs-4">
           Go to meeting
+        </Button>
+        <Button variant="secondary" 
+        className="btn btn-lg fs-4 m-3"
+        onClick={()=>navigate('/login')}>
+          Return
         </Button>
       </Form>
     </div>

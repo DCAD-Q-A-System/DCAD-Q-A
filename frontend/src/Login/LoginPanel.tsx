@@ -25,7 +25,8 @@ export function LoginPanel() {
             return (
               <Button
                 key={i}
-                className={i < TYPES.length - 1 ? "button-margin" : ""}
+                // className={i < TYPES.length - 1 ? "button-margin" : ""}
+                className="btn btn-lg fs-1 m-5"
                 onClick={() => navigate(`/login/${t.toLowerCase()}`)}
               >
                 Login as {t}
