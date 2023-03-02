@@ -77,7 +77,7 @@ export function CreateMeeting() {
         }}
       >
         <div className="color-overlay d-flex justify-content-center align-items-center">
-          <Form className="form p-4 p-sm-3 ">
+          <Form className="p-4 p-sm-3 ">
             <Form.Group className="mb-5 mt-4" controlId="formBasicEmail">
               <Form.Label className="fs-4">Meeting Name: </Form.Label>
               <Form.Control
@@ -166,6 +166,7 @@ export function CreateMeeting() {
               variant="secondary"
               style={{
                 marginLeft: "20px",
+                paddingLeft:"10px"
               }}
               onClick={() => navigate("/")}
               className="button mt-5 fs-3"

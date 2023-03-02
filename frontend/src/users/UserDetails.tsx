@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import { credentialFetch } from "../utils/credential_fetch";
 import { USER_TYPE } from "../utils/enums";
 import { USER_DETAILS_TYPE } from "../utils/interfaces";
 import { GET_USER } from "../utils/paths";
 
 import "./UserDetails.css";
-
-
 
 interface TUserDetails {
   userId: string;
@@ -20,19 +18,19 @@ interface TUserDetails {
 export function UserDetails({
   userDetailsType,
 }: {
-    userDetailsType: USER_DETAILS_TYPE;
+  userDetailsType: USER_DETAILS_TYPE;
 }) {
-  const {userId} = useParams();
+  const { userId } = useParams();
   const [userDetails, setUserDetails] = useState<TUserDetails>({
     username: "",
     userId: "",
     password: "",
     type: USER_TYPE.STUDENT,
   });
-  
-  const [username,setUsername] = useState("");
-  const [password,setPassword] = useState("");
-  const [userType,setUserType] = useState(USER_TYPE.STUDENT);
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState(USER_TYPE.STUDENT);
 
   const navigate = useNavigate();
 
@@ -52,7 +50,7 @@ export function UserDetails({
 
   const handleSubmit = () => {
     console.log("submitted");
-  }
+  };
 
   return (
     <div className="color-overlay d-flex justify-content-center align-items-center">
@@ -62,12 +60,12 @@ export function UserDetails({
           <Form.Control
             type="text"
             value={username}
-            onChange={(e) => }
+            onChange={(e) => {}}
             placeholder="Enter username"
             className="p-3 fs-4"
           />
         </Form.Group>
-        
+
         <Form.Group className="mb-4" controlId="formBasicPassword">
           <Form.Label className="fs-3">Password</Form.Label>
           <Form.Control
@@ -81,7 +79,10 @@ export function UserDetails({
 
         <Form.Group className="mb-4" controlId="formSelect">
           <Form.Label className="fs-3">Username</Form.Label>
-          <Form.Select value={userType} onChange={(e)=>setUserType(e.target.value)}>
+          <Form.Select
+            value={userType}
+            onChange={(e) => setUserType(e.target.value)}
+          >
             <option>{USER_TYPE.STUDENT} </option>
             <option>{USER_TYPE.PANELLIST} </option>
             <option>{USER_TYPE.ADMIN} </option>
