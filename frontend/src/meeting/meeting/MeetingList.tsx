@@ -58,8 +58,7 @@ export function MeetingList() {
             </div>
           )}
           <Button
-            className="return"
-            style={{ fontSize: "25px" }}
+            className="return fs-2"
             variant="secondary"
             onClick={() => navigate("/")}
           >

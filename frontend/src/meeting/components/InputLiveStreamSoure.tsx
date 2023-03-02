@@ -1,4 +1,5 @@
 import React from "react";
+import 'bootstrap'
 
 export function InputLiveStreamSource(
     {iframeLink,setIframeLink}:{iframeLink:string,
@@ -11,8 +12,6 @@ export function InputLiveStreamSource(
     // });
     return (
         <div>
-            <div style={{fontSize:"20px"}}>Iframe Link:</div>
-
             <input
                 value={iframeLink} 
                 onChange={(e)=>setIframeLink(e.target.value)}
