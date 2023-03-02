@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../utils/credential_fetch";
 import { USER_TYPE } from "../utils/enums";
 import { USER_DETAILS_TYPE } from "../utils/interfaces";
@@ -19,11 +19,10 @@ interface TUserDetails {
 
 export function UserDetails({
   userDetailsType,
-  userId,
 }: {
     userDetailsType: USER_DETAILS_TYPE;
-    userId?: string;
 }) {
+  const {userId} = useParams();
   const [userDetails, setUserDetails] = useState<TUserDetails>({
     username: "",
     userId: "",
