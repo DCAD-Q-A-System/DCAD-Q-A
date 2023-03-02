@@ -26,6 +26,11 @@ import { MeetingBackground } from "./backgrounds/MeetingBackground";
 import { CreateMeeting } from "./meeting/meeting/CreateMeeting";
 import { MainMeetingB } from "./meeting/meeting/MainMeetingB";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { AdminMiddleware } from "./middleware/AdminMiddleware";
+import { UsersHome } from "./users/UsersHome";
+import { EditUsers } from "./users/EditUsers";
+import { UserDetails } from "./users/UserDetails";
+import { USER_DETAILS_TYPE } from "./utils/interfaces";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -132,6 +137,48 @@ function App() {
                 <CreateMeeting />
               </MeetingBackground>
             </AuthenticatorMiddleware>
+          }
+        />
+
+        <Route
+          path="/users-home"
+          element={
+            <AdminMiddleware>
+              <MeetingBackground>
+                <UsersHome />
+              </MeetingBackground>
+            </AdminMiddleware>
+          }
+        />
+        <Route
+          path="/edit-users"
+          element={
+            <AdminMiddleware>
+              <MeetingBackground>
+                <EditUsers />
+              </MeetingBackground>
+            </AdminMiddleware>
+          }
+        />
+        <Route
+          path="/create-user"
+          element={
+            <AdminMiddleware>
+              <MeetingBackground>
+                <EditUsers />
+              </MeetingBackground>
+            </AdminMiddleware>
+          }
+        />
+
+        <Route
+          path="/edit-user/:userId"
+          element={
+            <AdminMiddleware>
+              <MeetingBackground>
+                <UserDetails userDetailsType={USER_DETAILS_TYPE.EDIT} />
+              </MeetingBackground>
+            </AdminMiddleware>
           }
         />
 

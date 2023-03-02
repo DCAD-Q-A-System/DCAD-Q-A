@@ -40,3 +40,8 @@ export interface IMsg {
   questions: MessageStructure[];
   chat: IChat[];
 }
+
+export enum USER_DETAILS_TYPE {
+  CREATE = "CREATE",
+  EDIT = "EDIT",
+}

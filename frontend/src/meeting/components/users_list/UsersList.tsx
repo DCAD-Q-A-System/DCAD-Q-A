@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, ListGroup, Modal } from "react-bootstrap";
 import { credentialFetch } from "../../../utils/credential_fetch";
 import { HTTP_METHODS } from "../../../utils/http_methods";
-import { BAN_USER, GET_ALL_USERS } from "../../../utils/paths";
+import { BAN_USER, GET_ALL_USERS_IN_MEETING } from "../../../utils/paths";
 import {
   ISocketMember,
   ISocketMessageSend,
@@ -31,7 +31,7 @@ export function UsersList({
   useEffect(() => {
     const getAllUsers = async () => {
       const res = await credentialFetch(
-        GET_ALL_USERS + `?meetingId=${meetingId}`
+        GET_ALL_USERS_IN_MEETING + `?meetingId=${meetingId}`
       );
       const data: ISocketMember[] = res.data;
       setUsers(data);

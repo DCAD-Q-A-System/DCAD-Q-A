@@ -50,6 +50,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		superGroup.GET("/refresh",middleware.HandleCheckIfLoggedIn)
 		superGroup.GET("/get-all-messages",GetAll(conn))
 		superGroup.GET("/get-all-meetings",meeting.GetAllMeetings(conn))
+		superGroup.GET("/get-all-users-in-meeting",users.GetAllUsersInMeeting(conn))
 		superGroup.GET("/get-all-users",users.GetAllUsers(conn))
 		superGroup.GET("/get-user-suggestions",users.GetUserSuggestions(conn))
 		superGroup.POST("/create-meeting",auth_middleware,meeting.InsertMeeting(conn))
