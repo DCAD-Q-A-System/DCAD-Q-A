@@ -35,7 +35,7 @@ export function CreateMeeting() {
       !(iframeLink.match(YOUTUBE_REGEX) || iframeLink.match(PANOPTO_REGEX)) ||
       meetingName === "" ||
       startValNum <= timeNowNum ||
-      endvalue <= startValNum
+      endValNum <= startValNum
     ) {
       alert("Something went wront check form again");
       return;
@@ -79,7 +79,7 @@ export function CreateMeeting() {
         <div className="color-overlay d-flex justify-content-center align-items-center">
           <Form className="form p-4 p-sm-3 ">
             <Form.Group className="mb-5 mt-4" controlId="formBasicEmail">
-              <Form.Label className="title">Meeting Name: </Form.Label>
+              <Form.Label className="fs-4">Meeting Name: </Form.Label>
               <Form.Control
                 type="text"
                 value={meetingName}
@@ -90,18 +90,19 @@ export function CreateMeeting() {
               />
             </Form.Group>
             <Form.Group className="mb-5" controlId="formBasicPassword">
-              <Form.Label className="title">Start Time:</Form.Label>
+              <Form.Label className="fs-4">Start Time:</Form.Label>
               <StartTime value={value} onChange={onChange} />
             </Form.Group>
             <Form.Group className="mb-5" controlId="formBasicPassword">
-              <Form.Label className="title">End Time:</Form.Label>
+              <Form.Label className="fs-4">End Time:</Form.Label>
               <EndTime
                 value={value}
                 endvalue={endvalue}
                 endOnChange={endOnChange}
               />
             </Form.Group>
-
+            
+            <Form.Label className="fs-4">Participants:</Form.Label>
             {chosenMembers.length > 0 &&
               chosenMembers.map((m, i) => (
                 <div key={i} className="chip">
@@ -147,7 +148,7 @@ export function CreateMeeting() {
                 ))}
               </ListGroup>
             )}
-
+            <Form.Label className="fs-4 mt-5">Iframe Link:</Form.Label>
             <InputLiveStreamSource
               iframeLink={iframeLink}
               setIframeLink={setIframeLink}
@@ -156,23 +157,20 @@ export function CreateMeeting() {
             <Button
               variant="primary"
               type="submit"
-              style={{ marginTop: "50px", fontSize: "20px" }}
               onClick={submitForm}
-              className="button"
+              className="button mt-5 fs-3"
             >
-              Save
+              save
             </Button>
             <Button
               variant="secondary"
               style={{
                 marginLeft: "20px",
-                marginTop: "50px",
-                fontSize: "20px",
               }}
               onClick={() => navigate("/")}
-              className="button"
+              className="button mt-5 fs-3"
             >
-              Return
+              return
             </Button>
           </Form>
         </div>
