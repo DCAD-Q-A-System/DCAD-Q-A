@@ -7,10 +7,12 @@ import { GET_ALL_USERS } from "../utils/paths";
 import { ISocketMember } from "../utils/socket_types";
 
 import "./EditUsers.css";
+import { Menu } from "./Menu";
 
 export function EditUsers() {
   const [users, setUsers] = useState<ISocketMember[]>([]);
   const navigate = useNavigate();
+  const [isOpen,setIsOpen] = useState(true)
   useEffect(() => {
     const fetchUsers = async () => {
       const res = await credentialFetch(GET_ALL_USERS);
@@ -24,7 +26,10 @@ export function EditUsers() {
   }, []);
 
   return (
-    <div className="color-overlay d-flex justify-content-center align-items-center">
+    <div 
+    onClick={()=>isOpen == false ? setIsOpen(!isOpen) : ""}
+    className="color-overlay d-flex justify-content-center align-items-center">
+      <Menu path="/users-home" isOpen={isOpen} setIsOpen={setIsOpen} />
       <ListGroup>
         {users.length > 0 &&
           users.map((user, i) => (
