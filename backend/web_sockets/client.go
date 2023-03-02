@@ -94,6 +94,7 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string) {
 			}
 			continue
 		}
+		
 		if socket_message.ReqType == "MAKE_USER_LEAVE" {
 			if utils.SockAuth(conn,socket_message.UserId) {
 				c.Pool.CommandBroadcast <- utils.CommandMessage {
@@ -106,7 +107,7 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string) {
 
 		res := SocketRouter(conn,&socket_message)
 		if res.MeetingId == "" {
-			fmt.Println("Message type wrong")
+			fmt.Println("Message type wrong",socket_message.ReqType)
 			c.Conn.WriteJSON(map[string]string{
 				"error":"something went wrong with message",
 			})

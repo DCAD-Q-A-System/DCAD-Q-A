@@ -38,7 +38,7 @@ import { checkIfInitiallyLoggedIn, jsonToArray } from "../../utils/funcs";
 import { setData } from "../../store/loginSlice";
 import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
-import { HIGH_PRIVELAGE, URL, WS } from "../../utils/constants";
+import { HIGH_PRIVELAGE, WS } from "../../utils/constants";
 // import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 
 export function MainMeetingScratch() {
@@ -63,7 +63,10 @@ export function MainMeetingScratch() {
   // });
 
   useEffect(() => {
-    ws.current = new ReconnectingWebSocket(WS, [], {
+    const params = `?meetingId=${meetingId}&userId=${
+      loginData?.userId || ""
+    }&username=${loginData?.username || ""}`;
+    ws.current = new ReconnectingWebSocket(WS + params, [], {
       connectionTimeout: 1000,
       maxRetries: 10,
     });
@@ -75,7 +78,7 @@ export function MainMeetingScratch() {
       );
       if (res.status === 200) {
         const data: MeetingData = res.data;
-        console.log(data);
+        console.log("INITIAL DATA", data);
 
         setMeeting(data);
       } else {
@@ -103,6 +106,8 @@ export function MainMeetingScratch() {
     const onClose = (e: any) => {
       console.log(e.data);
       console.log("CLOSING SOCKET!");
+      alert("lost connection with socket");
+      navigate(-1);
     };
 
     // s.getWebSocket()?.onopen = onOpen;
@@ -124,6 +129,10 @@ export function MainMeetingScratch() {
 
       if (data.error) {
         switch (data.error) {
+          case SOCKET_ERRORS_TYPE.UNAUTHORISED:
+            alert("unauthorised to enter meeting");
+            navigate(-1);
+            break;
           case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
           case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
             alert("something went wrong with connection, leave and rejoin");
@@ -142,7 +151,13 @@ export function MainMeetingScratch() {
           const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
-          if (newMeeting.messages && data && data.message) {
+          if (
+            newMeeting.messages &&
+            newMeeting.messages.chat &&
+            newMeeting.messages.chat.length &&
+            data &&
+            data.message
+          ) {
             if (data.message.chat && data.message.chat.length > 0) {
               data.message?.chat.forEach((chatElement) => {
                 newMeeting.messages.chat.push(chatElement);
@@ -315,7 +330,6 @@ export function MainMeetingScratch() {
                 </Tab.Content>
               </Tab.Container>
             </Stack>
-
             <Container fluid className="main d-none d-sm-block">
               <Row>
                 <Col xs={3} md={3} className="col">
@@ -330,7 +344,11 @@ export function MainMeetingScratch() {
                     <Stack direction="vertical" gap={3}>
                       <Iframe link={meeting.iframeLink} />
                       <CurrentQuestion
-                        question={meeting.messages.questions[0]}
+                        question={
+                          meeting.messages && meeting.messages.questions
+                            ? meeting.messages.questions[0]
+                            : []
+                        }
                       />
                     </Stack>
                   </Container>
@@ -342,7 +360,11 @@ export function MainMeetingScratch() {
                 >
                   <ChatPanel
                     meetingId={meetingId!}
-                    chats={meeting.messages.chat}
+                    chats={
+                      meeting.messages && meeting.messages.chat
+                        ? meeting.messages.chat
+                        : []
+                    }
                     socket={ws.current}
                   />
                 </Col>

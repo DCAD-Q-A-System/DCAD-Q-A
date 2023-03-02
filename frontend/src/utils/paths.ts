@@ -20,6 +20,8 @@ const GET_ALL_MESSAGES = PREFIX_API + "/get-all-messages";
 
 const GET_ALL_USERS = PREFIX_API + "/get-all-users";
 
+const GET_USER_SUGGESTIONS = PREFIX_API + "/get-user-suggestions?username=";
+
 const CREATE_MEETING = PREFIX_API + "/create-meeting";
 
 const EDIT_MEETING = PREFIX_API + "/edit-meeting";
@@ -43,6 +45,7 @@ export {
   GET_ALL_MESSAGES,
   GET_ALL_MEETINGS,
   GET_ALL_USERS,
+  GET_USER_SUGGESTIONS,
   CREATE_MEETING,
   EDIT_MEETING,
   LEAVE_MEETING,

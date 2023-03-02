@@ -1,6 +1,7 @@
 package router
 
 import (
+	"net/http"
 	"time"
 
 	"dcad_q_a_system.com/auth"
@@ -50,6 +51,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		superGroup.GET("/get-all-messages",GetAll(conn))
 		superGroup.GET("/get-all-meetings",meeting.GetAllMeetings(conn))
 		superGroup.GET("/get-all-users",users.GetAllUsers(conn))
+		superGroup.GET("/get-user-suggestions",users.GetUserSuggestions(conn))
 		superGroup.POST("/create-meeting",auth_middleware,meeting.InsertMeeting(conn))
 		superGroup.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
 		superGroup.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))
@@ -60,7 +62,15 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 	pool := web_sockets.NewPool()
 	go pool.Start(conn)
 	server.GET("/ws",func(ctx *gin.Context) {
-		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request)
+		meetingId :=ctx.Query("meetingId")
+		userId := ctx.Query("userId")
+		username := ctx.Query("username")
+		if meetingId == "" && userId == "" && username == "" {
+			ctx.AbortWithStatus(http.StatusBadRequest)
+			return
+		}
+		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request,
+			meetingId,userId,username)
 	})
 
 	
