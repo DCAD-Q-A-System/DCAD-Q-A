@@ -35,6 +35,7 @@ import { UsersHome } from "./users/UsersHome";
 import { EditUsers } from "./users/EditUsers";
 import { UserDetails } from "./users/UserDetails";
 import { USER_DETAILS_TYPE } from "./utils/interfaces";
+import { AxiosError, AxiosRequestConfig } from "axios";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -43,8 +44,32 @@ function App() {
   useEffect(() => {
     AXIOS_INSTANCE.interceptors.response.use(
       (r) => r,
-      (error) => {
-        alert("Server error, contact admin");
+      (error: AxiosError) => {
+        console.log("INTERCEPTED", error);
+        if (!error.response) {
+          alert("network error, check connection");
+        } else {
+          switch (error.response.status) {
+            case 400:
+              alert("check your details");
+              break;
+            case 500:
+              alert("Server error, contact admin");
+              break;
+            case 409:
+              alert("Credentials already used");
+              break;
+          }
+        }
+        return Promise.reject(error);
+      }
+    );
+    AXIOS_INSTANCE.interceptors.request.use(
+      (r: AxiosRequestConfig) => r,
+      (error: AxiosError) => {
+        if (!error.request) {
+          alert("network error, check connection");
+        }
         return Promise.reject(error);
       }
     );

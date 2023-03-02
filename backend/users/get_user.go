@@ -43,7 +43,7 @@ func GetUser(conn *utils.MongoConnection) gin.HandlerFunc {
 		userJson := utils.UserJson{
 			Username: user.Username,
 			UserId: user.Id.Hex(),
-			Password: user.Password,
+			Password: "",
 			Type: user.Type,
 		}
 		

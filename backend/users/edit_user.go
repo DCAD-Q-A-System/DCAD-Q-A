@@ -2,10 +2,10 @@ package users
 
 import (
 	"context"
-	"crypto/sha256"
 	"fmt"
 	"net/http"
 
+	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/utils"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -43,11 +43,9 @@ func EditUser(conn *utils.MongoConnection) gin.HandlerFunc {
 			c.AbortWithStatus(http.StatusBadGateway)
 			return 
 		}
-		attempt := user.Password + userOne.Salt
-		h := sha256.New()
-		h.Write([]byte(attempt))
-		hashed := h.Sum(nil)
-		hexString := fmt.Sprintf("%x",hashed)
+		
+
+		hexString := auth.CreateHash(user.Password, userOne.Salt)
 	
 		if userOne.Password != hexString {
 			user.Password = hexString

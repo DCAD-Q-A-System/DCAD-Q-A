@@ -2,12 +2,10 @@ package users
 
 import (
 	"context"
-	"crypto/rand"
-	"crypto/sha256"
 	"fmt"
-	"io"
 	"net/http"
 
+	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/utils"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
@@ -49,28 +47,21 @@ func CreateUser(conn *utils.MongoConnection) gin.HandlerFunc{
 			return 
 		}
 
-		salt := make([]byte, PW_SALT_BYTES)
-		_, err := io.ReadFull(rand.Reader, salt)
+		salt,err := auth.CreateSalt()
 		if err != nil {
-			fmt.Printf("salt err %v\n",err)
 			c.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
-		sSalt := string(salt)
-		attempt := user.Password + sSalt
-		h := sha256.New()
-		h.Write([]byte(attempt))
-		hashed := h.Sum(nil)
-		hexString := fmt.Sprintf("%x",hashed)
-
-		userToInsert := utils.User{
-			Username: user.Username,
-			Password: hexString,
-			Salt: sSalt,
-			Type: user.Type,
-		}
+		
+		password := auth.CreateHash(user.Password,salt)
+		
 		// inserting new user
-		_,err = user_collection.InsertOne(ctx,userToInsert,options.InsertOne())
+		_,err = user_collection.InsertOne(ctx,map[string]string{
+			"username":user.Username,
+			"password":password,
+			"salt":salt,
+			"type":user.Type,
+		},options.InsertOne())
 		if err != nil {
 			c.AbortWithStatus(http.StatusBadGateway)
 			return

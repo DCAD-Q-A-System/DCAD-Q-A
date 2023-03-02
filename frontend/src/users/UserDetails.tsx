@@ -5,7 +5,7 @@ import { credentialFetch } from "../utils/credential_fetch";
 import { USER_TYPE } from "../utils/enums";
 import { HTTP_METHODS } from "../utils/http_methods";
 import { USER_DETAILS_TYPE } from "../utils/interfaces";
-import { CREATE_USER, GET_USER } from "../utils/paths";
+import { CREATE_USER, EDIT_USER, GET_USER } from "../utils/paths";
 
 import "./UserDetails.css";
 
@@ -76,7 +76,7 @@ export function UserDetails({
       }
     } else if (userDetailsType === USER_DETAILS_TYPE.EDIT) {
       const res = await credentialFetch(
-        EDIT,
+        EDIT_USER,
         HTTP_METHODS.POST,
         JSON.stringify({
           userId: "",
@@ -137,7 +137,7 @@ export function UserDetails({
         </Button>
         <Button
           variant="secondary"
-          type="submit"
+          type="button"
           className="fs-4 mt-4"
           onClick={() => navigate(-1)}
         >
