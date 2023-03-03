@@ -87,6 +87,15 @@ type JsonMeeting struct {
 	IframeLink string `json:"iframeLink"`
 }
 
+type EssentialMeetingDetails struct {
+	Id string `json:"id"`
+	Name string `json:"name"`
+	StartTime string `json:"startTime"`
+	EndTime string `json:"endTime"`
+	Members []map[string]string `json:"members"`
+	IframeLink string `json:"iframeLink"`
+} 
+
 type JoinMeeting struct {
 	MeetingId string `json:"meetingId"`
 	UserId string `json:"userId"`

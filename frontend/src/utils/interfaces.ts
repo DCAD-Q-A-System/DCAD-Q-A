@@ -36,12 +36,21 @@ export interface MeetingData {
   onlineMembers: ISocketMember[];
 }
 
+export interface IMeetingDetails {
+  id: string;
+  name: string;
+  iframeLink: string;
+  startTime: string;
+  endTime: string;
+  members: ISocketMember[];
+}
+
 export interface IMsg {
   questions: MessageStructure[];
   chat: IChat[];
 }
 
-export enum USER_DETAILS_TYPE {
+export enum DETAILS_TYPE {
   CREATE = "CREATE",
   EDIT = "EDIT",
 }

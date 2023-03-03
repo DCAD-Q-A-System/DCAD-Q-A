@@ -22,32 +22,28 @@ export function MeetingItem({
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
   return (
-    
-      <div className="box1">
-        <div className="box2">
-                <p className="content">Name: {name}</p>   
-                <p className="content-item">
-                  Start: {moment(startTime).format("LLLL")}
-                </p>
-                <p className="content-item">
-                  End: {moment(endTime).format("LLLL")}
-                </p>
-        </div>
-  
-          <JoinMeeting meetingId={`${id}`}  />
-        
-        {(loginData?.type === USER_TYPE.PANELLIST ||
-          loginData?.type === USER_TYPE.ADMIN) && (
-          
-            <button className='edit' onClick={()=>{navigate('/create-meeting')}}>
-                  <p className='content-1'>
-                    Edit
-                  </p>
-                </button>
-          
-        )}
-        
-      </div>            
+    <div className="box1">
+      <div className="box2">
+        <p className="content">Name: {name}</p>
+        <p className="content-item">
+          Start: {moment(startTime).format("LLLL")}
+        </p>
+        <p className="content-item">End: {moment(endTime).format("LLLL")}</p>
+      </div>
 
+      <JoinMeeting meetingId={`${id}`} />
+
+      {(loginData?.type === USER_TYPE.PANELLIST ||
+        loginData?.type === USER_TYPE.ADMIN) && (
+        <button
+          className="edit"
+          onClick={() => {
+            navigate(`/edit-meeting/${id}`);
+          }}
+        >
+          <p className="content-1">Edit</p>
+        </button>
+      )}
+    </div>
   );
 }
