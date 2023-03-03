@@ -14,6 +14,7 @@ import { LOCAL_STORAGE_LOGIN_KEY } from "../utils/constants";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { Logo } from "../backgrounds/Logo";
 
 export function Login() {
   const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ export function Login() {
   };
   return (
     <>
+      <Logo />
       <div className="color-overlay d-flex justify-content-center align-items-center">
         <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3" style={{height:"400px"}}>
           <Form.Group className="mb-4" controlId="formBasicEmail">
