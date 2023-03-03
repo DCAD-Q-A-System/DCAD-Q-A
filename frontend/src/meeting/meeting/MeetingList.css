@@ -106,6 +106,15 @@
     margin-top: 50px;
 }
 
+.delete{
+    width: 17%;
+    height: 170px;
+    background-color: #4784ff;
+    border-radius: 10px;
+    /* margin-right: 10%; */
+    margin-top: 50px;
+}
+
 .content-1{
     font-size: 30px;
     margin-top: 10px;
