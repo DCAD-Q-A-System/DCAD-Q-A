@@ -45,9 +45,13 @@ export function Login() {
   };
   return (
     <>
-      <Logo />
+      {/* <Logo /> */}
       <div className="color-overlay d-flex justify-content-center align-items-center">
-        <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3" style={{height:"400px"}}>
+        <Form
+          onSubmit={handleSubmit}
+          className="rounded p-4 p-sm-3"
+          style={{ height: "400px" }}
+        >
           <Form.Group className="mb-4" controlId="formBasicEmail">
             <Form.Label className="fs-3">Username</Form.Label>
             <Form.Control
@@ -72,9 +76,13 @@ export function Login() {
           <Button variant="primary" type="submit" className="fs-4 mt-4">
             Submit
           </Button>
-          <Button variant="secondary" type="submit" 
-          className="fs-4 mt-4" style={{marginLeft:"2%"}}
-          onClick={()=>navigate('/login')}>
+          <Button
+            variant="secondary"
+            type="submit"
+            className="fs-4 mt-4"
+            style={{ marginLeft: "2%" }}
+            onClick={() => navigate("/login")}
+          >
             Return
           </Button>
         </Form>

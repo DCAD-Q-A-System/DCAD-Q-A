@@ -20,7 +20,7 @@ export function LoginPanel() {
   const TYPES = ["Student", "Panellist", "Admin", "Guest"];
   return (
     <>
-      <Logo />
+      {/* <Logo /> */}
       <div className="button-row color-overlay d-flex justify-content-center align-items-center">
         <div className="card-bg button-col rounded p-4 p-sm-3">
           {TYPES.map((t, i) => {
