@@ -59,6 +59,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		superGroup.POST("/create-user",auth_middleware,users.CreateUser(conn))
 		superGroup.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
 		superGroup.PUT("/edit-user",auth_middleware,users.EditUser(conn))
+		superGroup.PUT("/edit-user-password",auth_middleware,users.EditUserPassword(conn))
 		superGroup.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))
 		superGroup.PUT("/leave-meeting",auth_middleware,meeting.LeaveMeeting(conn))
 		superGroup.PUT("/ban-user",auth_middleware,users.BanUser(conn))

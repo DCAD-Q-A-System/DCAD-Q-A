@@ -36,6 +36,8 @@ const EDIT_MEETING = PREFIX_API + "/edit-meeting";
 
 const EDIT_USER = PREFIX_API + "/edit-user";
 
+const EDIT_USER_PASSWORD = PREFIX_API + "/edit-user-password";
+
 const LEAVE_MEETING = PREFIX_API + "/leave-meeting";
 
 const GET_ALL_MEETINGS = PREFIX_API + "/get-all-meetings";
@@ -63,6 +65,7 @@ export {
   CREATE_MEETING,
   EDIT_MEETING,
   EDIT_USER,
+  EDIT_USER_PASSWORD,
   LEAVE_MEETING,
   REFRESH_PATH,
   BAN_USER,

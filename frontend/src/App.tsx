@@ -36,6 +36,7 @@ import { EditUsers } from "./users/EditUsers";
 import { UserDetails } from "./users/UserDetails";
 import { DETAILS_TYPE } from "./utils/interfaces";
 import { AxiosError, AxiosRequestConfig } from "axios";
+import { ChangePassword } from "./users/ChangePassword";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -202,6 +203,17 @@ function App() {
             <AdminMiddleware>
               <MeetingBackground>
                 <UserDetails userDetailsType={DETAILS_TYPE.CREATE} />
+              </MeetingBackground>
+            </AdminMiddleware>
+          }
+        />
+
+        <Route
+          path="/change-password/:userId"
+          element={
+            <AdminMiddleware>
+              <MeetingBackground>
+                <ChangePassword />
               </MeetingBackground>
             </AdminMiddleware>
           }
