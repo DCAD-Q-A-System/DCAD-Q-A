@@ -19,6 +19,7 @@
     display:flex;
     flex-direction:column;
     margin: 0 auto;
+    padding-right: 5%;
     align-items:normal;
     overflow: auto;
     position: relative;
@@ -36,6 +37,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    overflow-wrap: break-word;
 }
 
 
@@ -53,6 +55,7 @@
     margin-right: 0px;
     margin-left: 8%;
     margin-top: 50px;
+    display: flex;
 }
 
 .box2-student{
@@ -66,30 +69,51 @@
     margin-top: 50px;
 }
 
+.box3{
+    flex: 1;
+    width: 50%;
+    height: 100%;
+    border-right: 1px dashed rgb(18, 189, 246);
+}
+
+.box4{
+    flex: 1;
+    width: 50%;
+    /* background-color: rgb(46, 89, 245); */
+}
+
+.box5{
+    height: 40%;
+    border-bottom: 1px dashed rgb(18, 189, 246);
+}
+
 
 .content{
-    font-size: 30px;
-    margin-top: 20px;
+    font-size: 35px;
+    padding-top: 5%;
     margin-left: 20px;
+    padding-right: 5px;
     font-weight:800;
     color: white;
-    overflow: hidden;
-    white-space: nowrap;
+    overflow-y:scroll;
     text-overflow: ellipsis;
+    overflow-wrap:break-word;
 }
 
 .content-item{
-    font-size: 20px;
+    font-size: 25px;
     margin-top: 20px;
     margin-left: 20px;
+    margin-right: 5px;
     font-weight: 700;
     color: white;
-    overflow: hidden;
+    overflow: scroll;
     white-space: nowrap;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
 }
 
 .join{
+    display: flex;
     width: 125px;
     height: 85px;
     background-color: #9747FF;
@@ -99,19 +123,36 @@
 
 .edit{
     width: 17%;
+    min-width: 100px;
+    margin-left: 0px;  
+    width: 17%;
     height: 170px;
     background-color: #FF7347;
     border-radius: 10px;
-    /* margin-right: 10%; */
-    margin-top: 50px;
+    padding-right: 2%;
+    margin-top: 50px; 
+}
+
+.share{
+    width: 17%;
+    min-width: 100px;
+    margin-left: 0px;  
+    width: 17%;
+    height: 170px;
+    background-color: #f0309a;
+    border-radius: 10px;
+    padding-right: 3%;
+    margin-top: 50px; 
+    text-overflow: ellipsis;
 }
 
 .delete{
     width: 17%;
     height: 170px;
+    min-width: 100px;
     background-color: #4784ff;
     border-radius: 10px;
-    /* margin-right: 10%; */
+    /* margin-right: 5%; */
     margin-top: 50px;
 }
 
@@ -119,4 +160,8 @@
     font-size: 30px;
     margin-top: 10px;
     color: aliceblue;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
 }
+

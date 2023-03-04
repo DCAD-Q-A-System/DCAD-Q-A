@@ -83,7 +83,7 @@ export function Home() {
               }}
             >
               <BsClockFill className="icon" />
-              <div className="words">Current Meeting</div>
+              <div className="words ">Current Meeting</div>
             </div>
             {loginData?.type !== USER_TYPE.STUDENT && (
               <div

@@ -36,7 +36,7 @@ export function MeetingList() {
   console.log(ids);
   return (
     <>
-      <div className="Container">
+      <div className="Container" onClick={()=>{isOpen==false?setIsOpen(!isOpen):""}}>
         <Menu path="/" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="box">
           {ids && ids.ids.length > 0 ? (
