@@ -37,11 +37,24 @@ export function MeetingItem({
   return (
     <div className="box1">
       <div className="box2">
-        <p className="content">Name: {name}</p>
-        <p className="content-item">
+        <div className="box3 ">
+        <p className="content">Meeting:<br />{name}</p>
+        </div>
+        <div className="box4"> 
+          <div className="box5">
+            <p className="content-item">
+              Start: {moment(startTime).format("LLLL")}
+            </p>        
+          </div> 
+          <div className="box6">
+            <p className="content-item">End: {moment(endTime).format("LLLL")}</p> 
+          </div>        
+        </div>
+        {/* <p className="content-item">
           Start: {moment(startTime).format("LLLL")}
         </p>
-        <p className="content-item">End: {moment(endTime).format("LLLL")}</p>
+        <p className="content-item">End: {moment(endTime).format("LLLL")}</p> 
+        */}
       </div>
 
       <JoinMeeting meetingId={`${id}`} />
@@ -54,7 +67,7 @@ export function MeetingItem({
             navigate(`/edit-meeting/${id}`);
           }}
         >
-          <p className="content-1">Edit</p>
+          <p className="content-1 fs-2">Edit</p>
         </button>
       )}
       {loginData?.type === USER_TYPE.ADMIN && (
@@ -64,7 +77,7 @@ export function MeetingItem({
             deleteMeetings;
           }}
         >
-          <p className="content-1">Delete</p>
+          <p className="content-1 fs-2">Delete</p>
         </button>
       )}
     </div>

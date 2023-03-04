@@ -50,7 +50,7 @@ export function JoinMeeting({ meetingId }: JoinMeetingProps) {
 
   return (
     <div className="panColumn-3">
-      <button onClick={handleJoinMeeting} className="div-8">
+      <button onClick={handleJoinMeeting} className="div-8 fs-2">
         Join
       </button>
     </div>
