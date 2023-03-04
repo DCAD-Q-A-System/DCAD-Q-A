@@ -45,6 +45,7 @@ func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string
 				"parentMeetingId":meetingIdObj,
 				"userId":userIdObj,
 				"username":username,
+				"answered":false,
 			},
 		)
 		if err != nil {
