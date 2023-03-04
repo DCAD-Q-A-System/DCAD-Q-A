@@ -2,13 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import { USER_TYPE } from "../../utils/enums";
-import { GET_ALL_MEETINGS, JOIN_MEETING } from "../../utils/paths";
+import { GET_ALL_MEETINGS, GET_MEETING, JOIN_MEETING } from "../../utils/paths";
 import { JoinMeeting } from "./join_meeting/JoinMeeting";
 import moment from "moment";
-import { Button } from "react-bootstrap";
 import { credentialFetch } from "../../utils/credential_fetch";
 import { HTTP_METHODS } from "../../utils/http_methods";
 import { MeetingIds } from "../../utils/interfaces";
+import {FaShare} from 'react-icons/fa'
 
 export function MeetingItem({
   id,
@@ -33,7 +33,11 @@ export function MeetingItem({
       alert("something went wrong deleting meetings");
     }
   };
-
+  const handleClick = ()=>{
+    const link = `${GET_MEETING}?id=${id}`
+      navigator.clipboard.writeText(link);
+      alert('Copied meeting link to clipboard!')
+  }
   return (
     <div className="box1">
       <div className="box2">
@@ -58,6 +62,13 @@ export function MeetingItem({
       </div>
 
       <JoinMeeting meetingId={`${id}`} />
+
+      <button
+          className="share"
+          onClick={handleClick}
+        >
+          <p className="content-1 fs-2">Share</p>
+        </button>
 
       {(loginData?.type === USER_TYPE.PANELLIST ||
         loginData?.type === USER_TYPE.ADMIN) && (

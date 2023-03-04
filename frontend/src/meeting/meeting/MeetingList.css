@@ -19,6 +19,7 @@
     display:flex;
     flex-direction:column;
     margin: 0 auto;
+    padding-right: 5%;
     align-items:normal;
     overflow: auto;
     position: relative;
@@ -132,13 +133,26 @@
     margin-top: 50px; 
 }
 
+.share{
+    width: 17%;
+    min-width: 100px;
+    margin-left: 0px;  
+    width: 17%;
+    height: 170px;
+    background-color: #f0309a;
+    border-radius: 10px;
+    padding-right: 3%;
+    margin-top: 50px; 
+    text-overflow: ellipsis;
+}
+
 .delete{
     width: 17%;
     height: 170px;
     min-width: 100px;
     background-color: #4784ff;
     border-radius: 10px;
-    margin-right: 5%;
+    /* margin-right: 5%; */
     margin-top: 50px;
 }
 
@@ -146,4 +160,8 @@
     font-size: 30px;
     margin-top: 10px;
     color: aliceblue;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
 }
+
