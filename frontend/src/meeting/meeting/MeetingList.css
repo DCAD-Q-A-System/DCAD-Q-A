@@ -86,8 +86,6 @@
     border-bottom: 1px dashed rgb(18, 189, 246);
 }
 
-.box6{
-}
 
 .content{
     font-size: 35px;
@@ -105,6 +103,7 @@
     font-size: 25px;
     margin-top: 20px;
     margin-left: 20px;
+    margin-right: 5px;
     font-weight: 700;
     color: white;
     overflow: scroll;
