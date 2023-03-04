@@ -29,6 +29,7 @@ export interface IChat extends MessageStructure {
 
 export interface Reply extends MessageStructure {
   parentChatId: string;
+  parentMeetingId: string;
 }
 export interface MeetingData {
   id: string;

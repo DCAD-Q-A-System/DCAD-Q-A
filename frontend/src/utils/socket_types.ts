@@ -34,7 +34,7 @@ export interface ISocketMessageSend {
   meetingId: string;
   userId: string;
   username: string;
-  userIdToSendCommand?: string;
+  userIdToSendCommand?: string[];
 }
 
 export enum REQ_TYPES {

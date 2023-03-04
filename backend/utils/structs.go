@@ -47,6 +47,7 @@ type Reply struct {
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
 	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
+	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
 }
 
 type User struct {
@@ -113,7 +114,7 @@ type SocketMessage struct {
 	ChatId string `json:"chatId"` 
 	UserId string `json:"userId"`
 	Username string `json:"username"`
-	UserIdToSendCommand string `json:"userIdToSendCommand"`
+	UserIdToSendCommand []string `json:"userIdToSendCommand"`
 }
 
 

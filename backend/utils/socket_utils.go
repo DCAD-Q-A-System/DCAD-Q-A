@@ -51,7 +51,7 @@ type BroadcastMessage struct {
 
 type CommandMessage struct {
 	Command string `json:"command"`
-	UserId string `json:"userId"`
+	UserId []string `json:"userId"`
 }
 
 func SockAuth(conn *MongoConnection,userId string) bool {

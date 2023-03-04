@@ -46,6 +46,8 @@ const REFRESH_PATH = PREFIX_API + "/refresh";
 
 const BAN_USER = PREFIX_API + "/ban-user";
 
+const END_MEETING = PREFIX_API + "/end-meeting";
+
 export {
   JOIN_MEETING,
   LOGIN,
@@ -68,5 +70,6 @@ export {
   EDIT_USER_PASSWORD,
   LEAVE_MEETING,
   REFRESH_PATH,
+  END_MEETING,
   BAN_USER,
 };
