@@ -19,6 +19,10 @@ export interface MessageStructure {
   username: string;
 }
 
+export interface IQuestion extends MessageStructure {
+  answered: boolean;
+}
+
 export interface IChat extends MessageStructure {
   replies: Reply[];
 }
@@ -46,7 +50,7 @@ export interface IMeetingDetails {
 }
 
 export interface IMsg {
-  questions: MessageStructure[];
+  questions: IQuestion[];
   chat: IChat[];
 }
 

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Tabs, Tab, InputGroup, Form, Button } from "react-bootstrap";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { USER_TYPE } from "../../../utils/enums";
 import { jsonToArray } from "../../../utils/funcs";
-import { MessageStructure } from "../../../utils/interfaces";
+import { IQuestion, MessageStructure } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { Question } from "./Question";
 import "./QuestionTabs.css";
@@ -15,7 +15,7 @@ export function QuestionTabs({
   socket,
 }: {
   meetingId: string;
-  questions: MessageStructure[];
+  questions: IQuestion[];
   socket: ReconnectingWebSocket;
 }) {
   enum TABS {
@@ -23,12 +23,17 @@ export function QuestionTabs({
     ANSWERED = "Answered",
   }
   const [key, setKey] = useState(TABS.CURRENT.toLowerCase());
-  const questionElements = (
-    <div className="list-group-1">
-      {questions &&
-        questions.length > 0 &&
-        questions.map((question, i) => <Question key={i} {...question} />)}
-    </div>
+  const questionElements = useCallback(
+    (answered: boolean) => (
+      <div className="list-group-1">
+        {questions &&
+          questions.length > 0 &&
+          questions
+            .filter((q) => q.answered === answered)
+            .map((question, i) => <Question key={i} {...question} />)}
+      </div>
+    ),
+    [questions]
   );
 
   const [question, setQuestion] = useState("");
@@ -45,10 +50,10 @@ export function QuestionTabs({
         fill
       >
         <Tab eventKey={TABS.CURRENT.toLowerCase()} title={TABS.CURRENT}>
-          {questionElements}
+          {questionElements(false)}
         </Tab>
         <Tab eventKey={TABS.ANSWERED.toLowerCase()} title={TABS.ANSWERED}>
-          {questionElements}
+          {questionElements(true)}
         </Tab>
       </Tabs>
       {loginData && loginData.type !== USER_TYPE.GUEST && (

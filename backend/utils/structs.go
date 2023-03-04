@@ -27,6 +27,7 @@ type Question struct {
 	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
 	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
+	Answered bool `bson:"answered"`
 }
 
 type Chat struct {

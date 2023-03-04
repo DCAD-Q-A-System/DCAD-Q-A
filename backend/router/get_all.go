@@ -124,6 +124,7 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 				"userId":qs[i].UserId.Hex(),
 				"username":qs[i].UserName,
 				"timeCreated":qs[i].TimeCreated.Time().Unix(),
+				"answered":qs[i].Answered,
 			}
 		}
 		
