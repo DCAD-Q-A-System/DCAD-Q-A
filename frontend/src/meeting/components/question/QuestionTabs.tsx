@@ -1,5 +1,12 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Tabs, Tab, InputGroup, Form, Button, ListGroup } from "react-bootstrap";
+import {
+  Tabs,
+  Tab,
+  InputGroup,
+  Form,
+  Button,
+  ListGroup,
+} from "react-bootstrap";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { USER_TYPE } from "../../../utils/enums";
@@ -30,7 +37,14 @@ export function QuestionTabs({
           questions.length > 0 &&
           questions
             .filter((q) => q.answered === answered)
-            .map((question, i) => <Question key={i} {...question} />)}
+            .map((question, i) => (
+              <Question
+                meetingId={meetingId}
+                socket={socket}
+                key={i}
+                {...question}
+              />
+            ))}
       </ListGroup>
     ),
     [questions]

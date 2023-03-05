@@ -24,10 +24,10 @@ export interface IQuestion extends MessageStructure {
 }
 
 export interface IChat extends MessageStructure {
-  replies: Reply[];
+  replies: IReply[];
 }
 
-export interface Reply extends MessageStructure {
+export interface IReply extends MessageStructure {
   parentChatId: string;
   parentMeetingId: string;
 }

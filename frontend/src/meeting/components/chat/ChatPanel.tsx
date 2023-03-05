@@ -27,7 +27,6 @@ export function ChatPanel({
 }) {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [chat, setChat] = useState("");
-  const [reply, setReply] = useState("");
 
   function handleSend() {
     if (chat.trim() === "") {
@@ -36,11 +35,10 @@ export function ChatPanel({
 
     const socketMessage: ISocketMessageSend = {
       reqType: REQ_TYPES.INSERT_CHAT,
-      content: reply === "" ? chat : reply, // Send the reply message if it exists, otherwise send the chat message
+      content: chat, // Send the reply message if it exists, otherwise send the chat message
       meetingId: meetingId!,
       userId: loginData?.userId,
       username: loginData?.username,
-      replyTo: reply === "" ? undefined : chats[chats.length - 1].id, // Set the ID of the last message in the list as the reply target
     };
     console.log(socketMessage);
     const bytes = jsonToArray(socketMessage);
@@ -60,29 +58,20 @@ export function ChatPanel({
           chats.length > 0 &&
           chats.map((chat, i) => (
             <div key={i}>
-              <Chat {...chat} />
+              <Chat socket={socket} meetingId={meetingId} {...chat} />
             </div>
           ))}
       </ListGroup>
       {loginData && loginData.type !== USER_TYPE.GUEST && (
         <InputGroup className="chat-input">
-          {reply === "" ? (
-            <Form.Control
-              value={chat}
-              onChange={(e) => setChat(e.target.value)}
-              placeholder="Enter chat"
-              as="textarea"
-            />
-          ) : (
-            <Form.Control
-              value={reply}
-              onChange={(e) => setReply(e.target.value)}
-              placeholder={`Enter reply to ${chat.username}`}
-              as="textarea"
-            />
-          )}
+          <Form.Control
+            value={chat}
+            onChange={(e) => setChat(e.target.value)}
+            placeholder="Enter chat"
+            as="textarea"
+          />
 
-          <Button onClick={handleSend}>{reply === "" ? "Send" : "Reply"}</Button>
+          <Button onClick={handleSend}>Send</Button>
         </InputGroup>
       )}
     </div>

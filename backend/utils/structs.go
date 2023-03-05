@@ -111,7 +111,9 @@ type SocketMessage struct {
 	ReqType string `json:"reqType"`
 	Content string `json:"content"`
 	MeetingId string `json:"meetingId"`
-	ChatId string `json:"chatId"` 
+	ChatId string `json:"chatId"`
+	ReplyId string `json:"replyId"`
+	QuestionId string `json:"questionId"` 
 	UserId string `json:"userId"`
 	Username string `json:"username"`
 	UserIdToSendCommand []string `json:"userIdToSendCommand"`

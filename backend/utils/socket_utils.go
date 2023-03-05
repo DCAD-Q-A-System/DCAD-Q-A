@@ -33,9 +33,13 @@ type SocketChat struct {
 type SocketMesageSend struct {
 	MeetingId        string             `json:"meetingId"`
 	Chat             []SocketChat       `json:"chat"`
+	Replies          []SocketReply      `json:"replies"`
 	Questions        []QuestionStruct   `json:"questions"`
 	NewOnlineMembers []SocketMember     `json:"newOnlineMembers"`
 	MembersWhoLeft   []SocketMember     `json:"membersWhoLeft"`
+	QuestionsDeleted []QuestionStruct   `json:"questionsDeleted"`
+	ChatsDeleted     []SocketChat       `json:"chatsDeleted"`
+	RepliesDeleted   []SocketReply      `json:"repliesDeleted"`
 	AllUsers         []SocketMember     `json:"allUsers"`
 }
 

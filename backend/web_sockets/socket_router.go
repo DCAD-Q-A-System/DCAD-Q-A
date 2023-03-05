@@ -33,12 +33,18 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 					socket_message.ChatId,
 					socket_message.UserId,
 					socket_message.Username,
+					socket_message.MeetingId,
 				)
 		case "PING":
 			return utils.SocketMesageSend{
 				MeetingId: socket_message.MeetingId,
 			}
-		
+		case "DELETE_QUESTION":
+			return questions.DeleteQuestion(conn,socket_message.QuestionId,socket_message.MeetingId)
+		case "DELETE_CHAT":
+			return chat.DeleteChat(conn,socket_message.ChatId,socket_message.MeetingId)
+		case "DELETE_REPLY":
+			return replies.DeleteReply(conn,socket_message.ReplyId,socket_message.ChatId,socket_message.MeetingId)
 		default:
 			return utils.SocketMesageSend{}
 	}

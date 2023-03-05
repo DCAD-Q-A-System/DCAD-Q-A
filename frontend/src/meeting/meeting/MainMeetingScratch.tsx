@@ -195,6 +195,44 @@ export function MainMeetingScratch() {
               newMeeting.onlineMembers = newMeeting.onlineMembers.filter(
                 (m) => !membersWhoLeftIds.includes(m.userId)
               );
+            } else if (
+              data.message.chatsDeleted &&
+              data.message.chatsDeleted.length > 0
+            ) {
+              const idsObject: { [key: string]: string } = {};
+              data.message.chatsDeleted.forEach((c) => {
+                idsObject[c.id] = true;
+              });
+              newMeeting.messages.chat = newMeeting.messages.chat.filter(
+                (c) => !idsObject[c.id]
+              );
+            } else if (
+              data.message.repliesDeleted &&
+              data.message.repliesDeleted.length > 0
+            ) {
+              const chatIdsToObject: { [key: string]: string } = {};
+              newMeeting.messages.chat.forEach((c, i) => {
+                chatIdsToObject[c.id] = i;
+              });
+              data.message.repliesDeleted.forEach((d) => {
+                const chatChosenIndex = chatIdsToObject[d.parentChatId];
+                if (chatChosenIndex !== -1) {
+                  newMeeting.messages.chat[chatChosenIndex] =
+                    newMeeting.messages.chat[chatChosenIndex].replies.filter(
+                      (r) => r !== d.id
+                    );
+                }
+              });
+            } else if (
+              data.message.questionsDeleted &&
+              data.message.questionsDeleted.length > 0
+            ) {
+              const idsObject: { [key: string]: string } = {};
+              data.message.questionsDeleted.forEach((c) => {
+                idsObject[c.id] = true;
+              });
+              newMeeting.messages.questions =
+                newMeeting.messages.questions.filter((c) => !idsObject[c.id]);
             }
           }
           console.log("NEW MEETING BEFORE UPDATE", newMeeting);
@@ -369,6 +407,7 @@ export function MainMeetingScratch() {
                     <Tab.Pane eventKey="chat">
                       <ChatPanel
                         meetingId={meetingId!}
+                        socket={ws.current}
                         chats={meeting.messages.chat}
                       />
                     </Tab.Pane>
@@ -376,7 +415,7 @@ export function MainMeetingScratch() {
                       <QuestionTabs
                         meetingId={meetingId!}
                         questions={meeting.messages.questions}
-                        socket={ws}
+                        socket={ws.current}
                       />
                     </Tab.Pane>
                   </Tab.Content>
