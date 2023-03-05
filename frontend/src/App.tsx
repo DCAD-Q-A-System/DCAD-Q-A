@@ -37,6 +37,7 @@ import { UserDetails } from "./users/UserDetails";
 import { DETAILS_TYPE } from "./utils/interfaces";
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { ChangePassword } from "./users/ChangePassword";
+import { GlobalModal } from "./modal/GlobalModal";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -85,6 +86,8 @@ function App() {
 
   return (
     <div>
+      {/* {isOpen && <GlobalModal pShow={isOpen} />} */}
+
       <Routes>
         <Route
           path="/"

@@ -50,6 +50,8 @@ import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { HIGH_PRIVELAGE, WS } from "../../utils/constants";
 
+import { GlobalModal } from "../../modal/GlobalModal";
+
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);
   const { meetingId } = useParams<{ meetingId?: string }>();
@@ -58,6 +60,7 @@ export function MainMeetingScratch() {
   const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [usersList, setUsersList] = useState(false);
   const [activeTab, setActiveTab] = useState("chat");
   const handleSelect = (selectedTab) => {
@@ -213,22 +216,41 @@ export function MainMeetingScratch() {
     </div>
   );
 
-  // const question_tab = (
-  //   <QuestionTabs
-  //     meetingId={meetingId!}
-  //     questions={meeting.messages.questions}
-  //     socket={ws}
-  //   />
-  // );
-
-  // const chat_tab = (
-  //   <ChatPanel
-  //     meetingId={meetingId!}
-  //     chats={meeting.messages.chat}
-  //   />
-  // );
-
   console.log("RENDER", meeting?.messages);
+
+  const onEndMeeting = async () => {
+    console.log("inside end meeting");
+    const res = await credentialFetch(
+      GET_ALL_USERS_IN_MEETING + `?meetingId=${meetingId}`
+    );
+    if (res.status === 200) {
+      const userData: ISocketMember[] = res.data;
+      const delRes = await credentialFetch(
+        END_MEETING,
+        HTTP_METHODS.DELETE,
+        JSON.stringify({
+          meetingId,
+          userId: loginData?.userId,
+        })
+      );
+      const delResQuestions: IQuestion[] = delRes.data;
+      console.log("Delete res", delResQuestions);
+      if (delRes.status === 200) {
+        const socketKickOutMessage: ISocketMessageSend = {
+          meetingId,
+          reqType: "MAKE_USER_LEAVE",
+          userId: loginData?.userId,
+          userIdToSendCommand: userData.map((s) => s.userId),
+        };
+        const bytes = jsonToArray(socketKickOutMessage);
+        if (!isOpen(ws.current)) {
+          alert("connection lost");
+          return;
+        }
+        ws.current.send(bytes);
+      }
+    }
+  };
 
   return (
     <>
@@ -264,42 +286,16 @@ export function MainMeetingScratch() {
                 <NavDropdown.Item onClick={() => setUsersList(true)}>
                   Users List
                 </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={async () => {
-                    const res = await credentialFetch(
-                      GET_ALL_USERS_IN_MEETING + `?meetingId=${meetingId}`
-                    );
-                    if (res.status === 200) {
-                      const userData: ISocketMember[] = res.data;
-                      const delRes = await credentialFetch(
-                        END_MEETING,
-                        HTTP_METHODS.DELETE,
-                        JSON.stringify({
-                          meetingId,
-                          userId: loginData?.userId,
-                        })
-                      );
-                      const delResQuestions: IQuestion[] = delRes.data;
-                      console.log("Delete res", delResQuestions);
-                      if (delRes.status === 200) {
-                        const socketKickOutMessage: ISocketMessageSend = {
-                          meetingId,
-                          reqType: "MAKE_USER_LEAVE",
-                          userId: loginData?.userId,
-                          userIdToSendCommand: userData.map((s) => s.userId),
-                        };
-                        const bytes = jsonToArray(socketKickOutMessage);
-                        if (!isOpen(ws.current)) {
-                          alert("connection lost");
-                          return;
-                        }
-                        ws.current.send(bytes);
-                      }
-                    }
-                  }}
-                >
-                  End Meeting
-                </NavDropdown.Item>
+                {(loginData?.type === USER_TYPE.ADMIN ||
+                  loginData?.type === USER_TYPE.PANELLIST) && (
+                  <NavDropdown.Item
+                    onClick={() => {
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    End Meeting
+                  </NavDropdown.Item>
+                )}
 
                 {loginData && loginData.type !== USER_TYPE.GUEST && (
                   <NavDropdown.Item
@@ -323,6 +319,16 @@ export function MainMeetingScratch() {
               </NavDropdown>
             </Navbar.Collapse>
           </Navbar>
+
+          {isModalOpen && (
+            <GlobalModal
+              pShow={isModalOpen}
+              setPShow={setIsModalOpen}
+              title={"Ending meeting"}
+              message={"Are you sure want to end this meeting"}
+              onSubmit={onEndMeeting}
+            />
+          )}
           {HIGH_PRIVELAGE.includes(loginData?.type) && usersList && (
             <UsersList
               show={usersList}
