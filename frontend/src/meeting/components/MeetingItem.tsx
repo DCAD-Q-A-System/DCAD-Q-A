@@ -8,7 +8,7 @@ import moment from "moment";
 import { credentialFetch } from "../../utils/credential_fetch";
 import { HTTP_METHODS } from "../../utils/http_methods";
 import { MeetingIds } from "../../utils/interfaces";
-import {FaShare} from 'react-icons/fa'
+import { FaShare } from "react-icons/fa";
 
 export function MeetingItem({
   id,
@@ -33,26 +33,34 @@ export function MeetingItem({
       alert("something went wrong deleting meetings");
     }
   };
-  const handleClick = ()=>{
-    const link = `${GET_MEETING}?id=${id}`
-      navigator.clipboard.writeText(link);
-      alert('Copied meeting link to clipboard!')
-  }
+  const handleClick = () => {
+    const link = `${
+      window.location.protocol + "//" + window.location.host
+    }/meeting/${id}`;
+    navigator.clipboard.writeText(link);
+    alert("Copied meeting link to clipboard!");
+  };
   return (
     <div className="box1">
       <div className="box2">
         <div className="box3 ">
-        <p className="content">Meeting:<br />{name}</p>
+          <p className="content">
+            Meeting:
+            <br />
+            {name}
+          </p>
         </div>
-        <div className="box4"> 
+        <div className="box4">
           <div className="box5">
             <p className="content-item">
               Start: {moment(startTime).format("LLLL")}
-            </p>        
-          </div> 
+            </p>
+          </div>
           <div className="box6">
-            <p className="content-item">End: {moment(endTime).format("LLLL")}</p> 
-          </div>        
+            <p className="content-item">
+              End: {moment(endTime).format("LLLL")}
+            </p>
+          </div>
         </div>
         {/* <p className="content-item">
           Start: {moment(startTime).format("LLLL")}
@@ -63,12 +71,9 @@ export function MeetingItem({
 
       <JoinMeeting meetingId={`${id}`} />
 
-      <button
-          className="share"
-          onClick={handleClick}
-        >
-          <p className="content-1 fs-2">Share</p>
-        </button>
+      <button className="share" onClick={handleClick}>
+        <p className="content-1 fs-2">Share</p>
+      </button>
 
       {(loginData?.type === USER_TYPE.PANELLIST ||
         loginData?.type === USER_TYPE.ADMIN) && (
