@@ -42,7 +42,6 @@ export function Chat({
       return;
     }
     socket.send(bytes);
-    setChat("");
     setReply("");
   }
 
@@ -59,12 +58,14 @@ export function Chat({
             className={replies ? "ms-5 border border-secondary" : ""}
           >
             <div>{content}</div>
-            {replies && (
-              <div className="ms-5">
-                <p className="fw-bold text-secondary">{`@${username} replied:`}</p>
-                <div>{content}</div>
-              </div>
-            )}
+            {replies &&
+              replies.length > 0 &&
+              replies.map((r) => (
+                <div className="ms-5">
+                  <p className="fw-bold text-secondary">{`@${r.username} replied:`}</p>
+                  <div>{r.content}</div>
+                </div>
+              ))}
             <p className="fw-bold">{username}</p>
           </Col>
           <Col
