@@ -1,5 +1,5 @@
 import React from "react";
-import { MessageStructure } from "../../../utils/interfaces";
+import { IQuestion } from "../../../utils/interfaces";
 
 export function Question({
   id,
@@ -7,6 +7,6 @@ export function Question({
   userId,
   content,
   timeCreated,
-}: MessageStructure) {
+}: IQuestion) {
   return <div className="lorem-ipsum-dolor-sit-amet-co">{content}</div>;
 }

@@ -41,8 +41,9 @@ func EndMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 			meetingIdObj,
 			&ctx,
 		)
+
 		if err != nil {
-			fmt.Printf("questions aggr %v",err)
+			fmt.Printf("questions aggr %v\n",err)
 
 			c.AbortWithStatus(http.StatusBadGateway)
 			return
@@ -51,25 +52,20 @@ func EndMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 		questions_aggr.All(ctx,&questionsToDelete)
 
 		
-		chat_aggr,err := FindAllWithId(
-			chat_collection,
-			meetingIdObj,
-			&ctx,
+		_,err = chat_collection.DeleteMany(
+			ctx,
+			bson.D{{"parentMeetingId",meetingIdObj}},
 		)
 		if err != nil {
-			fmt.Printf("chat aggr %v",err)
+			fmt.Printf("chat aggr %v\n",err)
 
 			c.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
-		var chatsToDelete []utils.Chat
-		chat_aggr.All(ctx,&chatsToDelete)
 
-
-		replies_aggr,err := FindAllWithId(
-			replies_collection,
-			meetingIdObj,
-			&ctx,
+		_,err = replies_collection.DeleteMany(
+			ctx,
+			bson.D{{"parentMeetingId",meetingIdObj}},
 		)
 
 		if err != nil {
@@ -77,8 +73,7 @@ func EndMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 			c.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
-		var repliesToDelete []utils.Reply
-		replies_aggr.All(ctx,&repliesToDelete)
+		
 
 		var questionIds []primitive.ObjectID
 		if len(questionsToDelete) > 0 {
@@ -86,41 +81,22 @@ func EndMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 			for i,q := range questionsToDelete {
 				questionIds[i] = q.Id
 			}
-		}
-		var chatIds []primitive.ObjectID
-		if len(chatsToDelete) > 0 {
-			chatIds = make([]primitive.ObjectID,len(chatsToDelete))
-			for i,c := range chatsToDelete {
-				chatIds[i] = c.Id
+			fmt.Println("DELETING QUESTIONS",questionIds)
+			_,err = DeleteManyById(question_collection,questionIds,&ctx)
+			if err != nil {
+				fmt.Printf("questions delete %v\n",err)
+				c.AbortWithStatus(http.StatusBadGateway)
+				return 
 			}
-		}
-		var replyIds []primitive.ObjectID
-		if len(chatsToDelete) > 0 {
-			replyIds = make([]primitive.ObjectID,len(repliesToDelete))
-			for i,r := range repliesToDelete {
-				replyIds[i] = r.Id
-			}
-		}
-		fmt.Println("DELETING QUESTIONS",questionIds)
-		_,err = DeleteManyById(question_collection,questionIds,&ctx)
-		if err != nil {
-			c.AbortWithStatus(http.StatusBadGateway)
-		}
-
-		_,err = DeleteManyById(chat_collection,chatIds,&ctx)
-		if err != nil {
-			c.AbortWithStatus(http.StatusBadGateway)
 		}
 		
 
-		_,err = DeleteManyById(replies_collection,replyIds,&ctx)
-		if err != nil {
-			c.AbortWithStatus(http.StatusBadGateway)
-		}
-
 		_,err = meeting_collection.DeleteOne(ctx,bson.D{{"_id",meetingIdObj}},options.Delete())
 		if err != nil {
+			fmt.Printf("meeting del one %v\n",err)
+
 			c.AbortWithStatus(http.StatusBadGateway)
+			return
 		}
 		
 		questionsResponse := make([]map[string]string,len(questionsToDelete))
@@ -146,8 +122,6 @@ func FindAllWithId(
 	filter := bson.D{
 		{"parentMeetingId",id},
 	}
-	
-
 	
 	cur,err := collection.Find(*ctx,filter)
 	if err != nil {

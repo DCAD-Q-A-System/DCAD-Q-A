@@ -4,7 +4,7 @@ import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { USER_TYPE } from "../../../utils/enums";
 import { jsonToArray } from "../../../utils/funcs";
-import { IQuestion, MessageStructure } from "../../../utils/interfaces";
+import { IQuestion } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { Question } from "./Question";
 import "./QuestionTabs.css";

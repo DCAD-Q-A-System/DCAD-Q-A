@@ -1,4 +1,4 @@
-import { IChat, MessageStructure, Reply } from "./interfaces";
+import { IChat, IQuestion, Reply } from "./interfaces";
 
 export enum SOCKET_ERRORS_TYPE {
   INVALID_REQ_TYPE = "INVALID_REQ_TYPE",
@@ -21,7 +21,7 @@ export interface ISocketMessageReceive {
   message?: {
     meetingId: string;
     chat: IChat[];
-    questions: MessageStructure[];
+    questions: IQuestion[];
     newOnlineMembers: ISocketMember[];
     membersWhoLeft: ISocketMember[];
   };

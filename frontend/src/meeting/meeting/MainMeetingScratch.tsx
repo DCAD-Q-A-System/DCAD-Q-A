@@ -160,52 +160,38 @@ export function MainMeetingScratch() {
           const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
-          if (
-            newMeeting.messages &&
-            newMeeting.messages.chat &&
-            newMeeting.messages.chat.length &&
-            data &&
-            data.message
-          ) {
+          if (data.message) {
             if (data.message.chat && data.message.chat.length > 0) {
-              data.message?.chat.forEach((chatElement) => {
-                newMeeting.messages.chat.push(chatElement);
-                console.log("After push", newMeeting.messages.chat);
-              });
+              newMeeting.messages.chat = [
+                ...newMeeting.messages.chat,
+                ...data.message.chat,
+              ];
             } else if (
-              data?.message.questions &&
-              data?.message.questions.length > 0
+              data.message.questions &&
+              data.message.questions.length > 0
             ) {
               newMeeting.messages.questions = [
-                ...newMeeting.messages.questions,
                 ...data.message.questions,
+                ...newMeeting.messages.questions,
               ];
-            }
-          } else if (newMeeting.onlineMembers) {
-            if (
-              data.message?.newOnlineMembers &&
+            } else if (
+              data.message.newOnlineMembers &&
               data.message.newOnlineMembers.length > 0
             ) {
-              console.log(
-                `These are new members ${data.message.newOnlineMembers}`
-              );
               newMeeting.onlineMembers = [
                 ...newMeeting.onlineMembers,
                 ...data.message.newOnlineMembers,
               ];
-            }
-            if (
-              data.message?.membersWhoLeft &&
+            } else if (
+              data.message.membersWhoLeft &&
               data.message.membersWhoLeft.length > 0
             ) {
-              console.log(
-                `These are new members ${data.message.membersWhoLeft}`
+              const membersWhoLeftIds = data.message?.membersWhoLeft.map(
+                (m) => m.userId
               );
-
-              newMeeting.onlineMembers = [
-                ...newMeeting.onlineMembers,
-                ...data.message.newOnlineMembers,
-              ];
+              newMeeting.onlineMembers = newMeeting.onlineMembers.filter(
+                (m) => !membersWhoLeftIds.includes(m.userId)
+              );
             }
           }
           console.log("NEW MEETING BEFORE UPDATE", newMeeting);
