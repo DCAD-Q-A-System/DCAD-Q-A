@@ -17,7 +17,7 @@ import { Logo } from "../backgrounds/Logo";
 export function LoginPanel() {
   const navigate = useNavigate();
 
-  const TYPES = ["Student", "Panellist", "Admin", "Guest"];
+  const TYPES = ["Guest", "Student", "Panellist", "Admin"];
   return (
     <>
       {/* <Logo /> */}
