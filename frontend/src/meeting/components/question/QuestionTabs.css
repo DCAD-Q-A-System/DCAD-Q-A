@@ -23,3 +23,17 @@
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
 }
+
+.bin {
+  margin-right: 3%;
+  margin-top: 3%;
+}
+
+.answered {
+  margin-bottom: 3%;
+  margin-right: 3%;
+}
+
+.question-bg {
+  /* min-height: 40px; */
+}

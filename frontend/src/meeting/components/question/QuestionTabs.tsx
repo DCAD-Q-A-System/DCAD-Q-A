@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { Tabs, Tab, InputGroup, Form, Button } from "react-bootstrap";
+import { Tabs, Tab, InputGroup, Form, Button, ListGroup } from "react-bootstrap";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { USER_TYPE } from "../../../utils/enums";
@@ -25,13 +25,13 @@ export function QuestionTabs({
   const [key, setKey] = useState(TABS.CURRENT.toLowerCase());
   const questionElements = useCallback(
     (answered: boolean) => (
-      <div className="list-group-1">
+      <ListGroup as="ol" className="list-group-1">
         {questions &&
           questions.length > 0 &&
           questions
             .filter((q) => q.answered === answered)
             .map((question, i) => <Question key={i} {...question} />)}
-      </div>
+      </ListGroup>
     ),
     [questions]
   );
@@ -46,7 +46,6 @@ export function QuestionTabs({
         onSelect={(k) => {
           if (k) setKey(k);
         }}
-        className="mb-3"
         fill
       >
         <Tab eventKey={TABS.CURRENT.toLowerCase()} title={TABS.CURRENT}>
