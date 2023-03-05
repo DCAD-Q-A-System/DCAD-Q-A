@@ -248,6 +248,17 @@ export function MainMeetingScratch() {
           return;
         }
         ws.current.send(bytes);
+        // after having sent the signal for everyone to leave meeting
+        // download all the questions sent in meeting
+        const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+          JSON.stringify(delResQuestions)
+        )}`;
+        const downloadATag = document.createElement("a");
+        downloadATag.href = jsonString;
+        downloadATag.download = "questions.json";
+        downloadATag.style = "visibility:hidden;";
+        downloadATag.click();
+        downloadATag.remove();
       }
     }
   };
