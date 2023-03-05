@@ -67,7 +67,6 @@ export function Question({
             <Form.Check
               reverse
               type="checkbox"
-              label="Answered"
               className="answered position-absolute bottom-0 end-0"
               checked={answered}
               onChange={() => setAnswered(!answered)}
