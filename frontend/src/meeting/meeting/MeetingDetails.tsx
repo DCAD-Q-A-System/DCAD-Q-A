@@ -75,6 +75,20 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
       alert("Something went wront check form again");
       return;
     }
+    const users = chosenMembers.some(user=>user.username === 'admin')
+      if(!users){
+        const res = await credentialFetch(GET_USER_SUGGESTIONS + 'admi');
+        const data: ISocketMember[] = res.data; 
+        const admin = data.find(obj=>obj.username==='admin');
+        if(admin){
+          const chosenMembersSet = new Set(chosenMembers);
+          chosenMembersSet.add(admin);
+          setChosenMembers(()=>[...chosenMembersSet])
+          alert('Admin is allowed to join the meeting!')
+          return
+        }
+    }
+
     console.log(detailsType);
     if (detailsType === DETAILS_TYPE.CREATE) {
       const res = await fetch(CREATE_MEETING, {
