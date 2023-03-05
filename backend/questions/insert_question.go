@@ -45,6 +45,7 @@ func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string
 				"parentMeetingId":meetingIdObj,
 				"userId":userIdObj,
 				"username":username,
+				"answered":false,
 			},
 		)
 		if err != nil {
@@ -72,14 +73,15 @@ func InsertQuestion(conn *utils.MongoConnection,content string, meetingId string
 			return response
 		}
 		
-		question := utils.MessageStructure{}
+		question := utils.QuestionStruct{}
 		question.Content = content
 		question.Id = id.Hex()
 		question.TimeCreated = timeNow.Time().Format(time.RFC3339)
 		question.UserId = userId
 		question.Username = username
+		question.Answered = false
 
-		response.Questions = []utils.MessageStructure{}
+		response.Questions = []utils.QuestionStruct{}
 		response.Questions = append(response.Questions,question)
 		response.MeetingId = meetingId
 		return response

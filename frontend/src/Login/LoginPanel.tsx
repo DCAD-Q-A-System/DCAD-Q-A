@@ -12,13 +12,15 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Row, Container } from "react-bootstrap";
 import Col from "react-bootstrap/esm/Col";
+import { Logo } from "../backgrounds/Logo";
 
 export function LoginPanel() {
   const navigate = useNavigate();
 
-  const TYPES = ["Student", "Panellist", "Admin", "Guest"];
+  const TYPES = ["Guest", "Student", "Panellist", "Admin"];
   return (
     <>
+      {/* <Logo /> */}
       <div className="button-row color-overlay d-flex justify-content-center align-items-center">
         <div className="card-bg button-col rounded p-4 p-sm-3">
           {TYPES.map((t, i) => {

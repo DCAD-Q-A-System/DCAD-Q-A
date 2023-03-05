@@ -54,13 +54,17 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		superGroup.GET("/get-all-users",users.GetAllUsers(conn))
 		superGroup.GET("/get-user-suggestions",auth_middleware,users.GetUserSuggestions(conn))
 		superGroup.GET("/get-user",auth_middleware,users.GetUser(conn))
+		superGroup.GET("/get-meeting",auth_middleware,meeting.GetMeeting(conn))
 		superGroup.POST("/create-meeting",auth_middleware,meeting.InsertMeeting(conn))
 		superGroup.POST("/create-user",auth_middleware,users.CreateUser(conn))
 		superGroup.PUT("/edit-meeting",auth_middleware,meeting.EditMeeting(conn))
 		superGroup.PUT("/edit-user",auth_middleware,users.EditUser(conn))
+		superGroup.PUT("/edit-user-password",auth_middleware,users.EditUserPassword(conn))
 		superGroup.PUT("/join-meeting",auth_middleware,meeting.JoinMeeting(conn))
 		superGroup.PUT("/leave-meeting",auth_middleware,meeting.LeaveMeeting(conn))
 		superGroup.PUT("/ban-user",auth_middleware,users.BanUser(conn))
+
+		superGroup.DELETE("/end-meeting",auth_middleware,meeting.EndMeeting(conn))
 		
 	}
 	pool := web_sockets.NewPool()

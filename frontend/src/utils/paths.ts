@@ -24,6 +24,8 @@ const GET_ALL_USERS = PREFIX_API + "/get-all-users";
 
 const GET_USER = PREFIX_API + "/get-user?userId=";
 
+const GET_MEETING = PREFIX_API + "/get-meeting?meetingId=";
+
 const GET_USER_SUGGESTIONS = PREFIX_API + "/get-user-suggestions?username=";
 
 const CREATE_MEETING = PREFIX_API + "/create-meeting";
@@ -34,6 +36,8 @@ const EDIT_MEETING = PREFIX_API + "/edit-meeting";
 
 const EDIT_USER = PREFIX_API + "/edit-user";
 
+const EDIT_USER_PASSWORD = PREFIX_API + "/edit-user-password";
+
 const LEAVE_MEETING = PREFIX_API + "/leave-meeting";
 
 const GET_ALL_MEETINGS = PREFIX_API + "/get-all-meetings";
@@ -41,6 +45,8 @@ const GET_ALL_MEETINGS = PREFIX_API + "/get-all-meetings";
 const REFRESH_PATH = PREFIX_API + "/refresh";
 
 const BAN_USER = PREFIX_API + "/ban-user";
+
+const END_MEETING = PREFIX_API + "/end-meeting";
 
 export {
   JOIN_MEETING,
@@ -55,12 +61,15 @@ export {
   GET_ALL_USERS_IN_MEETING,
   GET_ALL_USERS,
   GET_USER,
+  GET_MEETING,
   GET_USER_SUGGESTIONS,
   CREATE_USER,
   CREATE_MEETING,
   EDIT_MEETING,
   EDIT_USER,
+  EDIT_USER_PASSWORD,
   LEAVE_MEETING,
   REFRESH_PATH,
+  END_MEETING,
   BAN_USER,
 };

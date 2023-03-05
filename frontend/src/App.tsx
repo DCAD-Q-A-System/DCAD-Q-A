@@ -27,15 +27,16 @@ import { Logout } from "./login/Logout";
 
 import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
 import { MeetingBackground } from "./backgrounds/MeetingBackground";
-import { CreateMeeting } from "./meeting/meeting/CreateMeeting";
+import { MeetingDetails } from "./meeting/meeting/MeetingDetails";
 import { MainMeetingB } from "./meeting/meeting/MainMeetingB";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { AdminMiddleware } from "./middleware/AdminMiddleware";
 import { UsersHome } from "./users/UsersHome";
 import { EditUsers } from "./users/EditUsers";
 import { UserDetails } from "./users/UserDetails";
-import { USER_DETAILS_TYPE } from "./utils/interfaces";
+import { DETAILS_TYPE } from "./utils/interfaces";
 import { AxiosError, AxiosRequestConfig } from "axios";
+import { ChangePassword } from "./users/ChangePassword";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -170,7 +171,7 @@ function App() {
           element={
             <AuthenticatorMiddleware>
               <MeetingBackground>
-                <CreateMeeting />
+                <MeetingDetails detailsType={DETAILS_TYPE.CREATE} />
               </MeetingBackground>
             </AuthenticatorMiddleware>
           }
@@ -201,7 +202,18 @@ function App() {
           element={
             <AdminMiddleware>
               <MeetingBackground>
-                <UserDetails userDetailsType={USER_DETAILS_TYPE.CREATE} />
+                <UserDetails userDetailsType={DETAILS_TYPE.CREATE} />
+              </MeetingBackground>
+            </AdminMiddleware>
+          }
+        />
+
+        <Route
+          path="/change-password/:userId"
+          element={
+            <AdminMiddleware>
+              <MeetingBackground>
+                <ChangePassword />
               </MeetingBackground>
             </AdminMiddleware>
           }
@@ -212,7 +224,17 @@ function App() {
           element={
             <AdminMiddleware>
               <MeetingBackground>
-                <UserDetails userDetailsType={USER_DETAILS_TYPE.EDIT} />
+                <UserDetails userDetailsType={DETAILS_TYPE.EDIT} />
+              </MeetingBackground>
+            </AdminMiddleware>
+          }
+        />
+        <Route
+          path="/edit-meeting/:meetingId"
+          element={
+            <AdminMiddleware>
+              <MeetingBackground>
+                <MeetingDetails detailsType={DETAILS_TYPE.EDIT} />
               </MeetingBackground>
             </AdminMiddleware>
           }
@@ -226,10 +248,7 @@ function App() {
             </LoginBackground>
           }
         />
-        {/* <Route path="meeting-scratch" element={<MainMeetingScratch />} /> */}
       </Routes>
-
-      {/* <MeetingListStudent /> */}
     </div>
   );
 }

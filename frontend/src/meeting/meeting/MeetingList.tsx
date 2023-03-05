@@ -9,11 +9,14 @@ import { credentialFetch } from "../../utils/credential_fetch";
 import { MeetingItem } from "../components/MeetingItem";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { Menu } from "../../users/Menu";
 
 export function MeetingList() {
   const [ids, setIds] = useState<MeetingIds | null>(null);
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
+  const [isOpen,setIsOpen] = useState(true)
+
   useEffect(() => {
     const fetchMeetings = async () => {
       const res = await credentialFetch(
@@ -33,7 +36,8 @@ export function MeetingList() {
   console.log(ids);
   return (
     <>
-      <div className="Container">
+      <div className="Container" onClick={()=>{isOpen==false?setIsOpen(!isOpen):""}}>
+        <Menu path="/" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="box">
           {ids && ids.ids.length > 0 ? (
             ids.ids.map(({ name, id, startTime, endTime }) => {
@@ -57,13 +61,6 @@ export function MeetingList() {
               <p>Try again later</p>
             </div>
           )}
-          <Button
-            className="return fs-2"
-            variant="secondary"
-            onClick={() => navigate("/")}
-          >
-            Return
-          </Button>
         </div>
       </div>
     </>

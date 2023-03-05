@@ -85,10 +85,12 @@ func (pool *Pool) Start(conn *utils.MongoConnection) {
 			fmt.Println("sending command to one of clients",command.UserId)
 			for client := range pool.Clients {
 				fmt.Println(client.ID)
-				if client.ID == command.UserId {
-					if err := client.Conn.WriteJSON(command); err != nil {
-						fmt.Println(err)
-						return
+				for _,ui := range command.UserId{
+					if client.ID == ui {
+						if err := client.Conn.WriteJSON(command); err != nil {
+							fmt.Println(err)
+							return
+						}
 					}
 				}
 			}

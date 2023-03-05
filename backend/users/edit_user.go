@@ -30,11 +30,11 @@ func EditUser(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 		
 		filter := bson.D{
-			{"_id",userIdObj},
+			{"username",user.Username},
 		}
 		resOne := user_collection.FindOne(ctx,filter)
 		if resOne.Err() == nil {
-			c.AbortWithStatus(http.StatusConflict)
+			c.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
 
@@ -42,15 +42,6 @@ func EditUser(conn *utils.MongoConnection) gin.HandlerFunc {
 		if err = resOne.Decode(&userOne);err != nil {
 			c.AbortWithStatus(http.StatusBadGateway)
 			return 
-		}
-		
-
-		hexString := auth.CreateHash(user.Password, userOne.Salt)
-	
-		if userOne.Password != hexString {
-			user.Password = hexString
-		}else {
-			user.Password = userOne.Password
 		}
 
 		if userOne.Username != user.Username {
@@ -92,8 +83,6 @@ func EditUser(conn *utils.MongoConnection) gin.HandlerFunc {
 			{
 				"$set",bson.D{
 					{"username",user.Username},
-					{"userId",user.UserId},
-					{"password",user.Password},
 					{"type",user.Type},
 				},
 			},
@@ -115,4 +104,73 @@ func EditUser(conn *utils.MongoConnection) gin.HandlerFunc {
 		c.Status(http.StatusOK)
 	}
 
+}
+
+
+func EditUserPassword(conn *utils.MongoConnection) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx := context.Background()
+		type SPassword struct {
+			Password string `json:"password"`
+			UserId string `json:"userId"`
+		}
+		var user SPassword
+		if err := c.BindJSON(&user);err != nil {
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
+		} 
+		mongo_db := conn.Client.Database(utils.DB_NAME)
+		user_collection := mongo_db.Collection(utils.USERS)
+		userIdObj,err := primitive.ObjectIDFromHex(user.UserId)
+		if err != nil {
+			c.AbortWithStatus(http.StatusBadRequest)
+			return
+		}
+		
+		filter := bson.D{
+			{"_id",userIdObj},
+		}
+		resOne := user_collection.FindOne(ctx,filter)
+		if resOne.Err() != nil {
+			c.AbortWithStatus(http.StatusBadGateway)
+			return
+		}
+
+		var userOne utils.User
+		if err = resOne.Decode(&userOne);err != nil {
+			c.AbortWithStatus(http.StatusBadGateway)
+			return 
+		}
+
+		hexString := auth.CreateHash(user.Password, userOne.Salt)
+	
+		if userOne.Password != hexString {
+			user.Password = hexString
+		}else {
+			user.Password = userOne.Password
+		}
+
+		update := bson.D{
+			{
+				"$set",bson.D{
+					{"password",user.Password},
+				},
+			},
+		}
+		
+		res, err := user_collection.UpdateOne(
+			ctx,
+			filter,
+			update,
+		)
+
+		if err != nil || res == nil || res.ModifiedCount == 0 {
+			fmt.Printf("Update gone wrong %v",err)
+			c.AbortWithStatus(http.StatusBadGateway)
+			return
+		}
+		
+		
+		c.Status(http.StatusOK)
+	}
 }

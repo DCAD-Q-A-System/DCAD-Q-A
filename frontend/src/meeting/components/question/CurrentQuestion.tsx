@@ -1,8 +1,8 @@
 import React from "react";
-import { MessageStructure } from "../../../utils/interfaces";
+import { IQuestion } from "../../../utils/interfaces";
 import "./CurrentQuestion.css";
 
-export function CurrentQuestion({ question }: { question: MessageStructure }) {
+export function CurrentQuestion({ question }: { question: IQuestion }) {
   return (
     <div className="jumbotron">
       <h2>Current Question</h2>

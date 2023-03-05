@@ -27,6 +27,7 @@ type Question struct {
 	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
 	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
+	Answered bool `bson:"answered"`
 }
 
 type Chat struct {
@@ -46,6 +47,7 @@ type Reply struct {
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
 	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
+	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
 }
 
 type User struct {
@@ -87,6 +89,15 @@ type JsonMeeting struct {
 	IframeLink string `json:"iframeLink"`
 }
 
+type EssentialMeetingDetails struct {
+	Id string `json:"id"`
+	Name string `json:"name"`
+	StartTime string `json:"startTime"`
+	EndTime string `json:"endTime"`
+	Members []map[string]string `json:"members"`
+	IframeLink string `json:"iframeLink"`
+} 
+
 type JoinMeeting struct {
 	MeetingId string `json:"meetingId"`
 	UserId string `json:"userId"`
@@ -103,7 +114,7 @@ type SocketMessage struct {
 	ChatId string `json:"chatId"` 
 	UserId string `json:"userId"`
 	Username string `json:"username"`
-	UserIdToSendCommand string `json:"userIdToSendCommand"`
+	UserIdToSendCommand []string `json:"userIdToSendCommand"`
 }
 
 

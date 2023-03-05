@@ -16,8 +16,13 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../../utils/credential_fetch";
 import { HTTP_METHODS } from "../../utils/http_methods";
-import { MeetingData } from "../../utils/interfaces";
-import { GET_ALL_MESSAGES, LEAVE_MEETING } from "../../utils/paths";
+import { IQuestion, MeetingData } from "../../utils/interfaces";
+import {
+  END_MEETING,
+  GET_ALL_MESSAGES,
+  GET_ALL_USERS_IN_MEETING,
+  LEAVE_MEETING,
+} from "../../utils/paths";
 import anonSmall from "../../image/anon_small.png";
 
 import "./MainMeetingScratch.css";
@@ -28,18 +33,22 @@ import { ChatPanel } from "../components/chat/ChatPanel";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { USER_TYPE } from "../../utils/enums";
 import {
+  ISocketMember,
   ISocketMessageReceive,
   ISocketMessageSend,
   REQ_TYPES,
   SOCKET_COMMAND_TYPE,
   SOCKET_ERRORS_TYPE,
 } from "../../utils/socket_types";
-import { checkIfInitiallyLoggedIn, jsonToArray } from "../../utils/funcs";
+import {
+  checkIfInitiallyLoggedIn,
+  isOpen,
+  jsonToArray,
+} from "../../utils/funcs";
 import { setData } from "../../store/loginSlice";
 import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { HIGH_PRIVELAGE, WS } from "../../utils/constants";
-// import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);
@@ -151,52 +160,38 @@ export function MainMeetingScratch() {
           const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
-          if (
-            newMeeting.messages &&
-            newMeeting.messages.chat &&
-            newMeeting.messages.chat.length &&
-            data &&
-            data.message
-          ) {
+          if (data.message) {
             if (data.message.chat && data.message.chat.length > 0) {
-              data.message?.chat.forEach((chatElement) => {
-                newMeeting.messages.chat.push(chatElement);
-                console.log("After push", newMeeting.messages.chat);
-              });
+              newMeeting.messages.chat = [
+                ...newMeeting.messages.chat,
+                ...data.message.chat,
+              ];
             } else if (
-              data?.message.questions &&
-              data?.message.questions.length > 0
+              data.message.questions &&
+              data.message.questions.length > 0
             ) {
               newMeeting.messages.questions = [
-                ...newMeeting.messages.questions,
                 ...data.message.questions,
+                ...newMeeting.messages.questions,
               ];
-            }
-          } else if (newMeeting.onlineMembers) {
-            if (
-              data.message?.newOnlineMembers &&
+            } else if (
+              data.message.newOnlineMembers &&
               data.message.newOnlineMembers.length > 0
             ) {
-              console.log(
-                `These are new members ${data.message.newOnlineMembers}`
-              );
               newMeeting.onlineMembers = [
                 ...newMeeting.onlineMembers,
                 ...data.message.newOnlineMembers,
               ];
-            }
-            if (
-              data.message?.membersWhoLeft &&
+            } else if (
+              data.message.membersWhoLeft &&
               data.message.membersWhoLeft.length > 0
             ) {
-              console.log(
-                `These are new members ${data.message.membersWhoLeft}`
+              const membersWhoLeftIds = data.message?.membersWhoLeft.map(
+                (m) => m.userId
               );
-
-              newMeeting.onlineMembers = [
-                ...newMeeting.onlineMembers,
-                ...data.message.newOnlineMembers,
-              ];
+              newMeeting.onlineMembers = newMeeting.onlineMembers.filter(
+                (m) => !membersWhoLeftIds.includes(m.userId)
+              );
             }
           }
           console.log("NEW MEETING BEFORE UPDATE", newMeeting);
@@ -269,6 +264,43 @@ export function MainMeetingScratch() {
                 <NavDropdown.Item onClick={() => setUsersList(true)}>
                   Users List
                 </NavDropdown.Item>
+                <NavDropdown.Item
+                  onClick={async () => {
+                    const res = await credentialFetch(
+                      GET_ALL_USERS_IN_MEETING + `?meetingId=${meetingId}`
+                    );
+                    if (res.status === 200) {
+                      const userData: ISocketMember[] = res.data;
+                      const delRes = await credentialFetch(
+                        END_MEETING,
+                        HTTP_METHODS.DELETE,
+                        JSON.stringify({
+                          meetingId,
+                          userId: loginData?.userId,
+                        })
+                      );
+                      const delResQuestions: IQuestion[] = delRes.data;
+                      console.log("Delete res", delResQuestions);
+                      if (delRes.status === 200) {
+                        const socketKickOutMessage: ISocketMessageSend = {
+                          meetingId,
+                          reqType: "MAKE_USER_LEAVE",
+                          userId: loginData?.userId,
+                          userIdToSendCommand: userData.map((s) => s.userId),
+                        };
+                        const bytes = jsonToArray(socketKickOutMessage);
+                        if (!isOpen(ws.current)) {
+                          alert("connection lost");
+                          return;
+                        }
+                        ws.current.send(bytes);
+                      }
+                    }
+                  }}
+                >
+                  End Meeting
+                </NavDropdown.Item>
+
                 {loginData && loginData.type !== USER_TYPE.GUEST && (
                   <NavDropdown.Item
                     onClick={async () => {
@@ -301,76 +333,79 @@ export function MainMeetingScratch() {
           )}
 
           {meeting?.messages ? (
-          <div>
-            <Stack className="iframe-r d-block d-sm-none" direction="vertical">
-              <Iframe link={meeting.iframeLink} />
-              <Tab.Container activeKey={activeTab} onSelect={handleSelect}>
-                <Nav variant="tabs">
-                  <Nav.Item>
-                    <Nav.Link eventKey="chat">Chat</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="question">Questions</Nav.Link>
-                  </Nav.Item>
-                </Nav>
-                <Tab.Content>
-                  <Tab.Pane eventKey="chat">
-                    <ChatPanel
-                      meetingId={meetingId!}
-                      chats={meeting.messages.chat}
-                    />
-                  </Tab.Pane>
-                  <Tab.Pane eventKey="question">
+            <div>
+              <Stack
+                className="iframe-r d-block d-sm-none"
+                direction="vertical"
+              >
+                <Iframe link={meeting.iframeLink} />
+                <Tab.Container activeKey={activeTab} onSelect={handleSelect}>
+                  <Nav variant="tabs">
+                    <Nav.Item>
+                      <Nav.Link eventKey="chat">Chat</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link eventKey="question">Questions</Nav.Link>
+                    </Nav.Item>
+                  </Nav>
+                  <Tab.Content>
+                    <Tab.Pane eventKey="chat">
+                      <ChatPanel
+                        meetingId={meetingId!}
+                        chats={meeting.messages.chat}
+                      />
+                    </Tab.Pane>
+                    <Tab.Pane eventKey="question">
+                      <QuestionTabs
+                        meetingId={meetingId!}
+                        questions={meeting.messages.questions}
+                        socket={ws}
+                      />
+                    </Tab.Pane>
+                  </Tab.Content>
+                </Tab.Container>
+              </Stack>
+              <Container fluid className="main d-none d-sm-block">
+                <Row>
+                  <Col xs={3} md={3} className="col">
                     <QuestionTabs
                       meetingId={meetingId!}
                       questions={meeting.messages.questions}
-                      socket={ws}
+                      socket={ws.current}
                     />
-                  </Tab.Pane>
-                </Tab.Content>
-              </Tab.Container>
-            </Stack>
-            <Container fluid className="main d-none d-sm-block">
-              <Row>
-                <Col xs={3} md={3} className="col">
-                  <QuestionTabs
-                    meetingId={meetingId!}
-                    questions={meeting.messages.questions}
-                    socket={ws.current}
-                  />
-                </Col>
-                <Col xs={6} md={6} className="col">
-                  <Container className="iframe">
-                    <Stack direction="vertical" gap={3}>
-                      <Iframe link={meeting.iframeLink} />
-                      <CurrentQuestion
-                        question={
-                          meeting.messages && meeting.messages.questions
-                            ? meeting.messages.questions[0]
-                            : []
-                        }
-                      />
-                    </Stack>
-                  </Container>
-                </Col>
-                <Col
-                  xs={{ span: 2, offset: 1 }}
-                  md={{ span: 2, offset: 1 }}
-                  className="col"
-                >
-                  <ChatPanel
-                    meetingId={meetingId!}
-                    chats={
-                      meeting.messages && meeting.messages.chat
-                        ? meeting.messages.chat
-                        : []
-                    }
-                    socket={ws.current}
-                  />
-                </Col>
-              </Row>
-            </Container>
-          </div>
+                  </Col>
+                  <Col xs={6} md={6} className="col">
+                    <Container className="iframe">
+                      <Stack direction="vertical" gap={3}>
+                        <Iframe link={meeting.iframeLink} />
+                        <CurrentQuestion
+                          question={
+                            meeting.messages && meeting.messages.questions
+                              ? meeting.messages.questions[0]
+                              : []
+                          }
+                        />
+                      </Stack>
+                    </Container>
+                  </Col>
+                  <Col
+                    xs={{ span: 2, offset: 1 }}
+                    md={{ span: 2, offset: 1 }}
+                    className="col"
+                  >
+                    <ChatPanel
+                      meetingId={meetingId!}
+                      chats={
+                        meeting.messages && meeting.messages.chat
+                          ? meeting.messages.chat
+                          : []
+                      }
+                      socket={ws.current}
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            </div>
           ) : (
             <p className="text-center"> Not fetched right, reload again </p>
           )}

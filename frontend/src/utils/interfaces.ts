@@ -19,12 +19,17 @@ export interface MessageStructure {
   username: string;
 }
 
+export interface IQuestion extends MessageStructure {
+  answered: boolean;
+}
+
 export interface IChat extends MessageStructure {
   replies: Reply[];
 }
 
 export interface Reply extends MessageStructure {
   parentChatId: string;
+  parentMeetingId: string;
 }
 export interface MeetingData {
   id: string;
@@ -36,12 +41,21 @@ export interface MeetingData {
   onlineMembers: ISocketMember[];
 }
 
+export interface IMeetingDetails {
+  id: string;
+  name: string;
+  iframeLink: string;
+  startTime: string;
+  endTime: string;
+  members: ISocketMember[];
+}
+
 export interface IMsg {
-  questions: MessageStructure[];
+  questions: IQuestion[];
   chat: IChat[];
 }
 
-export enum USER_DETAILS_TYPE {
+export enum DETAILS_TYPE {
   CREATE = "CREATE",
   EDIT = "EDIT",
 }

@@ -14,6 +14,7 @@ import { LOCAL_STORAGE_LOGIN_KEY } from "../utils/constants";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+import { Logo } from "../backgrounds/Logo";
 
 export function Login() {
   const dispatch = useAppDispatch();
@@ -44,35 +45,51 @@ export function Login() {
   };
   return (
     <>
+      {/* <Logo /> */}
       <div className="color-overlay d-flex justify-content-center align-items-center">
-        <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3" style={{height:"400px"}}>
+        <Form
+          onSubmit={handleSubmit}
+          className="rounded p-4 p-sm-3"
+          style={{ height: "750px" }}
+        >
           <Form.Group className="mb-4" controlId="formBasicEmail">
-            <Form.Label className="fs-3">Username</Form.Label>
+            <Form.Label className="fs-1 mt-5">Username:</Form.Label>
             <Form.Control
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter username"
-              className="p-3 fs-4"
+              className="p-3 fs-2 mt-2 border border-dark"
+              style={{backgroundColor:"#D9D9D9"}}
             />
           </Form.Group>
 
           <Form.Group className="mb-4" controlId="formBasicPassword">
-            <Form.Label className="fs-3">Password</Form.Label>
+            <Form.Label className="fs-1" style={{marginTop:"100px"}}>Password:</Form.Label>
             <Form.Control
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="Password"
-              className="p-3 fs-4"
+              className="p-3 fs-2 mt-2 border border-dark"
+              style={{backgroundColor:"#D9D9D9"}}
             />
           </Form.Group>
-          <Button variant="primary" type="submit" className="fs-4 mt-4">
-            Submit
+          <Button 
+            variant="primary" 
+            type="submit" 
+            className="fs-2 btn btn-lg"
+            style={{marginLeft:"28%",marginTop:"100px", backgroundColor:"#2C5CDA"}}
+          >
+            Login
           </Button>
-          <Button variant="secondary" type="submit" 
-          className="fs-4 mt-4" style={{marginLeft:"2%"}}
-          onClick={()=>navigate('/login')}>
+          <Button
+            variant="secondary"
+            type="submit"
+            className="fs-2 btn btn-lg"
+            style={{ marginLeft: "4%",marginTop:"100px" }}
+            onClick={() => navigate("/login")}
+          >
             Return
           </Button>
         </Form>

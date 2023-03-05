@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../utils/credential_fetch";
 import { USER_TYPE } from "../utils/enums";
 import { HTTP_METHODS } from "../utils/http_methods";
-import { USER_DETAILS_TYPE } from "../utils/interfaces";
+import { DETAILS_TYPE } from "../utils/interfaces";
 import { CREATE_USER, EDIT_USER, GET_USER } from "../utils/paths";
 
 import "./UserDetails.css";
@@ -19,7 +19,7 @@ interface TUserDetails {
 export function UserDetails({
   userDetailsType,
 }: {
-  userDetailsType: USER_DETAILS_TYPE;
+  userDetailsType: DETAILS_TYPE;
 }) {
   const { userId } = useParams();
   const [userDetails, setUserDetails] = useState<TUserDetails>({
@@ -36,7 +36,7 @@ export function UserDetails({
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (userDetailsType === USER_DETAILS_TYPE.EDIT && userId) {
+    if (userDetailsType === DETAILS_TYPE.EDIT && userId) {
       const getUser = async () => {
         const res = await credentialFetch(GET_USER + userId);
         const data: TUserDetails = res.data;
@@ -56,7 +56,7 @@ export function UserDetails({
       alert("can't leave them blank");
       return;
     }
-    if (userDetailsType === USER_DETAILS_TYPE.CREATE) {
+    if (userDetailsType === DETAILS_TYPE.CREATE) {
       const res = await credentialFetch(
         CREATE_USER,
         HTTP_METHODS.POST,
@@ -74,7 +74,7 @@ export function UserDetails({
       } else {
         alert("something went wrong. check details");
       }
-    } else if (userDetailsType === USER_DETAILS_TYPE.EDIT) {
+    } else if (userDetailsType === DETAILS_TYPE.EDIT) {
       const res = await credentialFetch(
         EDIT_USER,
         HTTP_METHODS.POST,
@@ -87,7 +87,7 @@ export function UserDetails({
       );
       if (res.status === 200) {
         alert("successful edit!");
-        navigate(-1);
+        navigate("/users-home");
       } else if (res.status === 409) {
         alert("username already taken");
       } else {
@@ -110,19 +110,8 @@ export function UserDetails({
           />
         </Form.Group>
 
-        <Form.Group className="mb-4" controlId="formBasicPassword">
-          <Form.Label className="fs-3">Password</Form.Label>
-          <Form.Control
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="Password"
-            className="p-3 fs-4"
-          />
-        </Form.Group>
-
         <Form.Group className="mb-4" controlId="formSelect">
-          <Form.Label className="fs-3">Username</Form.Label>
+          <Form.Label className="fs-3">User Type</Form.Label>
           <Form.Select
             value={userType}
             onChange={(e) => setUserType(e.target.value)}
@@ -135,11 +124,19 @@ export function UserDetails({
         <Button variant="primary" type="submit" className="fs-4 mt-4">
           Submit
         </Button>
+
+        <Button
+          type="button"
+          variant="primary"
+          onClick={() => navigate(`/change-password/${userId}`)}
+        >
+          Change Password
+        </Button>
         <Button
           variant="secondary"
           type="button"
           className="fs-4 mt-4"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate("/users-home")}
         >
           Return
         </Button>

@@ -54,7 +54,7 @@ func JoinMeetingDb(conn *utils.MongoConnection,join_meeting utils.JoinMeeting) i
 	}
 	res,err := meeting_collection.UpdateOne(
 		ctx,
-		bson.D{{"_id",u}},
+		bson.D{{"_id",m}},
 		update,
 	)
 	if err != nil || res == nil {

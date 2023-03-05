@@ -21,6 +21,11 @@ type MessageStructure struct {
 	Username    string `json:"username"`
 }
 
+type QuestionStruct struct {
+	MessageStructure
+	Answered bool `json:"answered"`
+}
+
 type SocketChat struct {
 	MessageStructure
 	Replies []SocketReply `json:"replies"`
@@ -28,7 +33,7 @@ type SocketChat struct {
 type SocketMesageSend struct {
 	MeetingId        string             `json:"meetingId"`
 	Chat             []SocketChat       `json:"chat"`
-	Questions        []MessageStructure `json:"questions"`
+	Questions        []QuestionStruct   `json:"questions"`
 	NewOnlineMembers []SocketMember     `json:"newOnlineMembers"`
 	MembersWhoLeft   []SocketMember     `json:"membersWhoLeft"`
 	AllUsers         []SocketMember     `json:"allUsers"`
@@ -51,7 +56,7 @@ type BroadcastMessage struct {
 
 type CommandMessage struct {
 	Command string `json:"command"`
-	UserId string `json:"userId"`
+	UserId []string `json:"userId"`
 }
 
 func SockAuth(conn *MongoConnection,userId string) bool {

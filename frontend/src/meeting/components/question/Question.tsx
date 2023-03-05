@@ -3,6 +3,7 @@ import { MessageStructure } from "../../../utils/interfaces";
 import { ListGroup, Row, Col, Form } from "react-bootstrap";
 import Bin from "../../../image/trash.png";
 import { Vote } from "../../../question/vote"
+import { IQuestion } from "../../../utils/interfaces";
 
 export function Question({
   id,
@@ -10,7 +11,7 @@ export function Question({
   userId,
   content,
   timeCreated,
-}: MessageStructure) {
+}: IQuestion) {
   const [answered, setAnswered] = useState(false);
   return (
     <ListGroup.Item
