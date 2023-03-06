@@ -63,3 +63,46 @@ iframe {
   align-Items: center;
   justify-Content: center;
 }
+
+.dark-mode {
+  background-color: #222222;
+  color: #ffffff;
+}
+
+.dark-mode .question-panel {
+  background-color: #333333;
+}
+
+.dark-mode .list-group-1 {
+  background-color: #757575;
+}
+
+.dark-mode .question-bg {
+  background-color: #757575;
+}
+
+.dark-mode .chat-panel {
+  background-color: #333333;
+}
+
+.dark-mode .chat-bg {
+  background-color: #757575;
+}
+
+/* .dark-mode .right-end {
+  background-color: #333333;
+} */
+
+.dark-mode .form-check-input:checked ~ .form-check-label {
+  color: #ffffff;
+}
+
+.dark-mode .form-check-input:checked ~ .form-check-label::before {
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+
+.dark-mode iframe {
+  background-color: #333333;
+  border: none;
+}

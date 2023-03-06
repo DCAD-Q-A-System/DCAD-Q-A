@@ -339,7 +339,10 @@ export function MainMeetingScratch() {
                   label="Dark Mode"
                   id="reverse-dark-mode-switch"
                   checked={darkMode}
-                  onChange={() => setDarkMode(!darkMode)}
+                  onChange={() => {
+                    setDarkMode(!darkMode);
+                    document.body.classList.toggle('dark-mode');
+                  }}
                 />
               </Form.Group>
               <NavDropdown title={MyAccount} id="basic-nav-dropdown">
