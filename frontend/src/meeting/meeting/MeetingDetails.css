@@ -1,4 +1,4 @@
-.color-overlay {
+.color-overlay-1 {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.2);
   height: 100%;
@@ -8,9 +8,13 @@
 
 .outside {
   /* height: 850px; */
-  width: 750px;
+  /* width: 750px; */
+  width: 50%;
+  height: 80%;
+  max-width: 800px;
   background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  overflow: scroll;
 }
 
 .title {

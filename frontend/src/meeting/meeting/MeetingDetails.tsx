@@ -140,7 +140,7 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
 
   return (
     <>
-      <div className=" color-overlay d-flex justify-content-center align-items-center">
+      <div className=" color-overlay-1 d-flex justify-content-center align-items-center">
         <Form className="outside p-4 p-sm-3 ">
           <Form.Group className="mb-5 mt-5" controlId="formBasicEmail">
             <Form.Label className="fs-4">Meeting Name: </Form.Label>
