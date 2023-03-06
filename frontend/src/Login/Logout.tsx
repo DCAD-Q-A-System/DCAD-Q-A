@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Spinner } from "react-bootstrap";
+import { Container, Spinner } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../store/hooks";
 import { setData } from "../store/loginSlice";
@@ -24,8 +24,10 @@ export function Logout() {
     logout();
   }, []);
   return (
-    <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </Spinner>
+    <Container className="d-flex justify-content-center">
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    </Container>
   );
 }

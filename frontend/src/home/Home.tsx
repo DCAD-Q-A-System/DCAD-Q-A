@@ -5,7 +5,7 @@ import { useAppSelector } from "../store/hooks";
 import { USER_TYPE } from "../utils/enums";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Dropdown, Navbar, Stack } from "react-bootstrap";
+import { Dropdown, Navbar, Stack, Row, Col, Container } from "react-bootstrap";
 import { BiMenu } from "react-icons/bi";
 import { MdMenuOpen } from "react-icons/md";
 
@@ -75,39 +75,32 @@ export function Home() {
               )}
             </Stack>
           </Navbar>{" "}
-          <div className="container">
-            <div
-              className="container-1"
-              onClick={() => {
-                navigate("/meeting-list");
-              }}
-            >
-              <BsClockFill className="icon" />
-              <div className="words ">Current Meeting</div>
-            </div>
-            {loginData?.type !== USER_TYPE.STUDENT && (
-              <div
-                className="container-1"
-                onClick={() => {
-                  navigate("/create-meeting");
-                }}
-              >
-                <AiOutlinePlus className="icon" />
-                <div className="words">Creating Meeting</div>
-              </div>
-            )}
-            {loginData?.type === USER_TYPE.ADMIN && (
-              <div
-                className="container-1"
-                onClick={() => {
-                  navigate("/users-home");
-                }}
-              >
-                <AiFillEdit className="icon" />
-                <div className="word-2">Users</div>
-              </div>
-            )}
-          </div>
+          <Container fluid className="home-icons">
+            <Row xs={1} md={3} className="g-4">
+              <Col>
+                <Container className="container-1" onClick={() => { navigate("/meeting-list"); }}>
+                  <BsClockFill className="icon" />
+                  <div className="words ">Current Meeting</div>
+                </Container>
+              </Col>
+              {loginData?.type !== USER_TYPE.STUDENT && (
+                <Col>
+                  <Container className="container-1" onClick={() => { navigate("/create-meeting"); }}>
+                    <AiOutlinePlus className="icon" />
+                    <div className="words">Creating Meeting</div>
+                  </Container>
+                </Col>
+              )}
+              {loginData?.type === USER_TYPE.ADMIN && (
+                <Col>
+                  <Container className="container-1" onClick={() => { navigate("/users-home"); }}>
+                    <AiFillEdit className="icon" />
+                    <div className="word-2">Users</div>
+                  </Container>
+                </Col>
+              )}
+            </Row>
+          </Container>
         </div>
       ) : (
         <p>not available</p>

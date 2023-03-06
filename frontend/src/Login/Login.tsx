@@ -47,51 +47,39 @@ export function Login() {
     <>
       {/* <Logo /> */}
       <div className="color-overlay d-flex justify-content-center align-items-center">
-        <Form
-          onSubmit={handleSubmit}
-          className="rounded p-4 p-sm-3"
-          style={{ height: "750px" }}
-        >
-          <Form.Group className="mb-4" controlId="formBasicEmail">
-            <Form.Label className="fs-1 mt-5">Username:</Form.Label>
+        <Form onSubmit={handleSubmit} className="my-4 p-4 rounded">
+          <Form.Group controlId="formBasicEmail" className="mb-3">
+            <Form.Label>Username:</Form.Label>
             <Form.Control
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter username"
-              className="p-3 fs-2 mt-2 border border-dark"
-              style={{backgroundColor:"#D9D9D9"}}
             />
           </Form.Group>
 
-          <Form.Group className="mb-4" controlId="formBasicPassword">
-            <Form.Label className="fs-1" style={{marginTop:"100px"}}>Password:</Form.Label>
+          <Form.Group controlId="formBasicPassword" className="mb-3">
+            <Form.Label>Password:</Form.Label>
             <Form.Control
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               type="password"
               placeholder="Password"
-              className="p-3 fs-2 mt-2 border border-dark"
-              style={{backgroundColor:"#D9D9D9"}}
             />
           </Form.Group>
-          <Button 
-            variant="primary" 
-            type="submit" 
-            className="fs-2 btn btn-lg"
-            style={{marginLeft:"28%",marginTop:"100px", backgroundColor:"#2C5CDA"}}
-          >
-            Login
-          </Button>
-          <Button
-            variant="secondary"
-            type="submit"
-            className="fs-2 btn btn-lg"
-            style={{ marginLeft: "4%",marginTop:"100px" }}
-            onClick={() => navigate("/login")}
-          >
-            Return
-          </Button>
+
+          <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+            <Button variant="primary" type="submit" className="me-md-2">
+              Login
+            </Button>
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={() => navigate("/login")}
+            >
+              Return
+            </Button>
+          </div>
         </Form>
       </div>
     </>

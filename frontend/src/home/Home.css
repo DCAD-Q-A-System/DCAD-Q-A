@@ -6,36 +6,40 @@
 }
 
 .container-1 {
-    width: 400px;
-    height: 400px;
-    background-color: blue;
-    margin: 100px;
-    cursor:pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: blue;
+  cursor: pointer;
+  height: 100%;
+  min-width: 20vw;
 }
 
 .icon {
-    color: white;
-    width: 300px;
-    height: 300px;
-    /* margin-left: 50px;
-    margin-top: 20px; */
-    padding-right: 10%;
+  color: white;
+  font-size: 10vw; /* set font size based on viewport width */
+  margin-bottom: 0.5rem;
 }
 
-.words {
-    font-size: 35px;
-    font-weight: 1000;
-    margin-top: 10px;
-    margin-left: 12%;
-    color: aliceblue;
-}
-
-.word-2 {
-  font-size: 35px;
+.words, .word-2 {
+  font-size: 2vw; /* set font size based on viewport width */
   font-weight: 1000;
-  margin-top: 10px;
-  margin-left: 35%;
   color: aliceblue;
+  text-align: center;
+  white-space: nowrap; /* prevent text from wrapping */
+  overflow: hidden; /* hide overflowed text */
+  text-overflow: ellipsis; /* add ellipsis to indicate hidden text */
+}
+
+@media screen and (max-width: 768px) {
+  .icon {
+    font-size: 2em;
+  }
+  
+  .words, .word-2 {
+    font-size: 16px;
+  }
 }
 
 .home-nav {
@@ -45,12 +49,6 @@
     /* border-bottom: 1px solid white; */
     margin-left: 90%; 
   }
-
-  .container-2{
-    margin-right: 0px;
-    /* margin-top: 40px; */
-  }
-
   
   .menu{
     float: right;
@@ -93,4 +91,14 @@
 
 .dropdown2:hover{
   font-size: 42px;
+}
+
+.home-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
 }

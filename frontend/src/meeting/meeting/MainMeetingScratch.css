@@ -56,3 +56,10 @@ iframe {
     height: 40vh;
   }
 }
+
+.spinner {
+  height: 100vh;
+  display: flex;
+  align-Items: center;
+  justify-Content: center;
+}
