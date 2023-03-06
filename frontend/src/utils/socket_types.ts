@@ -26,6 +26,7 @@ export interface ISocketMessageReceive {
     newOnlineMembers: ISocketMember[];
     membersWhoLeft: ISocketMember[];
     questionsDeleted: IQuestion[];
+    questionsAnswered: IQuestion[];
     chatsDeleted: IChat[];
     repliesDeleted: IReply[];
   };
@@ -38,6 +39,7 @@ export interface ISocketMessageSend {
   meetingId: string;
   chatId: string;
   questionId: string;
+  questionAnswered: boolean;
   replyId: string;
   userId: string;
   username: string;
@@ -50,6 +52,7 @@ export enum REQ_TYPES {
   INSERT_REPLY = "INSERT_REPLY",
   GET_ALL_USERS = "GET_ALL_USERS",
   PING = "PING",
+  SWITCH_QUESTION_ANSWERED = "SWITCH_QUESTION_ANSWERED",
   DELETE_CHAT = "DELETE_CHAT",
   DELETE_REPLY = "DELETE_REPLY",
   DELETE_QUESTION = "DELETE_QUESTION",

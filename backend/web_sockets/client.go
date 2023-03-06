@@ -104,10 +104,9 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string) {
 			}
 			continue
 		}
-
 		res := SocketRouter(conn,&socket_message)
 		if res.MeetingId == "" {
-			fmt.Println("Message type wrong",socket_message.ReqType)
+			fmt.Println("Message type wrong",socket_message.MeetingId)
 			c.Conn.WriteJSON(map[string]string{
 				"error":"something went wrong with message",
 			})

@@ -36,9 +36,9 @@ export function MeetingList() {
   console.log(ids);
   return (
     <>
-      <div className="Container" onClick={()=>{isOpen==false?setIsOpen(!isOpen):""}}>
+      <div className="container" onClick={()=>{isOpen==false?setIsOpen(!isOpen):""}}>
         <Menu path="/" isOpen={isOpen} setIsOpen={setIsOpen} />
-        <div className="box">
+        <div className="box0">
           {ids && ids.ids.length > 0 ? (
             ids.ids.map(({ name, id, startTime, endTime }) => {
               return (

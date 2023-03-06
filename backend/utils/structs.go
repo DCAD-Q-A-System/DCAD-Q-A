@@ -113,7 +113,8 @@ type SocketMessage struct {
 	MeetingId string `json:"meetingId"`
 	ChatId string `json:"chatId"`
 	ReplyId string `json:"replyId"`
-	QuestionId string `json:"questionId"` 
+	QuestionId string `json:"questionId"`
+	QuestionAnswered bool `json:"questionAnswered"` 
 	UserId string `json:"userId"`
 	Username string `json:"username"`
 	UserIdToSendCommand []string `json:"userIdToSendCommand"`

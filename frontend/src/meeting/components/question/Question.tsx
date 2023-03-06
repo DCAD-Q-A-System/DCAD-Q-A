@@ -19,11 +19,12 @@ export function Question({
   userId,
   content,
   timeCreated,
+  answered: propsAnswered,
   socket,
   meetingId,
 }: QuestionProps) {
   const loginData = useAppSelector((s) => s.loginReducer.data);
-  const [answered, setAnswered] = useState(false);
+  // const [answered, setAnswered] = useState(propsAnswered);
   return (
     <ListGroup.Item
       as="li"
@@ -68,8 +69,24 @@ export function Question({
               reverse
               type="checkbox"
               className="answered position-absolute bottom-0 end-0"
-              checked={answered}
-              onChange={() => setAnswered(!answered)}
+              checked={propsAnswered}
+              onChange={(e) => {
+                // setAnswered(!answered);
+                // console.log("new answered", answered);
+                const socketMsg: ISocketMessageSend = {
+                  reqType: REQ_TYPES.SWITCH_QUESTION_ANSWERED,
+                  meetingId: meetingId,
+                  questionId: id,
+                  questionAnswered: !propsAnswered,
+                  userId: loginData?.userId,
+                  username: loginData?.username,
+                };
+                const bytes = jsonToArray(socketMsg);
+                if (!isOpen(socket)) {
+                  alert("socket not connected try reloading");
+                }
+                socket.send(bytes);
+              }}
             />
           </Col>
         </Row>

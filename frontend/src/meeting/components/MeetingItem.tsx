@@ -34,9 +34,10 @@ export function MeetingItem({
     }
   };
   const handleClick = () => {
-    const link = `${
-      window.location.protocol + "//" + window.location.host
-    }/meeting/${id}`;
+    // const link = `${
+    //   window.location.protocol + "//" + window.location.host
+    // }/meeting/${id}`;
+    const link = `${id}`
     navigator.clipboard.writeText(link);
     alert("Copied meeting link to clipboard!");
   };
@@ -86,7 +87,8 @@ export function MeetingItem({
           <p className="content-1 fs-2">Edit</p>
         </button>
       )}
-      {loginData?.type === USER_TYPE.ADMIN && (
+      {(loginData?.type === USER_TYPE.PANELLIST ||
+        loginData?.type === USER_TYPE.ADMIN) && (
         <button
           className="delete"
           onClick={() => {
