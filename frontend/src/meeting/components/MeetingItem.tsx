@@ -86,7 +86,8 @@ export function MeetingItem({
           <p className="content-1 fs-2">Edit</p>
         </button>
       )}
-      {loginData?.type === USER_TYPE.ADMIN && (
+      {(loginData?.type === USER_TYPE.PANELLIST ||
+        loginData?.type === USER_TYPE.ADMIN) && (
         <button
           className="delete"
           onClick={() => {
