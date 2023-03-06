@@ -50,6 +50,8 @@ import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { HIGH_PRIVELAGE, WS } from "../../utils/constants";
 
+import { GlobalModal } from "../../modal/GlobalModal";
+
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);
   const { meetingId } = useParams<{ meetingId?: string }>();
@@ -58,6 +60,7 @@ export function MainMeetingScratch() {
   const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [usersList, setUsersList] = useState(false);
   const [activeTab, setActiveTab] = useState("chat");
   const handleSelect = (selectedTab) => {
@@ -192,6 +195,44 @@ export function MainMeetingScratch() {
               newMeeting.onlineMembers = newMeeting.onlineMembers.filter(
                 (m) => !membersWhoLeftIds.includes(m.userId)
               );
+            } else if (
+              data.message.chatsDeleted &&
+              data.message.chatsDeleted.length > 0
+            ) {
+              const idsObject: { [key: string]: string } = {};
+              data.message.chatsDeleted.forEach((c) => {
+                idsObject[c.id] = true;
+              });
+              newMeeting.messages.chat = newMeeting.messages.chat.filter(
+                (c) => !idsObject[c.id]
+              );
+            } else if (
+              data.message.repliesDeleted &&
+              data.message.repliesDeleted.length > 0
+            ) {
+              const chatIdsToObject: { [key: string]: string } = {};
+              newMeeting.messages.chat.forEach((c, i) => {
+                chatIdsToObject[c.id] = i;
+              });
+              data.message.repliesDeleted.forEach((d) => {
+                const chatChosenIndex = chatIdsToObject[d.parentChatId];
+                if (chatChosenIndex !== -1) {
+                  newMeeting.messages.chat[chatChosenIndex] =
+                    newMeeting.messages.chat[chatChosenIndex].replies.filter(
+                      (r) => r !== d.id
+                    );
+                }
+              });
+            } else if (
+              data.message.questionsDeleted &&
+              data.message.questionsDeleted.length > 0
+            ) {
+              const idsObject: { [key: string]: string } = {};
+              data.message.questionsDeleted.forEach((c) => {
+                idsObject[c.id] = true;
+              });
+              newMeeting.messages.questions =
+                newMeeting.messages.questions.filter((c) => !idsObject[c.id]);
             }
           }
           console.log("NEW MEETING BEFORE UPDATE", newMeeting);
@@ -213,22 +254,52 @@ export function MainMeetingScratch() {
     </div>
   );
 
-  // const question_tab = (
-  //   <QuestionTabs
-  //     meetingId={meetingId!}
-  //     questions={meeting.messages.questions}
-  //     socket={ws}
-  //   />
-  // );
-
-  // const chat_tab = (
-  //   <ChatPanel
-  //     meetingId={meetingId!}
-  //     chats={meeting.messages.chat}
-  //   />
-  // );
-
   console.log("RENDER", meeting?.messages);
+
+  const onEndMeeting = async () => {
+    console.log("inside end meeting");
+    const res = await credentialFetch(
+      GET_ALL_USERS_IN_MEETING + `?meetingId=${meetingId}`
+    );
+    if (res.status === 200) {
+      const userData: ISocketMember[] = res.data;
+      const delRes = await credentialFetch(
+        END_MEETING,
+        HTTP_METHODS.DELETE,
+        JSON.stringify({
+          meetingId,
+          userId: loginData?.userId,
+        })
+      );
+      const delResQuestions: IQuestion[] = delRes.data;
+      console.log("Delete res", delResQuestions);
+      if (delRes.status === 200) {
+        const socketKickOutMessage: ISocketMessageSend = {
+          meetingId,
+          reqType: "MAKE_USER_LEAVE",
+          userId: loginData?.userId,
+          userIdToSendCommand: userData.map((s) => s.userId),
+        };
+        const bytes = jsonToArray(socketKickOutMessage);
+        if (!isOpen(ws.current)) {
+          alert("connection lost");
+          return;
+        }
+        ws.current.send(bytes);
+        // after having sent the signal for everyone to leave meeting
+        // download all the questions sent in meeting
+        const jsonString = `data:text/json;chatset=utf-8,${encodeURIComponent(
+          JSON.stringify(delResQuestions)
+        )}`;
+        const downloadATag = document.createElement("a");
+        downloadATag.href = jsonString;
+        downloadATag.download = "questions.json";
+        downloadATag.style = "visibility:hidden;";
+        downloadATag.click();
+        downloadATag.remove();
+      }
+    }
+  };
 
   return (
     <>
@@ -264,42 +335,16 @@ export function MainMeetingScratch() {
                 <NavDropdown.Item onClick={() => setUsersList(true)}>
                   Users List
                 </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={async () => {
-                    const res = await credentialFetch(
-                      GET_ALL_USERS_IN_MEETING + `?meetingId=${meetingId}`
-                    );
-                    if (res.status === 200) {
-                      const userData: ISocketMember[] = res.data;
-                      const delRes = await credentialFetch(
-                        END_MEETING,
-                        HTTP_METHODS.DELETE,
-                        JSON.stringify({
-                          meetingId,
-                          userId: loginData?.userId,
-                        })
-                      );
-                      const delResQuestions: IQuestion[] = delRes.data;
-                      console.log("Delete res", delResQuestions);
-                      if (delRes.status === 200) {
-                        const socketKickOutMessage: ISocketMessageSend = {
-                          meetingId,
-                          reqType: "MAKE_USER_LEAVE",
-                          userId: loginData?.userId,
-                          userIdToSendCommand: userData.map((s) => s.userId),
-                        };
-                        const bytes = jsonToArray(socketKickOutMessage);
-                        if (!isOpen(ws.current)) {
-                          alert("connection lost");
-                          return;
-                        }
-                        ws.current.send(bytes);
-                      }
-                    }
-                  }}
-                >
-                  End Meeting
-                </NavDropdown.Item>
+                {(loginData?.type === USER_TYPE.ADMIN ||
+                  loginData?.type === USER_TYPE.PANELLIST) && (
+                  <NavDropdown.Item
+                    onClick={() => {
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    End Meeting
+                  </NavDropdown.Item>
+                )}
 
                 {loginData && loginData.type !== USER_TYPE.GUEST && (
                   <NavDropdown.Item
@@ -323,6 +368,16 @@ export function MainMeetingScratch() {
               </NavDropdown>
             </Navbar.Collapse>
           </Navbar>
+
+          {isModalOpen && (
+            <GlobalModal
+              pShow={isModalOpen}
+              setPShow={setIsModalOpen}
+              title={"Ending meeting"}
+              message={"Are you sure want to end this meeting"}
+              onSubmit={onEndMeeting}
+            />
+          )}
           {HIGH_PRIVELAGE.includes(loginData?.type) && usersList && (
             <UsersList
               show={usersList}
@@ -352,6 +407,7 @@ export function MainMeetingScratch() {
                     <Tab.Pane eventKey="chat">
                       <ChatPanel
                         meetingId={meetingId!}
+                        socket={ws.current}
                         chats={meeting.messages.chat}
                       />
                     </Tab.Pane>
@@ -359,7 +415,7 @@ export function MainMeetingScratch() {
                       <QuestionTabs
                         meetingId={meetingId!}
                         questions={meeting.messages.questions}
-                        socket={ws}
+                        socket={ws.current}
                       />
                     </Tab.Pane>
                   </Tab.Content>

@@ -23,10 +23,9 @@ var ALLOWED_REQ_TYPES = map[string]bool{
 	"INSERT_REPLY":    true,
 	"MAKE_USER_LEAVE": true,
 	"PING":            true,
-	// for later
-	// "KICK_USER":       true,
-	// "DELETE_QUESTION": true,
-	// "DELETE_CHAT":     true,
+	"DELETE_QUESTION": true,
+	"DELETE_CHAT":     true,
+	"DELETE_REPLY":    true,
 }
 
 var USER_CREATION_ALLOWED_TYPES = map[string]bool{

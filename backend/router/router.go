@@ -66,6 +66,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 
 		superGroup.DELETE("/end-meeting",auth_middleware,meeting.EndMeeting(conn))
 		
+		
 	}
 	pool := web_sockets.NewPool()
 	go pool.Start(conn)

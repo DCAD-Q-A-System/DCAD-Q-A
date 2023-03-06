@@ -1,22 +1,47 @@
 import React, { useState } from "react";
 import { ListGroup, Row, Col } from "react-bootstrap";
 import { IChat } from "../../../utils/interfaces";
-import Bin from "../../../image/trash.png";
-import Reply from "../../../image/reply.png";
 import "./Chat.css";
+import { BsFillReplyFill, BsFillTrashFill } from "react-icons/bs";
+import ReconnectingWebSocket from "reconnecting-websocket";
+import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
+import { useAppSelector } from "../../../store/hooks";
+import { isOpen, jsonToArray } from "../../../utils/funcs";
 
+interface ChatProps extends IChat {
+  socket: ReconnectingWebSocket;
+  meetingId: string;
+}
 export function Chat({
   id,
   username,
   content,
   timeCreated,
   replies,
-}: IChat) {
+  socket,
+  meetingId,
+}: ChatProps) {
   const [reply, setReply] = useState("");
 
+  const loginData = useAppSelector((s) => s.loginReducer.data);
   function handleSend() {
     // Do something with the reply message here
     console.log(reply);
+    const socketMessage: ISocketMessageSend = {
+      reqType: REQ_TYPES.INSERT_REPLY,
+      content: reply,
+      meetingId: meetingId!,
+      chatId: id,
+      userId: loginData?.userId,
+      username: loginData?.username,
+    };
+    console.log(socketMessage);
+    const bytes = jsonToArray(socketMessage);
+    if (!isOpen(socket)) {
+      alert("connection lost");
+      return;
+    }
+    socket.send(bytes);
     setReply("");
   }
 
@@ -33,12 +58,14 @@ export function Chat({
             className={replies ? "ms-5 border border-secondary" : ""}
           >
             <div>{content}</div>
-            {replies && (
-              <div className="ms-5">
-                <p className="fw-bold text-secondary">{`@${username} replied:`}</p>
-                <div>{content}</div>
-              </div>
-            )}
+            {replies &&
+              replies.length > 0 &&
+              replies.map((r) => (
+                <div className="ms-5">
+                  <p className="fw-bold text-secondary">{`@${r.username} replied:`}</p>
+                  <div>{r.content}</div>
+                </div>
+              ))}
             <p className="fw-bold">{username}</p>
           </Col>
           <Col
@@ -46,13 +73,30 @@ export function Chat({
             md={2}
             className="d-flex flex-column justify-content-between"
           >
-            <img
-              src={Bin}
+            <BsFillTrashFill
+              onClick={() => {
+                const socketMessage: ISocketMessageSend = {
+                  reqType: REQ_TYPES.DELETE_CHAT,
+                  content: "",
+                  meetingId,
+                  chatId: id,
+                  questionId: "",
+                  replyId: "",
+                  userId: loginData?.userId,
+                  username: loginData?.username,
+                };
+                const bytes = jsonToArray(socketMessage);
+                if (!isOpen(socket)) {
+                  alert("connection lost");
+                  return;
+                }
+                socket.send(bytes);
+                alert("delete command success");
+              }}
               className="bin position-absolute top-0 end-0"
               alt="Delete"
             />
-            <img
-              src={Reply}
+            <BsFillReplyFill
               className="reply position-absolute bottom-0 end-0"
               alt="Reply"
               onClick={() => setReply(`@${username} `)}
@@ -65,7 +109,7 @@ export function Chat({
               <textarea
                 value={reply}
                 onChange={(e) => setReply(e.target.value)}
-                placeholder={`Enter reply to ${username}`}
+                placeholder={`Send reply to ${username}`}
                 className="form-control"
               />
             </Col>

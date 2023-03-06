@@ -15,7 +15,9 @@ func InsertReply(conn *utils.MongoConnection,
 				content string, 
 				chatId string, 
 				userId string,
-				username string) utils.SocketMesageSend {
+				username string,
+				meetingId string,
+			) utils.SocketMesageSend {
 	
 	response := utils.SocketMesageSend{}
 	ctx:= context.Background()
@@ -94,6 +96,7 @@ func InsertReply(conn *utils.MongoConnection,
 	reply.Username = username
 	chat.Replies = append(chat.Replies,reply)
 	response.Chat = append(response.Chat,chat)
+	response.MeetingId = meetingId 
 	
 	return response
 }

@@ -9,9 +9,11 @@ import {
   REQ_TYPES,
 } from "../../../utils/socket_types";
 import { FaBan } from "react-icons/fa";
-import { useAppSelector } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { isOpen, jsonToArray } from "../../../utils/funcs";
 import ReconnectingWebSocket from "reconnecting-websocket";
+
+import { GlobalModal } from "../../../modal/GlobalModal";
 
 export function UsersList({
   show,
@@ -28,6 +30,7 @@ export function UsersList({
   const loginData = useAppSelector((s) => s.loginReducer.data);
   const [wantToDoSeriousAction, setWantToDoSeriousAction] = useState(false);
   const [currentMember, setCurrentMember] = useState<ISocketMember>(null);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const getAllUsers = async () => {
       const res = await credentialFetch(
@@ -39,63 +42,45 @@ export function UsersList({
     getAllUsers();
   }, []);
 
+  const banUser = async () => {
+    const res = await credentialFetch(
+      BAN_USER,
+      HTTP_METHODS.PUT,
+      JSON.stringify({ meetingId, userId: currentMember?.userId })
+    );
+    if (res.status === 200) {
+      const socketMsg: ISocketMessageSend = {
+        meetingId,
+        reqType: "MAKE_USER_LEAVE",
+        userId: loginData?.userId,
+        userIdToSendCommand: currentMember?.userId,
+      };
+      const bytes = jsonToArray(socketMsg);
+      if (!isOpen(socket)) {
+        alert("connection lost");
+        return;
+      }
+      socket.send(bytes);
+      const newUsers: ISocketMember[] = users.filter(
+        (x) =>
+          x.userId !== currentMember?.userId &&
+          x.username !== currentMember?.username
+      );
+
+      setUsers(newUsers);
+    }
+  };
+
   return (
     <div>
       {wantToDoSeriousAction && (
-        <Modal
-          size="lg"
-          show={wantToDoSeriousAction}
-          onHide={() => setWantToDoSeriousAction(false)}
-          aria-labelledby="action-title"
-        >
-          <Modal.Header>
-            <Modal.Title id="action-title">Confirmation</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to ban this user?</Modal.Body>
-          <Modal.Footer>
-            <Button
-              variant="secondary"
-              onClick={() => setWantToDoSeriousAction(false)}
-            >
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              onClick={async () => {
-                const res = await credentialFetch(
-                  BAN_USER,
-                  HTTP_METHODS.PUT,
-                  JSON.stringify({ meetingId, userId: currentMember?.userId })
-                );
-                if (res.status === 200) {
-                  const socketMsg: ISocketMessageSend = {
-                    meetingId,
-                    reqType: "MAKE_USER_LEAVE",
-                    userId: loginData?.userId,
-                    userIdToSendCommand: currentMember?.userId,
-                  };
-                  const bytes = jsonToArray(socketMsg);
-                  if (!isOpen(socket)) {
-                    alert("connection lost");
-                    return;
-                  }
-                  socket.send(bytes);
-                  const newUsers: ISocketMember[] = users.filter(
-                    (x) =>
-                      x.userId !== currentMember?.userId &&
-                      x.username !== currentMember?.username
-                  );
-
-                  setUsers(newUsers);
-
-                  setWantToDoSeriousAction(false);
-                }
-              }}
-            >
-              Save changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <GlobalModal
+          pShow={wantToDoSeriousAction}
+          setPShow={setWantToDoSeriousAction}
+          title={"Confirmation"}
+          message={`Are you sure you want to ban ${currentMember.username}?`}
+          onSubmit={banUser}
+        />
       )}
       <Modal
         size="lg"
@@ -116,8 +101,8 @@ export function UsersList({
                     {member.username}
                     <FaBan
                       onClick={() => {
-                        setWantToDoSeriousAction(true);
                         setCurrentMember(member);
+                        setWantToDoSeriousAction(true);
                       }}
                     />
                   </ListGroup.Item>
