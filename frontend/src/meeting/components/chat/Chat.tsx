@@ -60,8 +60,8 @@ export function Chat({
             <div>{content}</div>
             {replies &&
               replies.length > 0 &&
-              replies.map((r) => (
-                <div className="ms-5">
+              replies.map((r, i) => (
+                <div key={i} className="ms-5">
                   <p className="fw-bold text-secondary">{`@${r.username} replied:`}</p>
                   <div>{r.content}</div>
                 </div>

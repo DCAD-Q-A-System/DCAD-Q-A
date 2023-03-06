@@ -36,7 +36,7 @@ export function QuestionTabs({
         {questions &&
           questions.length > 0 &&
           questions
-            .filter((q) => q.answered === answered)
+            .filter((q) => q.answered == answered)
             .map((question, i) => (
               <Question
                 meetingId={meetingId}

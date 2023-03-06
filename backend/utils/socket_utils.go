@@ -38,6 +38,7 @@ type SocketMesageSend struct {
 	NewOnlineMembers []SocketMember     `json:"newOnlineMembers"`
 	MembersWhoLeft   []SocketMember     `json:"membersWhoLeft"`
 	QuestionsDeleted []QuestionStruct   `json:"questionsDeleted"`
+	QuestionsAnswered []QuestionStruct  `json:"questionsAnswered"`
 	ChatsDeleted     []SocketChat       `json:"chatsDeleted"`
 	RepliesDeleted   []SocketReply      `json:"repliesDeleted"`
 	AllUsers         []SocketMember     `json:"allUsers"`

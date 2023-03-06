@@ -18,14 +18,15 @@ var JWT_KEY = []byte("SecretYouShouldHide")
 const TIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%LZ"
 
 var ALLOWED_REQ_TYPES = map[string]bool{
-	"INSERT_CHAT":     true,
-	"INSERT_QUESTION": true,
-	"INSERT_REPLY":    true,
-	"MAKE_USER_LEAVE": true,
-	"PING":            true,
-	"DELETE_QUESTION": true,
-	"DELETE_CHAT":     true,
-	"DELETE_REPLY":    true,
+	"INSERT_CHAT":              true,
+	"INSERT_QUESTION":          true,
+	"INSERT_REPLY":             true,
+	"MAKE_USER_LEAVE":          true,
+	"PING":                     true,
+	"SWITCH_QUESTION_ANSWERED": true,
+	"DELETE_QUESTION":          true,
+	"DELETE_CHAT":              true,
+	"DELETE_REPLY":             true,
 }
 
 var USER_CREATION_ALLOWED_TYPES = map[string]bool{

@@ -233,6 +233,21 @@ export function MainMeetingScratch() {
               });
               newMeeting.messages.questions =
                 newMeeting.messages.questions.filter((c) => !idsObject[c.id]);
+            } else if (
+              data.message.questionsAnswered &&
+              data.message.questionsAnswered.length > 0
+            ) {
+              const questionsAnsweredObj: { [key: string]: boolean[] } = {};
+              data.message.questionsAnswered.forEach((q) => {
+                questionsAnsweredObj[q.id] = [q.answered];
+              });
+              for (let i = 0; i < newMeeting.messages.questions.length; i++) {
+                const q = newMeeting.messages.questions[i];
+                const a = questionsAnsweredObj[q.id];
+                if (a && a.length == 1) {
+                  newMeeting.messages.questions[i].answered = a[0];
+                }
+              }
             }
           }
           console.log("NEW MEETING BEFORE UPDATE", newMeeting);
