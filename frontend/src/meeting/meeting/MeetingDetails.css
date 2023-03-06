@@ -6,8 +6,8 @@
   mix-blend-mode: normal;
 }
 
-form {
-  height: 850px;
+.outside {
+  /* height: 850px; */
   width: 750px;
   background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
