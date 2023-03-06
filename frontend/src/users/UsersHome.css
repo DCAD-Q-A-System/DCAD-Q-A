@@ -51,11 +51,12 @@ text-overflow: ellipsis; /* add ellipsis to indicate hidden text */
 }
 
 .menu{
-  float: right;
+  /* float: right; */
+  position:relative;
+  /* flex-direction: column; */
   font-size: 70px;
   margin-top: 40px;
-  margin-left: 0;
-  color: white;
+  color: black;
 }
 
 .home-dropdown{
@@ -63,20 +64,23 @@ background-color: #2C5CDA;
 color:white;
 border-radius: 5%;
 margin-left: 0;
-/* margin-right: 20%; */
+margin-right: 20%;
 margin-top: 2%;
-width: 200px;
+/* width: 200px; */
+width: 10em;
 }
+
 
 .dropdown1{
 border-color:aqua;
 font-size: 40px;
 margin-left: 10%;
-margin-right: 20%;
+/* margin-right: 40%; */
 overflow: hidden;
 white-space: nowrap;
 text-overflow: ellipsis;
 }
+
 
 .dropdown2{
 margin-left: 25%;
@@ -92,6 +96,36 @@ font-size: 42px;
 .dropdown2:hover{
 font-size: 42px;
 }
+
+@media screen and (max-width:1700px) {
+  .menu{
+    font-size: 60px;
+  }
+  .home-dropdown{
+    width: 8em;
+  }
+  .dropdown1{
+    font-size: 28px;
+  }
+  .dropdown1:hover{
+    font-size: 30px;
+    }    
+}
+
+@media screen and (max-width:1350px) {
+  .menu{
+    font-size: 50px;
+  }
+  .home-dropdown{
+    width: 6em;
+  }
+  .dropdown1{
+    font-size: 20px;
+  }
+  .dropdown1:hover{
+    font-size: 22px;
+    }    
+} 
 
 .home-icons {
 display: flex;
