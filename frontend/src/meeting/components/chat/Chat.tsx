@@ -55,13 +55,13 @@ export function Chat({
           <Col
             xs={10}
             md={10}
-            className={replies ? "ms-5 border border-secondary" : ""}
+            className={replies ? "border border-secondary" : ""}
           >
             <div>{content}</div>
             {replies &&
               replies.length > 0 &&
               replies.map((r, i) => (
-                <div key={i} className="ms-5">
+                <div key={i} className="reply-m">
                   <p className="fw-bold text-secondary">{`@${r.username} replied:`}</p>
                   <div>{r.content}</div>
                 </div>
