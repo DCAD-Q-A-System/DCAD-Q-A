@@ -45,8 +45,8 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 			return chat.DeleteChat(conn,socket_message.ChatId,socket_message.MeetingId)
 		case "DELETE_REPLY":
 			return replies.DeleteReply(conn,socket_message.ReplyId,socket_message.ChatId,socket_message.MeetingId)
-		case "QUESTION_ANSWERED":
-			return questions.UpdateQuestionAnswered(conn,)
+		// case "QUESTION_ANSWERED":
+		// 	return questions.UpdateQuestionAnswered(conn,)
 		default:
 			return utils.SocketMesageSend{}
 	}
