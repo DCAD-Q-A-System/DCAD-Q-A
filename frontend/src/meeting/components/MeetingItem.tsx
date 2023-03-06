@@ -34,9 +34,10 @@ export function MeetingItem({
     }
   };
   const handleClick = () => {
-    const link = `${
-      window.location.protocol + "//" + window.location.host
-    }/meeting/${id}`;
+    // const link = `${
+    //   window.location.protocol + "//" + window.location.host
+    // }/meeting/${id}`;
+    const link = `${id}`
     navigator.clipboard.writeText(link);
     alert("Copied meeting link to clipboard!");
   };
