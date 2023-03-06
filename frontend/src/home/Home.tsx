@@ -76,7 +76,7 @@ export function Home() {
             </Stack>
           </Navbar>{" "}
           <Container fluid className="home-icons">
-            <Row xs={1} md={3} className="g-4">
+            <Row xs={1} md={loginData?.type === USER_TYPE.PANELLIST ? 2 : 3} className="g-4">
               <Col>
                 <Container className="container-1" onClick={() => { navigate("/meeting-list"); }}>
                   <BsClockFill className="icon" />
