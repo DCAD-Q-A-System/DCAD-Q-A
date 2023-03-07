@@ -23,16 +23,6 @@ export function MeetingItem({
 }) {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
-  const deleteMeetings = async () => {
-    const response = await credentialFetch(
-      `${GET_ALL_MEETINGS}?id=${id}`,
-      HTTP_METHODS.DELETE
-    );
-    if (response.status === 404) {
-    } else {
-      alert("something went wrong deleting meetings");
-    }
-  };
   const handleClick = () => {
     // const link = `${
     //   window.location.protocol + "//" + window.location.host
@@ -85,17 +75,6 @@ export function MeetingItem({
           }}
         >
           <p className="content-1 fs-2">Edit</p>
-        </button>
-      )}
-      {(loginData?.type === USER_TYPE.PANELLIST ||
-        loginData?.type === USER_TYPE.ADMIN) && (
-        <button
-          className="delete"
-          onClick={() => {
-            deleteMeetings;
-          }}
-        >
-          <p className="content-1 fs-2">Delete</p>
         </button>
       )}
     </div>

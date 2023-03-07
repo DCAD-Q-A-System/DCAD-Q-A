@@ -13,7 +13,7 @@ export function GuestLogin() {
   };
   return (
   <>
-    <Logo />
+    {/* <Logo /> */}
     <div className="color-overlay d-flex justify-content-center align-items-center">
       <Form onSubmit={handleSubmit} className="rounded p-4 form-control-sm form">
         <Form.Group className="mb-3">

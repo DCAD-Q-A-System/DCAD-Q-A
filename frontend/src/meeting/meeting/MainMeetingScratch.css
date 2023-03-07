@@ -98,10 +98,6 @@ iframe {
   background-color: #757575;
 }
 
-/* .dark-mode .right-end {
-  background-color: #333333;
-} */
-
 .dark-mode .form-check-input:checked ~ .form-check-label {
   color: #ffffff;
 }
