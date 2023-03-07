@@ -86,6 +86,7 @@
     /* background-color: rgb(46, 89, 245); */
 }
 
+
 .box5{
     height: 40%;
     border-bottom: 1px dashed rgb(18, 189, 246);
@@ -136,6 +137,8 @@
     border-radius: 10px;
     padding-right: 2%;
     margin-top: 5%; 
+    color: aliceblue;
+    font-size: 2rem;
 }
 
 .share{
@@ -149,6 +152,8 @@
     border-radius: 10px;
     padding-right: 3%;
     margin-top: 5%; 
+    Color: aliceblue;
+    font-size: 2rem;
     /* text-overflow: ellipsis; */
 }
 
@@ -163,15 +168,34 @@
     margin-top: 5%;
 }
 
-.content-1{
-    font-size: 30px;
-    margin-top: 10px;
-    color: aliceblue;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-}
-
 .error {
     margin: 1rem;
 }
+
+@media screen and (max-height:668px) and (max-width:376px){
+    .box1{
+        justify-content:left;
+        display:flex;
+    }
+    .box2{
+        height: 10vh;
+        width: 90%;
+        max-width: 90%;
+    }
+    .content{
+        font-size:medium;
+    }
+    .content-item{
+        font-size: x-small;
+    }
+    .share{
+        font-size: medium;
+        height: 10vh;
+    }
+    .edit{
+        font-size: medium;
+        height: 10vh;
+    }
+
+}
+
