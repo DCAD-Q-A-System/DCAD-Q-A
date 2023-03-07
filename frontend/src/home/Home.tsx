@@ -78,23 +78,23 @@ export function Home() {
           <Container fluid className="home-icons">
             <Row xs={1} md={loginData?.type === USER_TYPE.PANELLIST ? 2 : 3} className="g-4">
               <Col>
-                <Container className="container-1" onClick={() => { navigate("/meeting-list"); }}>
-                  <BsClockFill className="icon" />
+                <Container className="Containers-1" onClick={() => { navigate("/meeting-list"); }}>
+                  <BsClockFill className="icon-1" />
                   <div className="words ">Current Meeting</div>
                 </Container>
               </Col>
               {loginData?.type !== USER_TYPE.STUDENT && (
                 <Col>
-                  <Container className="container-1" onClick={() => { navigate("/create-meeting"); }}>
-                    <AiOutlinePlus className="icon" />
+                  <Container className="Containers-1" onClick={() => { navigate("/create-meeting"); }}>
+                    <AiOutlinePlus className="icon-1" />
                     <div className="words">Creating Meeting</div>
                   </Container>
                 </Col>
               )}
               {loginData?.type === USER_TYPE.ADMIN && (
                 <Col>
-                  <Container className="container-1" onClick={() => { navigate("/users-home"); }}>
-                    <AiFillEdit className="icon" />
+                  <Container className="Containers-1" onClick={() => { navigate("/users-home"); }}>
+                    <AiFillEdit className="icon-1" />
                     <div className="word-2">Users</div>
                   </Container>
                 </Col>
