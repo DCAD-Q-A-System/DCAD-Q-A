@@ -21,6 +21,7 @@ export interface MessageStructure {
 
 export interface IQuestion extends MessageStructure {
   answered: boolean;
+  voteCount: number;
 }
 
 export interface IChat extends MessageStructure {

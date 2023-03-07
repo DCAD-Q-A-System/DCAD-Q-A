@@ -47,6 +47,12 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 			return replies.DeleteReply(conn,socket_message.ReplyId,socket_message.ChatId,socket_message.MeetingId)
 		case "SWITCH_QUESTION_ANSWERED":
 			return questions.UpdateQuestionAnswered(conn,socket_message.QuestionId,socket_message.MeetingId,socket_message.QuestionAnswered)
+		case "CHANGE_VOTE_COUNT":
+			return questions.ChangeVoteCountQuestion(
+				conn,socket_message.MeetingId,
+				socket_message.QuestionId,
+				socket_message.VoteCount,
+			)
 		default:
 			return utils.SocketMesageSend{}
 	}

@@ -24,11 +24,13 @@ type Client struct {
 
 
 func (c *Client) Read(conn *utils.MongoConnection,jwt string) {
+	
+    
+
 	defer func() {
 		c.Pool.Unregister <- c
 		c.Conn.Close()
 	}()
-    
 	for {
 		messageType, p, err := c.Conn.ReadMessage()
 		if err != nil {

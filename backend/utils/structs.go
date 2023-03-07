@@ -28,6 +28,7 @@ type Question struct {
 	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
 	Answered bool `bson:"answered"`
+	VoteCount int32 `bson:"voteCount"`
 }
 
 type Chat struct {
@@ -117,6 +118,7 @@ type SocketMessage struct {
 	QuestionAnswered bool `json:"questionAnswered"` 
 	UserId string `json:"userId"`
 	Username string `json:"username"`
+	VoteCount int32 `json:"voteCount"`
 	UserIdToSendCommand []string `json:"userIdToSendCommand"`
 }
 

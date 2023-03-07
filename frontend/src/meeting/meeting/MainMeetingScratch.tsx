@@ -248,6 +248,21 @@ export function MainMeetingScratch() {
                   newMeeting.messages.questions[i].answered = a[0];
                 }
               }
+            } else if (
+              data.message.questionsVoteCountChanged &&
+              data.message.questionsVoteCountChanged.length > 0
+            ) {
+              const questionsVoteChangeObj: { [key: string]: number[] } = {};
+              data.message.questionsVoteCountChanged.forEach((q) => {
+                questionsVoteChangeObj[q.id] = [q.voteCount];
+              });
+              for (let i = 0; i < newMeeting.messages.questions.length; i++) {
+                const q = newMeeting.messages.questions[i];
+                const a = questionsVoteChangeObj[q.id];
+                if (a && a.length == 1) {
+                  newMeeting.messages.questions[i].voteCount = a[0];
+                }
+              }
             }
           }
           console.log("NEW MEETING BEFORE UPDATE", newMeeting);
@@ -268,8 +283,6 @@ export function MainMeetingScratch() {
       <Navbar.Text>My Account</Navbar.Text>
     </div>
   );
-
-  console.log("RENDER", meeting?.messages);
 
   const onEndMeeting = async () => {
     console.log("inside end meeting");
@@ -341,7 +354,7 @@ export function MainMeetingScratch() {
                   checked={darkMode}
                   onChange={() => {
                     setDarkMode(!darkMode);
-                    document.body.classList.toggle('dark-mode');
+                    document.body.classList.toggle("dark-mode");
                   }}
                 />
               </Form.Group>
@@ -486,7 +499,11 @@ export function MainMeetingScratch() {
         </>
       ) : (
         <div className="spinner-parent">
-          <Spinner animation="border" role="status" style={{width:"80px",height:"80px"}}>
+          <Spinner
+            animation="border"
+            role="status"
+            style={{ width: "80px", height: "80px" }}
+          >
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         </div>
