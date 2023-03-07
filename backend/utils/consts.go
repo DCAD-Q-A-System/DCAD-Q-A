@@ -13,6 +13,8 @@ const (
 	USERS     string = "users"
 )
 
+const IS_UP_VOTE = "isUpVote"
+
 var JWT_KEY = []byte("SecretYouShouldHide")
 
 const TIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%LZ"
@@ -27,6 +29,7 @@ var ALLOWED_REQ_TYPES = map[string]bool{
 	"DELETE_QUESTION":          true,
 	"DELETE_CHAT":              true,
 	"DELETE_REPLY":             true,
+	"CHANGE_VOTE_COUNT":        true,
 }
 
 var USER_CREATION_ALLOWED_TYPES = map[string]bool{

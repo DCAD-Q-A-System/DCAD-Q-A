@@ -24,6 +24,7 @@ type MessageStructure struct {
 type QuestionStruct struct {
 	MessageStructure
 	Answered bool `json:"answered"`
+	VoteCount int32 `json:"voteCount"`
 }
 
 type SocketChat struct {
@@ -31,17 +32,18 @@ type SocketChat struct {
 	Replies []SocketReply `json:"replies"`
 }
 type SocketMesageSend struct {
-	MeetingId        string             `json:"meetingId"`
-	Chat             []SocketChat       `json:"chat"`
-	Replies          []SocketReply      `json:"replies"`
-	Questions        []QuestionStruct   `json:"questions"`
-	NewOnlineMembers []SocketMember     `json:"newOnlineMembers"`
-	MembersWhoLeft   []SocketMember     `json:"membersWhoLeft"`
-	QuestionsDeleted []QuestionStruct   `json:"questionsDeleted"`
-	QuestionsAnswered []QuestionStruct  `json:"questionsAnswered"`
-	ChatsDeleted     []SocketChat       `json:"chatsDeleted"`
-	RepliesDeleted   []SocketReply      `json:"repliesDeleted"`
-	AllUsers         []SocketMember     `json:"allUsers"`
+	MeetingId        			string             `json:"meetingId"`
+	Chat             			[]SocketChat       `json:"chat"`
+	Replies          			[]SocketReply      `json:"replies"`
+	Questions        			[]QuestionStruct   `json:"questions"`
+	NewOnlineMembers 			[]SocketMember     `json:"newOnlineMembers"`
+	MembersWhoLeft   			[]SocketMember     `json:"membersWhoLeft"`
+	QuestionsDeleted 			[]QuestionStruct   `json:"questionsDeleted"`
+	QuestionsAnswered 			[]QuestionStruct   `json:"questionsAnswered"`
+	QuestionsVoteCountChanged 	[]QuestionStruct   `json:"questionsVoteCountChanged"`
+	ChatsDeleted     			[]SocketChat       `json:"chatsDeleted"`
+	RepliesDeleted   			[]SocketReply      `json:"repliesDeleted"`
+	AllUsers         			[]SocketMember     `json:"allUsers"`
 }
 
 type SocketMember struct {

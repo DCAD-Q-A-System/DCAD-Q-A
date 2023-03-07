@@ -20,6 +20,7 @@ export function Question({
   content,
   timeCreated,
   answered: propsAnswered,
+  voteCount,
   socket,
   meetingId,
 }: QuestionProps) {
@@ -33,7 +34,12 @@ export function Question({
       <div className="ms-2 me-2">
         <Row>
           <Col xs={2} md={2}>
-            <Vote />
+            <Vote
+              questionId={id}
+              socket={socket}
+              meetingId={meetingId}
+              voteCount={voteCount}
+            />
           </Col>
           <Col xs={8} md={8}>
             <div>{content}</div>
