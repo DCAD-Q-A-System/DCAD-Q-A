@@ -408,7 +408,7 @@ export function MainMeetingScratch() {
           {meeting?.messages ? (
             <div>
               <Stack
-                className="iframe-r d-block d-sm-none"
+                className="iframe-r d-block d-md-none"
                 direction="vertical"
               >
                 <Iframe link={meeting.iframeLink} />
@@ -439,7 +439,7 @@ export function MainMeetingScratch() {
                   </Tab.Content>
                 </Tab.Container>
               </Stack>
-              <Container fluid className="main d-none d-sm-block">
+              <Container fluid className="main d-none d-md-block">
                 <Row>
                   <Col xs={3} md={3} className="col">
                     <QuestionTabs
