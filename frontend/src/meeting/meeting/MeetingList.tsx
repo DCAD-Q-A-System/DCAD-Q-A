@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { MeetingIds } from "../../utils/interfaces";
 import { credentialFetch } from "../../utils/credential_fetch";
 import { MeetingItem } from "../components/MeetingItem";
-import { Button } from "react-bootstrap";
+import { Button, Container, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "../../users/Menu";
 
@@ -52,14 +52,14 @@ export function MeetingList() {
               );
             })
           ) : ids?.ids.length === 0 ? (
-            <div>
+            <Stack className="error">
               <p>No meetings assigned</p>
-            </div>
+            </Stack>
           ) : (
-            <div>
+            <Stack className="error">
               <p>Can't fetch meetings at the moment</p>
               <p>Try again later</p>
-            </div>
+            </Stack>
           )}
         </div>
       </div>
