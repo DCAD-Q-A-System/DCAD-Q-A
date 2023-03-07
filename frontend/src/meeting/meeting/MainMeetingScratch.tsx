@@ -485,8 +485,8 @@ export function MainMeetingScratch() {
           )}
         </>
       ) : (
-        <div className="d-flex justify-content-center">
-          <Spinner animation="border" role="status">
+        <div className="spinner-parent">
+          <Spinner animation="border" role="status" style={{width:"80px",height:"80px"}}>
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         </div>
