@@ -47,14 +47,16 @@ text-overflow: ellipsis; /* add ellipsis to indicate hidden text */
   display: flex;
   max-width: 600px;
   /* border-bottom: 1px solid white; */
-  margin-left: 90%; 
+  margin-left: 85%; 
 }
 
 .menu{
-  /* float: right; */
+  /* float: center; */
   position:relative;
   /* flex-direction: column; */
-  font-size: 70px;
+  /* font-size: 7rem; */
+  width: 6vw;
+  height: 6vh;
   margin-top: 40px;
   color: black;
 }
@@ -67,7 +69,8 @@ margin-left: 0;
 margin-right: 20%;
 margin-top: 2%;
 /* width: 200px; */
-width: 10em;
+width:auto;
+height: max-content;
 }
 
 
@@ -97,7 +100,7 @@ font-size: 42px;
 font-size: 42px;
 }
 
-@media screen and (max-width:1700px) {
+ @media screen and (max-width:1700px) {
   .menu{
     font-size: 60px;
   }
@@ -118,6 +121,7 @@ font-size: 42px;
   }
   .home-dropdown{
     width: 6em;
+    height: max-content;
   }
   .dropdown1{
     font-size: 20px;
@@ -126,6 +130,19 @@ font-size: 42px;
     font-size: 22px;
     }    
 } 
+
+@media screen and (max-width:667px){
+  .home-dropdown{
+    height: max-content;
+    width: 15vw;
+  }
+  .dropdown1{
+    font-size: 10px;
+  }
+  .dropdown1:hover{
+    font-size: 12px;
+  }
+}
 
 .home-icons {
 display: flex;
