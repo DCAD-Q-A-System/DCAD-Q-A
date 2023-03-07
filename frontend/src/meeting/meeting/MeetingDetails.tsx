@@ -7,6 +7,7 @@ import { Button, Form, ListGroup } from "react-bootstrap";
 import {
   CREATE_MEETING,
   EDIT_MEETING,
+  GET_ALL_MEETINGS,
   GET_MEETING,
   GET_USER_SUGGESTIONS,
 } from "../../utils/paths";
@@ -138,6 +139,18 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
     setSuggestions(data);
   }, 500);
 
+  const deleteMeetings = async () => {
+    const response = await credentialFetch(
+      `${GET_ALL_MEETINGS}?id=${meetingId}`,
+      HTTP_METHODS.DELETE
+    );
+    if (response.status === 404) {
+    } else {
+      alert("something went wrong deleting meetings");
+    }
+  };
+
+
   return (
     <>
       <div className=" color-overlay-1 d-flex justify-content-center align-items-center">
@@ -226,6 +239,21 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
           >
             save
           </Button>
+          <Button
+          variant="danger"
+          type="submit"
+          className="button mt-5 fs-3"
+          style={{
+            marginLeft: "20px",
+            paddingLeft: "10px",
+          }}
+          onClick={() => {
+            deleteMeetings;
+          }}
+        >
+          delete
+        </Button>
+
           <Button
             variant="secondary"
             type="button"
