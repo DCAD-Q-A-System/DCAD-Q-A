@@ -263,10 +263,11 @@ export function MainMeetingScratch() {
   });
 
   const MyAccount = (
-    <div>
-      <Image className="rounded-circle" src={anonSmall} width="30vw" />
-      <Navbar.Text>My Account</Navbar.Text>
-    </div>
+    <><Image className="rounded-circle" src={anonSmall} width="30vw" /> My Account</>
+    // <div>
+    //   <Image className="rounded-circle" src={anonSmall} width="30vw" />
+    //   <Navbar.Text>My Account</Navbar.Text>
+    // </div>
   );
 
   console.log("RENDER", meeting?.messages);

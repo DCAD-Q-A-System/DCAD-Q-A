@@ -3,7 +3,7 @@
 }
 
 .meeting-banner-color {
-  background-color: purple;
+  background-color: rgb(160, 0, 160);
   height: 8%;
 }
 
@@ -16,7 +16,7 @@
 .right-end {
   justify-content: end;
   margin-right: 2vw;
-  background-color: purple;
+  background-color: rgb(160, 0, 160);
 }
 
 .main {
