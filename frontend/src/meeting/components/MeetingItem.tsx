@@ -36,7 +36,7 @@ export function MeetingItem({
       <div className="box2">
         <div className="box3 ">
           <p className="content">
-            Meeting: {name}
+            {name}
           </p>
         </div>
         <div className="box4">
