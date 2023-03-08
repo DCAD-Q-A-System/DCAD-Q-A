@@ -24,7 +24,7 @@ export function Chat({
   const [reply, setReply] = useState("");
 
   const loginData = useAppSelector((s) => s.loginReducer.data);
-  function handleSend() {
+  function handleSendReply() {
     // Do something with the reply message here
     console.log(reply);
     const socketMessage: ISocketMessageSend = {
@@ -42,6 +42,7 @@ export function Chat({
       return;
     }
     socket.send(bytes);
+
     setReply("");
   }
 
@@ -114,7 +115,7 @@ export function Chat({
               />
             </Col>
             <Col xs={2} md={2} className="d-flex justify-content-end">
-              <button className="btn btn-primary" onClick={handleSend}>
+              <button className="btn btn-primary" onClick={handleSendReply}>
                 Send
               </button>
             </Col>

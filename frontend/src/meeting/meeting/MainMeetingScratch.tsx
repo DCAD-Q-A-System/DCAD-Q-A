@@ -181,6 +181,20 @@ export function MainMeetingScratch() {
                 ...newMeeting.messages.questions,
               ];
             } else if (
+              data.message.replies &&
+              data.message.replies.length > 0
+            ) {
+              data.message.replies.forEach((r) => {
+                const indx = newMeeting.messages.chat.findIndex(
+                  (c) => c.id === r.parentChatId
+                );
+
+                if (indx !== -1) {
+                  const prev = newMeeting.messages.chat[indx].replies;
+                  newMeeting.messages.chat[indx].replies.push(r);
+                }
+              });
+            } else if (
               data.message.newOnlineMembers &&
               data.message.newOnlineMembers.length > 0
             ) {

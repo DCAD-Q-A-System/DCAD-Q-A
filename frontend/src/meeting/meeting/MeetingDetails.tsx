@@ -7,6 +7,7 @@ import { Button, Form, ListGroup } from "react-bootstrap";
 import {
   CREATE_MEETING,
   EDIT_MEETING,
+  END_MEETING,
   GET_ALL_MEETINGS,
   GET_MEETING,
   GET_USER_SUGGESTIONS,
@@ -23,9 +24,11 @@ import {
   MeetingData,
   IMeetingDetails,
 } from "../../utils/interfaces";
+import { useAppSelector } from "../../store/hooks";
 
 export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
   const { meetingId } = useParams();
+  const loginData = useAppSelector((s) => s.loginReducer.data);
   const [value, onChange] = useState(new Date());
   const [endvalue, endOnChange] = useState(new Date());
   const [iframeLink, setIframeLink] = useState("");
@@ -66,6 +69,7 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
     const startValNum = moment(value).valueOf();
     const endValNum = moment(endvalue).valueOf();
     const timeNowNum = moment(new Date()).valueOf();
+    console.log(startValNum, endValNum, timeNowNum);
     if (
       !(iframeLink.match(YOUTUBE_REGEX) || iframeLink.match(PANOPTO_REGEX)) ||
       meetingName === "" ||
@@ -73,35 +77,37 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
       endValNum <= startValNum ||
       chosenMembers.length == 0
     ) {
-      alert("Something went wront check form again");
+      alert("Something went wrong, check form again");
+
       return;
     }
-    const users = chosenMembers.some(user=>user.username === 'admin')
-      if(!users){
-        const res = await credentialFetch(GET_USER_SUGGESTIONS + 'admi');
-        const data: ISocketMember[] = res.data; 
-        const admin = data.find(obj=>obj.username==='admin');
-        if(admin){
-          const chosenMembersSet = new Set(chosenMembers);
-          chosenMembersSet.add(admin);
-          setChosenMembers(()=>[...chosenMembersSet])
-          alert('Admin is allowed to join the meeting!')
-          return
-        }
+    const users = chosenMembers.some((user) => user.username === "admin");
+    if (!users) {
+      const res = await credentialFetch(GET_USER_SUGGESTIONS + "admi");
+      const data: ISocketMember[] = res.data;
+      const admin = data.find((obj) => obj.username === "admin");
+      if (admin) {
+        const chosenMembersSet = new Set(chosenMembers);
+        chosenMembersSet.add(admin);
+        setChosenMembers(() => [...chosenMembersSet]);
+        alert("Admin is allowed to join the meeting!");
+        return;
+      }
     }
 
     console.log(detailsType);
     if (detailsType === DETAILS_TYPE.CREATE) {
-      const res = await fetch(CREATE_MEETING, {
-        method: HTTP_METHODS.POST,
-        body: JSON.stringify({
+      const res = await credentialFetch(
+        CREATE_MEETING,
+        HTTP_METHODS.POST,
+        JSON.stringify({
           name: meetingName,
           iframeLink,
           members: chosenMembers.map((x) => x.userId),
           startTime: value,
           endTime: endvalue,
-        }),
-      });
+        })
+      );
       if (res.status == 200) {
         alert("Successful!");
         navigate("/");
@@ -109,17 +115,18 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
         alert("Something went wrong!");
       }
     } else if (detailsType === DETAILS_TYPE.EDIT && meetingId) {
-      const res = await fetch(EDIT_MEETING, {
-        method: HTTP_METHODS.PUT,
-        body: JSON.stringify({
+      const res = await credentialFetch(
+        EDIT_MEETING,
+        HTTP_METHODS.PUT,
+        JSON.stringify({
           id: meetingId,
           name: meetingName,
           iframeLink,
           members: chosenMembers.map((x) => x.userId),
           startTime: value,
           endTime: endvalue,
-        }),
-      });
+        })
+      );
       if (res.status == 200) {
         alert("Successful!");
         navigate("/");
@@ -139,17 +146,25 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
     setSuggestions(data);
   }, 500);
 
-  const deleteMeetings = async () => {
+  const deleteMeetings = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
     const response = await credentialFetch(
-      `${GET_ALL_MEETINGS}?id=${meetingId}`,
-      HTTP_METHODS.DELETE
+      END_MEETING,
+      HTTP_METHODS.DELETE,
+      JSON.stringify({
+        meetingId: meetingId!,
+        userId: loginData?.userId,
+      })
     );
-    if (response.status === 404) {
+    if (response.status === 200) {
+      alert("successfully deleted meeting");
+      navigate("/meeting-list");
     } else {
       alert("something went wrong deleting meetings");
     }
   };
-
 
   return (
     <>
@@ -240,19 +255,17 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
             save
           </Button>
           <Button
-          variant="danger"
-          type="submit"
-          className="button mt-5 fs-3"
-          style={{
-            marginLeft: "20px",
-            paddingLeft: "10px",
-          }}
-          onClick={() => {
-            deleteMeetings;
-          }}
-        >
-          delete
-        </Button>
+            variant="danger"
+            type="submit"
+            className="button mt-5 fs-3"
+            style={{
+              marginLeft: "20px",
+              paddingLeft: "10px",
+            }}
+            onClick={deleteMeetings}
+          >
+            delete
+          </Button>
 
           <Button
             variant="secondary"

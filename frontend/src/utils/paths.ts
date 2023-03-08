@@ -48,6 +48,7 @@ const BAN_USER = PREFIX_API + "/ban-user";
 
 const END_MEETING = PREFIX_API + "/end-meeting";
 
+const DELETE_USER = PREFIX_API + "/delete-user";
 export {
   JOIN_MEETING,
   LOGIN,
@@ -72,4 +73,5 @@ export {
   REFRESH_PATH,
   END_MEETING,
   BAN_USER,
+  DELETE_USER,
 };
