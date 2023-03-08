@@ -23,7 +23,7 @@ func GetUserSuggestions(conn *utils.MongoConnection) gin.HandlerFunc {
 
 		users_collection := conn.Client.Database(utils.DB_NAME).Collection(utils.USERS)
 		regex := primitive.Regex{
-			Pattern:fmt.Sprintf("^%s.",username),
+			Pattern:fmt.Sprintf("^%s.|%s",username),
 			Options: "i",
 		}
 		filter := bson.D{

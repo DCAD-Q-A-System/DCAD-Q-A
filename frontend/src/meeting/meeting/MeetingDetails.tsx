@@ -230,9 +230,20 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
                 <ListGroup.Item
                   key={i}
                   onClick={() => {
-                    const chosenMembersSet = new Set(chosenMembers);
-                    chosenMembersSet.add(el);
-                    setChosenMembers([...chosenMembersSet]);
+                    const newChosenMembers = [...chosenMembers, el];
+                    const ids: { [key: string]: string } = {};
+                    newChosenMembers.forEach((m) => {
+                      console.log(m.userId);
+                      ids[m.userId] = m.username;
+                    });
+                    let n: ISocketMember[] = [];
+                    Object.entries(ids).forEach((v) => {
+                      n.push({ userId: v[0], username: v[1] });
+                    });
+                    console.log(n);
+                    setChosenMembers(n);
+                    setMemberName("");
+                    setSuggestions([]);
                   }}
                 >
                   {el.username}
