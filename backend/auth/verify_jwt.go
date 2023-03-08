@@ -16,7 +16,7 @@ func VerifyJWT(c *gin.Context,jwt_string string) bool {
 	})
 	
 	if err != nil {
-		if claims.ExpiresAt <= time.Now().Unix(){
+		if claims.ExpiresAt <= time.Now().Unix() {
 			return RefreshJWT(c,*claims)
 		}
 		return false

@@ -78,7 +78,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 			ctx.AbortWithStatus(http.StatusBadRequest)
 			return
 		}
-		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request,
+		web_sockets.SetUpSocketServer(conn,pool,ctx,
 			meetingId,userId,username)
 	})
 

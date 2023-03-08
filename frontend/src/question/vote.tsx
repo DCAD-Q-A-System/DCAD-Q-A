@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Vote.css";
-// import {ArrowUp} from 'bootstrap-UpIcons-react'
 import "bootstrap-icons/font/bootstrap-icons.css";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { ISocketMessageSend, REQ_TYPES } from "../utils/socket_types";
@@ -18,7 +17,6 @@ export function Vote({
   voteCount: number;
   socket: ReconnectingWebSocket;
 }) {
-  // const [voteCount, setVoteCount] = useState(propVoteCount);
   const loginData = useAppSelector((s) => s.loginReducer.data);
   const [upVoted, setUpVoted] = useState(false);
   const [downVoted, setDownVoted] = useState(false);

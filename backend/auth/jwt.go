@@ -57,3 +57,42 @@ func RefreshJWT(c *gin.Context, claims utils.JwtClaims) bool{
 	)
 	return true
 }
+
+func RefreshJWTSocket(ctx *gin.Context,jwt_string string) (string,error) {
+	claims := &utils.JwtClaims{}
+	_, err := jwt.ParseWithClaims(jwt_string,claims, func(t *jwt.Token) (interface{}, error) {
+		return utils.JWT_KEY,nil
+	})
+	
+	if err != nil {
+		if claims.ExpiresAt <= time.Now().Unix() {
+			//fmt.Println("REFRESHING TOKEN IN SOCKET")
+			expirationTime := time.Now().Add(20 * time.Minute)
+			claims.ExpiresAt = expirationTime.Unix()
+			newToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+			tokenStr, err := newToken.SignedString(utils.JWT_KEY)
+			if err != nil {
+				fmt.Printf("cant sign token %v",err)
+				return "",err
+			}
+			
+			ctx.SetCookie(
+				"token",
+				tokenStr,
+				int(expirationTime.Unix()),
+				"/",
+				ctx.Request.URL.Hostname(),
+				true,
+				true,
+			)
+
+			//fmt.Println("set cookie")
+			
+			return tokenStr,nil
+		}
+
+		return "",err
+	}
+
+	return jwt_string,nil
+}

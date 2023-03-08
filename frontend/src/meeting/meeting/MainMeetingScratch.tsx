@@ -149,6 +149,9 @@ export function MainMeetingScratch() {
           case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
             alert("something went wrong with connection, leave and rejoin");
             break;
+          case SOCKET_ERRORS_TYPE.EXPIRED_TOKEN:
+            alert("expired token");
+            break;
         }
       } else if (data.command) {
         switch (data.command) {
@@ -278,7 +281,10 @@ export function MainMeetingScratch() {
   });
 
   const MyAccount = (
-    <><Image className="rounded-circle" src={anonSmall} width="30vw" /> My Account</>
+    <>
+      <Image className="rounded-circle" src={anonSmall} width="30vw" /> My
+      Account
+    </>
     // <div>
     //   <Image className="rounded-circle" src={anonSmall} width="30vw" />
     //   <Navbar.Text>My Account</Navbar.Text>
