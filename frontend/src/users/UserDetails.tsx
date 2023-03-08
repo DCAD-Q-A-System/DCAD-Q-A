@@ -156,13 +156,14 @@ export function UserDetails({
           </Form.Select>
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="fs-4 mt-4">
+        <Button variant="primary" type="submit" className="fs-5 m-1">
           Submit
         </Button>
         {userDetailsType === DETAILS_TYPE.EDIT && (
           <Button
             type="button"
             variant="primary"
+            className="fs-5 m-1 password"
             onClick={() => navigate(`/change-password/${userId}`)}
           >
             Change Password
@@ -171,7 +172,7 @@ export function UserDetails({
         <Button
           variant="secondary"
           type="button"
-          className="fs-4 mt-4"
+          className="fs-5 m-1"
           onClick={() =>
             userDetailsType === DETAILS_TYPE.CREATE
               ? navigate("/users-home")
