@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import DateTimePicker from "react-datetime-picker";
+// import DateTimePicker from "react-datetime-picker";
 import "../meeting/MeetingDetails.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {DateTimePicker} from "react-rainbow-components"
 
 type startTimeSetProps = {
   value: Date;
@@ -35,12 +36,13 @@ export function StartTime({ value, onChange }: startTimeSetProps) {
   return (
     <div>
       <DateTimePicker
-        calendarIcon={<CalenderIcon />}
-        format="yyyy-MM-dd h:mm a"
+        // calendarIcon={<CalenderIcon />}
+        // format="yyyy-MM-dd h:mm a"
         minDate={new Date()}
         value={value}
         onChange={onChange}
-        className="length fw-bold"
+        className="fw-bold"
+        style={{width:"90%"}}
       />
     </div>
   );
@@ -50,12 +52,13 @@ export function EndTime({ value, endvalue, endOnChange }: endTimeSetProps) {
   return (
     <div>
       <DateTimePicker
-        calendarIcon={<CalenderIcon />}
-        format="yyyy-MM-dd h:mm a"
+        // calendarIcon={<CalenderIcon />}
+        // format="yyyy-MM-dd h:mm a"
         minDate={value}
         value={endvalue}
         onChange={endOnChange}
-        className="length fw-bold"
+        className="fw-bold"
+        style={{width: "90%"}}
       />
     </div>
   );
