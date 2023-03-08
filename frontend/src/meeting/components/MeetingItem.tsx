@@ -36,8 +36,6 @@ export function MeetingItem({
       <div className="box2">
         <div className="box3 ">
           <p className="content">
-            Meeting:
-            <br />
             {name}
           </p>
         </div>
@@ -47,7 +45,7 @@ export function MeetingItem({
               Start: {moment(startTime).format("LLLL")}
             </p>
           </div>
-          <div className="box6">
+          <div className="box5">
             <p className="content-item">
               End: {moment(endTime).format("LLLL")}
             </p>
@@ -59,11 +57,11 @@ export function MeetingItem({
         <p className="content-item">End: {moment(endTime).format("LLLL")}</p> 
         */}
       </div>
-
       <JoinMeeting meetingId={`${id}`} />
 
       <button className="share" onClick={handleClick}>
-        <p className="content-1 fs-2">Share</p>
+        {/* <p className="content-1">Share</p> */}
+        Share
       </button>
 
       {(loginData?.type === USER_TYPE.PANELLIST ||
@@ -74,7 +72,8 @@ export function MeetingItem({
             navigate(`/edit-meeting/${id}`);
           }}
         >
-          <p className="content-1 fs-2">Edit</p>
+          {/* <p className="content-1 fs-2">Edit</p> */}
+          Edit
         </button>
       )}
     </div>

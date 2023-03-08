@@ -27,9 +27,17 @@
   padding-bottom: 16px;
   padding-left: 32px; */
   color: rgba(255, 255, 255, 1);
-  font-size: 30px;
+  font-size: 2rem;
   /* line-height: 100%;
   letter-spacing: 0%; */
   /* text-align: left;
   font-family: "Lato", sans-serif; */
+}
+
+@media screen and (max-height:668px) and (max-width:376px){
+  .div-8{
+    font-size: medium;
+    height: 10vh;
+    margin-top: 5%;
+  }
 }
