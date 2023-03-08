@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useCallback, useMemo, useState } from "react";
 import {
   Tabs,
@@ -9,12 +10,13 @@ import {
 } from "react-bootstrap";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
-import { USER_TYPE } from "../../../utils/enums";
+import { CATEGORIES, USER_TYPE } from "../../../utils/enums";
 import { jsonToArray } from "../../../utils/funcs";
 import { IQuestion } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { Question } from "./Question";
 import "./QuestionTabs.css";
+import { SortBy } from "./SortBy";
 
 export function QuestionTabs({
   meetingId,
@@ -29,6 +31,8 @@ export function QuestionTabs({
     CURRENT = "Current",
     ANSWERED = "Answered",
   }
+
+  const [category, setCategory] = useState(CATEGORIES.POPULAR);
   const [key, setKey] = useState(TABS.CURRENT.toLowerCase());
   const questionElements = useCallback(
     (answered: boolean) => (
@@ -37,6 +41,22 @@ export function QuestionTabs({
           questions.length > 0 &&
           questions
             .filter((q) => q.answered == answered)
+            .sort((a, b) => {
+              switch (category) {
+                case CATEGORIES.POPULAR:
+                  const A = a.voteCount,
+                    B = b.voteCount;
+                  return B - A;
+                case CATEGORIES.RECENT:
+                  const C = moment(a.timeCreated).unix();
+                  const D = moment(b.timeCreated).unix();
+                  return C - D;
+                case CATEGORIES.OLDER:
+                  const E = moment(a.timeCreated).unix();
+                  const F = moment(b.timeCreated).unix();
+                  return F - E;
+              }
+            })
             .map((question, i) => (
               <Question
                 meetingId={meetingId}
@@ -47,7 +67,7 @@ export function QuestionTabs({
             ))}
       </ListGroup>
     ),
-    [questions]
+    [questions, category]
   );
 
   const [question, setQuestion] = useState("");
@@ -63,9 +83,11 @@ export function QuestionTabs({
         fill
       >
         <Tab eventKey={TABS.CURRENT.toLowerCase()} title={TABS.CURRENT}>
+          <SortBy category={category} setCategory={setCategory} />
           {questionElements(false)}
         </Tab>
         <Tab eventKey={TABS.ANSWERED.toLowerCase()} title={TABS.ANSWERED}>
+          <SortBy category={category} setCategory={setCategory} />
           {questionElements(true)}
         </Tab>
       </Tabs>
