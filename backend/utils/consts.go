@@ -30,6 +30,7 @@ var ALLOWED_REQ_TYPES = map[string]bool{
 	"DELETE_CHAT":              true,
 	"DELETE_REPLY":             true,
 	"CHANGE_VOTE_COUNT":        true,
+	"CHANGE_CURRENT_QUESTION":  true,
 }
 
 var USER_CREATION_ALLOWED_TYPES = map[string]bool{

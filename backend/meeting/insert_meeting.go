@@ -57,6 +57,7 @@ func InsertMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 				"members":meeting.Members,
 				"iframeLink":meeting.IframeLink,
 				"onlineMembers":[]primitive.ObjectID{},
+				"currentQuestionId":primitive.NilObjectID,
 			},
 		)
 		if err != nil {

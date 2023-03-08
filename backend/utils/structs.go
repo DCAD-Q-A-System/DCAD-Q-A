@@ -76,6 +76,7 @@ type Meeting struct {
 	Members []primitive.ObjectID `bson:"members"`
 	OnlineMembers []primitive.ObjectID `bson:"onlineMembers"`
 	IframeLink string `bson:"iframeLink"`
+	CurrentQuestionId primitive.ObjectID `bson:"currentQuestionId"`
 }
 
 type JsonMeeting struct {
@@ -115,7 +116,8 @@ type SocketMessage struct {
 	ChatId string `json:"chatId"`
 	ReplyId string `json:"replyId"`
 	QuestionId string `json:"questionId"`
-	QuestionAnswered bool `json:"questionAnswered"` 
+	QuestionAnswered bool `json:"questionAnswered"`
+	CurrentQuestionId  string `json:"currentQuestionId"`
 	UserId string `json:"userId"`
 	Username string `json:"username"`
 	VoteCount int32 `json:"voteCount"`

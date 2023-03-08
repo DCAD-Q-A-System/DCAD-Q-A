@@ -53,6 +53,8 @@ func SocketRouter(conn *utils.MongoConnection, socket_message *utils.SocketMessa
 				socket_message.QuestionId,
 				socket_message.VoteCount,
 			)
+		case "CHANGE_CURRENT_QUESTION":
+			return questions.ChangeCurrentQuestion(conn,socket_message.MeetingId,socket_message.CurrentQuestionId)
 		default:
 			return utils.SocketMesageSend{}
 	}

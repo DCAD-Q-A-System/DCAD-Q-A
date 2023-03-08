@@ -23,6 +23,7 @@ func GetAllQuestions(db *mongo.Database,meeting_question_ids []primitive.ObjectI
 			{"$in",meeting_question_ids},
 		}},
 	},opts)
+	
 	if err != nil {
 		fmt.Printf("aggreg error %v", err)
 		return []utils.Question{},err

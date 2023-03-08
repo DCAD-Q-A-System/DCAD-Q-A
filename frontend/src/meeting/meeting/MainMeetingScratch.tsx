@@ -280,8 +280,12 @@ export function MainMeetingScratch() {
                   newMeeting.messages.questions[i].voteCount = a[0];
                 }
               }
+            } else if (data.message && data.message.currentQuestionIdChanged) {
+              newMeeting.currentQuestionId =
+                data.message.currentQuestionIdChanged;
             }
           }
+
           console.log("NEW MEETING BEFORE UPDATE", newMeeting);
           setMeeting(newMeeting);
         }
@@ -487,11 +491,12 @@ export function MainMeetingScratch() {
                       <Stack direction="vertical" gap={3}>
                         <Iframe link={meeting.iframeLink} />
                         <CurrentQuestion
-                          question={
-                            meeting.messages && meeting.messages.questions
-                              ? meeting.messages.questions[0]
-                              : []
-                          }
+                          meetingId={meetingId}
+                          questions={meeting.messages.questions}
+                          currentQuestion={meeting.messages.questions.find(
+                            (q) => q.id === meeting.currentQuestionId
+                          )}
+                          socket={ws.current}
                         />
                       </Stack>
                     </Container>
