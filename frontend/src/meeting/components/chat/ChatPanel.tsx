@@ -9,8 +9,8 @@ import {
 } from "react-bootstrap";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
-import { USER_TYPE } from "../../../utils/enums";
-import { isOpen, jsonToArray } from "../../../utils/funcs";
+import { USER_TYPE, VARIANT } from "../../../utils/enums";
+import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
 import { IChat } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { Chat } from "./Chat";
@@ -28,6 +28,7 @@ export function ChatPanel({
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [chat, setChat] = useState("");
   const chatBoxRef = useRef<HTMLDivElement>(null);
+  const {setToast} = toastHook();
 
   useEffect(() => {
     if (chatBoxRef.current) {
@@ -54,7 +55,7 @@ export function ChatPanel({
     console.log(socketMessage);
     const bytes = jsonToArray(socketMessage);
     if (!isOpen(socket)) {
-      alert("connection lost");
+      setToast("Connection error", "connection lost", VARIANT.DANGER, true);
       return;
     }
     socket.send(bytes);

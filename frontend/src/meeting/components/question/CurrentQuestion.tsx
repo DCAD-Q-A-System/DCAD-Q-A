@@ -3,8 +3,8 @@ import { Form } from "react-bootstrap";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { HIGH_PRIVELAGE } from "../../../utils/constants";
-import { USER_TYPE } from "../../../utils/enums";
-import { isOpen, jsonToArray } from "../../../utils/funcs";
+import { USER_TYPE, VARIANT } from "../../../utils/enums";
+import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
 import { IQuestion, MeetingData } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import "./CurrentQuestion.css";
@@ -21,6 +21,7 @@ export function CurrentQuestion({
   meetingId: string;
 }) {
   const loginData = useAppSelector((s) => s.loginReducer.data);
+  const {setToast} = toastHook();
   return (
     <div className="jumbotron">
       <h2>Current Question</h2>
@@ -38,7 +39,7 @@ export function CurrentQuestion({
               };
               const bytes = jsonToArray(sockMsg);
               if (!isOpen(socket)) {
-                alert("socket closed");
+                setToast("Socket error", "socket closed", VARIANT.DANGER, true);
                 return;
               }
               socket.send(bytes);
