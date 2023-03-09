@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Container,
@@ -27,6 +27,13 @@ export function ChatPanel({
 }) {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [chat, setChat] = useState("");
+  const chatBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(()=>{
+    if(chatBoxRef.current){
+      chatBoxRef.current.scrollIntoView({behavior:'smooth',block:'end',inline:'nearest'})
+    }
+  },[])
 
   function handleSend() {
     if (chat.trim() === "") {
@@ -53,11 +60,11 @@ export function ChatPanel({
 
   return (
     <div className="chat-panel">
-      <ListGroup as="ol">
+      <ListGroup as="ol" >
         {chats &&
           chats.length > 0 &&
           chats.map((chat, i) => (
-            <div key={i}>
+            <div key={i} ref={chatBoxRef}>
               <Chat socket={socket} meetingId={meetingId} {...chat} />
             </div>
           ))}

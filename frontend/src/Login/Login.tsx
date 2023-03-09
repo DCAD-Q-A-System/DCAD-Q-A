@@ -38,7 +38,7 @@ export function Login() {
       const decoded: LoginResponse = await res.json();
       localStorage.setItem(LOCAL_STORAGE_LOGIN_KEY, JSON.stringify(decoded));
       dispatch(setData({ data: decoded }));
-      navigate("/home");
+      navigate(`/home/${decoded.username}`);
     } else {
       alert("login wrong");
     }

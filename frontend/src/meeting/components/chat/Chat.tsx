@@ -63,7 +63,7 @@ export function Chat({
               replies.length > 0 &&
               replies.map((r, i) => (
                 <div key={i} className="reply-m">
-                  <p className="fw-bold text-secondary">{`@${r.username} replied:`}</p>
+                  <p className="reply-i fw-bold">{`@${r.username} replied:`}</p>
                   <div>{r.content}</div>
                 </div>
               ))}

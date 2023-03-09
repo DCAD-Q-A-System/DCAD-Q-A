@@ -74,28 +74,42 @@ iframe {
 }
 
 .dark-mode {
-  background-color: #222222;
+  background-color: #1e1e1e;
   color: #ffffff;
 }
 
 .dark-mode .question-panel {
-  background-color: #333333;
+  background-color: #1e1e1e;
 }
 
 .dark-mode .list-group-1 {
   background-color: #757575;
 }
 
-.dark-mode .question-bg {
+.dark-mode .chat-input {
   background-color: #757575;
 }
 
+.dark-mode .question-input {
+  background-color: #757575;
+}
+
+.dark-mode .question-bg {
+  background-color: #757575;
+  color: #ffffff;
+}
+
 .dark-mode .chat-panel {
-  background-color: #333333;
+  background-color: #1e1e1e;
 }
 
 .dark-mode .chat-bg {
   background-color: #757575;
+  color: #ffffff;
+}
+
+.dark-mode .reply-i {
+  color: #28a745;
 }
 
 .dark-mode .form-check-input:checked ~ .form-check-label {
@@ -108,6 +122,6 @@ iframe {
 }
 
 .dark-mode iframe {
-  background-color: #333333;
+  background-color: #1e1e1e;
   border: none;
 }

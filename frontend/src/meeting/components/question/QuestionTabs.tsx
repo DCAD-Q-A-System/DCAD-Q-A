@@ -96,7 +96,7 @@ export function QuestionTabs({
           <Form.Control
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Enter chat"
+            placeholder="Enter question"
             as="textarea"
           />
 
