@@ -101,7 +101,7 @@ func EditUser(conn *utils.MongoConnection) gin.HandlerFunc {
 			update,
 		)
 
-		if err != nil || res == nil || res.ModifiedCount == 0 {
+		if err != nil || res == nil {
 			fmt.Printf("Update gone wrong %v",err)
 			c.AbortWithStatus(http.StatusBadGateway)
 			return
@@ -173,7 +173,7 @@ func EditUserPassword(conn *utils.MongoConnection) gin.HandlerFunc {
 			update,
 		)
 
-		if err != nil || res == nil || res.ModifiedCount == 0 {
+		if err != nil || res == nil {
 			fmt.Printf("Update gone wrong %v",err)
 			c.AbortWithStatus(http.StatusBadGateway)
 			return

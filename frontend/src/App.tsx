@@ -29,7 +29,14 @@ import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
 import { MeetingBackground } from "./backgrounds/MeetingBackground";
 import { MeetingDetails } from "./meeting/meeting/MeetingDetails";
 import { MainMeetingB } from "./meeting/meeting/MainMeetingB";
-import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import {
+  Container,
+  Nav,
+  Navbar,
+  NavDropdown,
+  Toast,
+  ToastContainer,
+} from "react-bootstrap";
 import { AdminMiddleware } from "./middleware/AdminMiddleware";
 import { UsersHome } from "./users/UsersHome";
 import { EditUsers } from "./users/EditUsers";
@@ -38,9 +45,11 @@ import { DETAILS_TYPE } from "./utils/interfaces";
 import { AxiosError, AxiosRequestConfig } from "axios";
 import { ChangePassword } from "./users/ChangePassword";
 import { GlobalModal } from "./modal/GlobalModal";
+import { setContent, setShow, setTitle } from "./store/toastSlice";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
+  const toastData = useAppSelector((s) => s.toastReducer);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -49,7 +58,9 @@ function App() {
       (error: AxiosError) => {
         console.log("INTERCEPTED", error);
         if (!error.response) {
-          alert("network error, check connection");
+          dispatch(setContent("network error, check connection"));
+          dispatch(setTitle("Network error"));
+          dispatch(setShow(true));
         } else {
           switch (error.response.status) {
             case 400:
@@ -86,7 +97,23 @@ function App() {
 
   return (
     <div>
-      {/* {isOpen && <GlobalModal pShow={isOpen} />} */}
+      <ToastContainer className="p-3" position="bottom-center">
+        <Toast
+          show={toastData.show}
+          onClose={() => {
+            dispatch(setShow(false));
+            dispatch(setContent(""));
+            dispatch(setTitle(""));
+          }}
+          delay={10000}
+          autohide
+        >
+          <Toast.Header closeButton={false}>
+            <strong className="me-auto">{toastData.header}</strong>
+          </Toast.Header>
+          <Toast.Body>{toastData.content}</Toast.Body>
+        </Toast>
+      </ToastContainer>
 
       <Routes>
         <Route

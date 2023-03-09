@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import loginReducer from "./loginSlice";
-
+import toastReducer from "./toastSlice";
 /**
  * global login handler
  * global snackbar message displayer
  * global error message displayer
  */
 export const store = configureStore({
-  reducer: { loginReducer },
+  reducer: { loginReducer, toastReducer },
 });
 
 // Infer the RootState and AppDispatch types from the store itself

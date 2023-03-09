@@ -61,3 +61,9 @@ export enum DETAILS_TYPE {
   CREATE = "CREATE",
   EDIT = "EDIT",
 }
+
+export interface ToastMessage {
+  content: string;
+  header: string;
+  show: false;
+}

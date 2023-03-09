@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch } from "../store/hooks";
+import { setContent, setShow, setTitle } from "../store/toastSlice";
 import { credentialFetch } from "../utils/credential_fetch";
 import { HTTP_METHODS } from "../utils/http_methods";
 import { EDIT_USER_PASSWORD } from "../utils/paths";
@@ -8,6 +10,7 @@ import { EDIT_USER_PASSWORD } from "../utils/paths";
 export function ChangePassword() {
   const { userId } = useParams();
   const [password, setPassword] = useState("");
+  const dispatch = useAppDispatch();
   const [checkPassword, setCheckPassword] = useState("");
   const navigate = useNavigate();
 
@@ -20,13 +23,17 @@ export function ChangePassword() {
         JSON.stringify({ userId, password })
       );
       if (res.status === 200) {
-        alert("successfully changed password");
+        dispatch(setContent("successfully changed password"));
+        dispatch(setTitle("Success"));
+        dispatch(setShow(true));
         navigate(`/edit-user/${userId}`);
       } else {
         alert("something has gone wrong");
       }
     } else {
-      alert("check passwords again");
+      dispatch(setContent("Check passwords"));
+      dispatch(setTitle("Form error"));
+      dispatch(setShow(true));
     }
   };
 
