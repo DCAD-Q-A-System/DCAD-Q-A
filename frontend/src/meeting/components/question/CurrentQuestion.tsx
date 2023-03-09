@@ -8,12 +8,12 @@ import "./CurrentQuestion.css";
 
 export function CurrentQuestion({
   questions,
-  currentQuestion,
+  currentQuestionIndex,
   socket,
   meetingId,
 }: {
   questions: IQuestion[];
-  currentQuestion: IQuestion;
+  currentQuestionIndex: number;
   socket: ReconnectingWebSocket;
   meetingId: string;
 }) {
@@ -22,8 +22,9 @@ export function CurrentQuestion({
       <h2>Current Question</h2>
       {questions && questions.length > 0 && (
         <Form.Select
-          value={currentQuestion?.content || questions[0].content}
+          value={currentQuestionIndex !== -1 ? `${currentQuestionIndex}` : 0}
           onChange={(e) => {
+            console.log(questions[+e.currentTarget.value].id);
             const sockMsg: ISocketMessageSend = {
               reqType: REQ_TYPES.CHANGE_CURRENT_QUESTION,
               meetingId,

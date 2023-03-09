@@ -2,6 +2,7 @@ package questions
 
 import (
 	"context"
+	"fmt"
 
 	"dcad_q_a_system.com/utils"
 	"go.mongodb.org/mongo-driver/bson"
@@ -13,15 +14,17 @@ func ChangeCurrentQuestion(conn *utils.MongoConnection, meetingId string, newQue
 
 	qId,err := primitive.ObjectIDFromHex(newQuestionId)
 	if err != nil {
+		fmt.Printf("err qid %v",err)
 		return response
 	}
 	mId,err := primitive.ObjectIDFromHex(meetingId)
 	if err != nil {
+		fmt.Printf("err mid %v",err)
 		return response
 	}
 	db := conn.Client.Database(utils.DB_NAME)
 
-	questions_collection := db.Collection(utils.QUESTIONS)
+	meeting_collection := db.Collection(utils.MEETINGS)
 	ctx := context.Background()
 	
 	update := bson.D{
@@ -29,9 +32,11 @@ func ChangeCurrentQuestion(conn *utils.MongoConnection, meetingId string, newQue
 			{"currentQuestionId",qId},
 		}},
 	}
-	
-	_,err = questions_collection.UpdateByID(ctx,mId,update)
-	if err != nil {
+	filter := bson.D{{"_id",mId}}
+
+	u,err := meeting_collection.UpdateOne(ctx,filter,update)
+	if err != nil || u.ModifiedCount == 0 {
+		fmt.Printf("err curr q update id %v\n",err)
 		return response
 	}
 

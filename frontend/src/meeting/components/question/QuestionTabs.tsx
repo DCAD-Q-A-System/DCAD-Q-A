@@ -50,11 +50,11 @@ export function QuestionTabs({
                 case CATEGORIES.RECENT:
                   const C = moment(a.timeCreated).unix();
                   const D = moment(b.timeCreated).unix();
-                  return C - D;
+                  return D - C;
                 case CATEGORIES.OLDER:
                   const E = moment(a.timeCreated).unix();
                   const F = moment(b.timeCreated).unix();
-                  return F - E;
+                  return E - F;
               }
             })
             .map((question, i) => (

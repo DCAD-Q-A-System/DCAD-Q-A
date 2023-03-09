@@ -282,7 +282,7 @@ export function MainMeetingScratch() {
               }
             } else if (data.message && data.message.currentQuestionIdChanged) {
               newMeeting.currentQuestionId =
-                data.message.currentQuestionIdChanged;
+                data.message.currentQuestionIdChanged.split("").join("");
             }
           }
 
@@ -493,7 +493,7 @@ export function MainMeetingScratch() {
                         <CurrentQuestion
                           meetingId={meetingId}
                           questions={meeting.messages.questions}
-                          currentQuestion={meeting.messages.questions.find(
+                          currentQuestionIndex={meeting.messages.questions.findIndex(
                             (q) => q.id === meeting.currentQuestionId
                           )}
                           socket={ws.current}
