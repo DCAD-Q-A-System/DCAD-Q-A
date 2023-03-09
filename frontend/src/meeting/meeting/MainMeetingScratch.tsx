@@ -149,6 +149,9 @@ export function MainMeetingScratch() {
           case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
             alert("something went wrong with connection, leave and rejoin");
             break;
+          case SOCKET_ERRORS_TYPE.EXPIRED_TOKEN:
+            alert("expired token");
+            break;
         }
       } else if (data.command) {
         switch (data.command) {
@@ -177,6 +180,20 @@ export function MainMeetingScratch() {
                 ...data.message.questions,
                 ...newMeeting.messages.questions,
               ];
+            } else if (
+              data.message.replies &&
+              data.message.replies.length > 0
+            ) {
+              data.message.replies.forEach((r) => {
+                const indx = newMeeting.messages.chat.findIndex(
+                  (c) => c.id === r.parentChatId
+                );
+
+                if (indx !== -1) {
+                  const prev = newMeeting.messages.chat[indx].replies;
+                  newMeeting.messages.chat[indx].replies.push(r);
+                }
+              });
             } else if (
               data.message.newOnlineMembers &&
               data.message.newOnlineMembers.length > 0
@@ -263,8 +280,12 @@ export function MainMeetingScratch() {
                   newMeeting.messages.questions[i].voteCount = a[0];
                 }
               }
+            } else if (data.message && data.message.currentQuestionIdChanged) {
+              newMeeting.currentQuestionId =
+                data.message.currentQuestionIdChanged;
             }
           }
+
           console.log("NEW MEETING BEFORE UPDATE", newMeeting);
           setMeeting(newMeeting);
         }
@@ -278,7 +299,10 @@ export function MainMeetingScratch() {
   });
 
   const MyAccount = (
-    <><Image className="rounded-circle" src={anonSmall} width="30vw" /> My Account</>
+    <>
+      <Image className="rounded-circle" src={anonSmall} width="30vw" /> My
+      Account
+    </>
     // <div>
     //   <Image className="rounded-circle" src={anonSmall} width="30vw" />
     //   <Navbar.Text>My Account</Navbar.Text>
@@ -467,11 +491,12 @@ export function MainMeetingScratch() {
                       <Stack direction="vertical" gap={3}>
                         <Iframe link={meeting.iframeLink} />
                         <CurrentQuestion
-                          question={
-                            meeting.messages && meeting.messages.questions
-                              ? meeting.messages.questions[0]
-                              : []
-                          }
+                          meetingId={meetingId}
+                          questions={meeting.messages.questions}
+                          currentQuestion={meeting.messages.questions.find(
+                            (q) => q.id === meeting.currentQuestionId
+                          )}
+                          socket={ws.current}
                         />
                       </Stack>
                     </Container>

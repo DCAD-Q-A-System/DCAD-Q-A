@@ -4,6 +4,7 @@ export enum SOCKET_ERRORS_TYPE {
   INVALID_REQ_TYPE = "INVALID_REQ_TYPE",
   MEETING_ID_EMPTY = "MEETING_ID_EMPTY",
   UNAUTHORISED = "UNAUTHORISED",
+  EXPIRED_TOKEN = "EXPIRED_TOKEN",
 }
 
 export enum SOCKET_COMMAND_TYPE {
@@ -28,6 +29,7 @@ export interface ISocketMessageReceive {
     questionsDeleted: IQuestion[];
     questionsAnswered: IQuestion[];
     questionsVoteCountChanged: IQuestion[];
+    currentQuestionIdChanged: string;
     chatsDeleted: IChat[];
     repliesDeleted: IReply[];
   };
@@ -41,6 +43,7 @@ export interface ISocketMessageSend {
   chatId: string;
   questionId: string;
   questionAnswered: boolean;
+  currentQuestionId: string;
   replyId: string;
   userId: string;
   username: string;
@@ -55,6 +58,7 @@ export enum REQ_TYPES {
   GET_ALL_USERS = "GET_ALL_USERS",
   PING = "PING",
   SWITCH_QUESTION_ANSWERED = "SWITCH_QUESTION_ANSWERED",
+  CHANGE_CURRENT_QUESTION = "CHANGE_CURRENT_QUESTION",
   CHANGE_VOTE_COUNT = "CHANGE_VOTE_COUNT",
   DELETE_CHAT = "DELETE_CHAT",
   DELETE_REPLY = "DELETE_REPLY",

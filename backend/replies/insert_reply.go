@@ -83,9 +83,7 @@ func InsertReply(conn *utils.MongoConnection,
 		return response
 	}
 	
-	chat := utils.SocketChat{}
-	chat.Id = chatId
-	chat.Replies = []utils.SocketReply{}
+	
 	reply := utils.SocketReply{}
 	
 	reply.Id = id.Hex()
@@ -94,9 +92,8 @@ func InsertReply(conn *utils.MongoConnection,
 	reply.TimeCreated = timeNow.Time().Format(time.RFC3339)
 	reply.UserId = userId
 	reply.Username = username
-	chat.Replies = append(chat.Replies,reply)
-	response.Chat = append(response.Chat,chat)
 	response.MeetingId = meetingId 
+	response.Replies = []utils.SocketReply{reply}
 	
 	return response
 }

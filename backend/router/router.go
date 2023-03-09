@@ -64,6 +64,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 		superGroup.PUT("/leave-meeting",auth_middleware,meeting.LeaveMeeting(conn))
 		superGroup.PUT("/ban-user",auth_middleware,users.BanUser(conn))
 
+		superGroup.DELETE("/delete-user",auth_middleware,users.DeleteUser(conn))
 		superGroup.DELETE("/end-meeting",auth_middleware,meeting.EndMeeting(conn))
 		
 		
@@ -78,7 +79,7 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 			ctx.AbortWithStatus(http.StatusBadRequest)
 			return
 		}
-		web_sockets.SetUpSocketServer(conn,pool,ctx.Writer,ctx.Request,
+		web_sockets.SetUpSocketServer(conn,pool,ctx,
 			meetingId,userId,username)
 	})
 

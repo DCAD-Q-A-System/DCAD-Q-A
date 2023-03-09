@@ -41,6 +41,7 @@ type SocketMesageSend struct {
 	QuestionsDeleted 			[]QuestionStruct   `json:"questionsDeleted"`
 	QuestionsAnswered 			[]QuestionStruct   `json:"questionsAnswered"`
 	QuestionsVoteCountChanged 	[]QuestionStruct   `json:"questionsVoteCountChanged"`
+	CurrentQuestionIdChanged    string             `json:"currentQuestionIdChanged"`
 	ChatsDeleted     			[]SocketChat       `json:"chatsDeleted"`
 	RepliesDeleted   			[]SocketReply      `json:"repliesDeleted"`
 	AllUsers         			[]SocketMember     `json:"allUsers"`

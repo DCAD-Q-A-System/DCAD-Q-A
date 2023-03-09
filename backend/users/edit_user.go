@@ -30,16 +30,19 @@ func EditUser(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 		
 		filter := bson.D{
-			{"username",user.Username},
+			{"_id",userIdObj},
 		}
 		resOne := user_collection.FindOne(ctx,filter)
-		if resOne.Err() == nil {
+		if resOne.Err() != nil {
+			fmt.Printf("cant find one %v",err)
 			c.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
 
 		var userOne utils.User
 		if err = resOne.Decode(&userOne);err != nil {
+			fmt.Printf("cant decode one %v",err)
+
 			c.AbortWithStatus(http.StatusBadGateway)
 			return 
 		}
@@ -49,9 +52,13 @@ func EditUser(conn *utils.MongoConnection) gin.HandlerFunc {
 				{"_id",userIdObj},
 				{"username",user.Username},
 			}
+
 			updateUsername := bson.D{
-				{"username",user.Username},
+				{"$set",bson.D{
+					{"username",user.Username},
+				}},
 			}
+
 			question_collection := mongo_db.Collection(utils.QUESTIONS)
 
 			_,err = question_collection.UpdateMany(ctx,filterMany,updateUsername,options.Update())
@@ -132,12 +139,14 @@ func EditUserPassword(conn *utils.MongoConnection) gin.HandlerFunc {
 		}
 		resOne := user_collection.FindOne(ctx,filter)
 		if resOne.Err() != nil {
+			fmt.Printf("cant find one %v",err)
 			c.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
 
 		var userOne utils.User
 		if err = resOne.Decode(&userOne);err != nil {
+			fmt.Printf("cant decode one %v",err)
 			c.AbortWithStatus(http.StatusBadGateway)
 			return 
 		}

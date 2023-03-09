@@ -31,6 +31,7 @@ export function UserDetails({
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [checkPassword, setCheckPassword] = useState("");
   const [userType, setUserType] = useState(USER_TYPE.STUDENT);
 
   const navigate = useNavigate();
@@ -51,12 +52,15 @@ export function UserDetails({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("submitted");
-    if (username === "" || password === "") {
-      alert("can't leave them blank");
-      return;
-    }
+
     if (userDetailsType === DETAILS_TYPE.CREATE) {
+      if (!username || !password || !checkPassword) {
+        alert("details not entered");
+        return;
+      } else if (password !== checkPassword) {
+        alert("passwords don't match");
+        return;
+      }
       const res = await credentialFetch(
         CREATE_USER,
         HTTP_METHODS.POST,
@@ -69,17 +73,24 @@ export function UserDetails({
       console.log(res.status);
       if (res.status === 200) {
         alert("Successful creation of user");
+        navigate("/users-home");
+        return;
       } else if (res.status === 409) {
         alert("username already taken");
       } else {
         alert("something went wrong. check details");
       }
     } else if (userDetailsType === DETAILS_TYPE.EDIT) {
+      if (!username) {
+        alert("username not entered correctly");
+        return;
+      }
+      console.log(userDetails);
       const res = await credentialFetch(
         EDIT_USER,
-        HTTP_METHODS.POST,
+        HTTP_METHODS.PUT,
         JSON.stringify({
-          userId: "",
+          userId: userDetails.userId,
           username: username,
           password: password,
           type: userType,
@@ -109,6 +120,30 @@ export function UserDetails({
             className="p-3 fs-4"
           />
         </Form.Group>
+        {userDetailsType === DETAILS_TYPE.CREATE && (
+          <div>
+            <Form.Group className="mb-4">
+              <Form.Label className="fs-3">Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter password"
+                className="p-3 fs-4"
+              />
+            </Form.Group>
+            <Form.Group className="mb-4">
+              <Form.Label className="fs-3">Check Password</Form.Label>
+              <Form.Control
+                type="password"
+                value={checkPassword}
+                onChange={(e) => setCheckPassword(e.target.value)}
+                placeholder="Enter password again"
+                className="p-3 fs-4"
+              />
+            </Form.Group>
+          </div>
+        )}
 
         <Form.Group className="mb-4" controlId="formSelect">
           <Form.Label className="fs-3">User Type</Form.Label>
@@ -121,22 +156,28 @@ export function UserDetails({
           </Form.Select>
         </Form.Group>
 
-        <Button variant="primary" type="submit" className="fs-4 mt-4">
+        <Button variant="primary" type="submit" className="fs-5 m-1">
           Submit
         </Button>
-
-        <Button
-          type="button"
-          variant="primary"
-          onClick={() => navigate(`/change-password/${userId}`)}
-        >
-          Change Password
-        </Button>
+        {userDetailsType === DETAILS_TYPE.EDIT && (
+          <Button
+            type="button"
+            variant="primary"
+            className="fs-5 m-1 password"
+            onClick={() => navigate(`/change-password/${userId}`)}
+          >
+            Change Password
+          </Button>
+        )}
         <Button
           variant="secondary"
           type="button"
-          className="fs-4 mt-4"
-          onClick={() => navigate("/users-home")}
+          className="fs-5 m-1"
+          onClick={() =>
+            userDetailsType === DETAILS_TYPE.CREATE
+              ? navigate("/users-home")
+              : navigate("/edit-users")
+          }
         >
           Return
         </Button>

@@ -9,6 +9,7 @@ import (
 	"dcad_q_a_system.com/auth"
 	"dcad_q_a_system.com/middleware"
 	"dcad_q_a_system.com/utils"
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 )
 
@@ -23,10 +24,7 @@ type Client struct {
 
 
 
-func (c *Client) Read(conn *utils.MongoConnection,jwt string) {
-	
-    
-
+func (c *Client) Read(conn *utils.MongoConnection,jwt string, ctx *gin.Context) {
 	defer func() {
 		c.Pool.Unregister <- c
 		c.Conn.Close()
@@ -83,18 +81,33 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string) {
 		}
 
 		
-		if jwt == "" || !auth.VerifyJWTSocket(jwt){
+		if jwt == "" {
 			if socket_message.ReqType == "PING"{
 				c.Pool.Broadcast <- utils.BroadcastMessage{
 					Message: utils.SocketMesageSend{},
 					UserId: c.ID,
 				}
 			}else{
-				c.Conn.WriteJSON(map[string]string{
-					"error":"unauthorised",
-				})
+				res := map[string]string{
+					"error":"UNAUTHORISED",
+				}
+				c.Conn.WriteJSON(res)
+				
 			}
 			continue
+		}else if !auth.VerifyJWTSocket(jwt) {
+			
+			newToken,err := auth.RefreshJWTSocket(ctx,jwt)
+			if err != nil {
+				fmt.Printf("refresh token err %v\n",err)
+				res := map[string]string{}
+				res["error"] = "EXPIRED_TOKEN"
+				c.Conn.WriteJSON(res)
+			} else {
+				fmt.Println("new token",newToken)
+				jwt = newToken[:]
+				fmt.Println("RESET COOKIE",jwt)
+			}
 		}
 		
 		if socket_message.ReqType == "MAKE_USER_LEAVE" {

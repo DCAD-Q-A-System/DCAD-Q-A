@@ -40,6 +40,7 @@ export interface MeetingData {
   startTime: number;
   endTime: number;
   onlineMembers: ISocketMember[];
+  currentQuestionId: string;
 }
 
 export interface IMeetingDetails {

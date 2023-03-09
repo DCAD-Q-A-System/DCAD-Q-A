@@ -19,40 +19,13 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var body utils.GetMeetingData
 		body.MeetingId = c.Query("meetingId")
-		// if err := c.BindJSON(&body); err != nil {
-		// 	fmt.Printf("json body err,%v", err)
-		// 	c.AbortWithStatus(http.StatusBadRequest)
-		// 	return 
-		// }
 
 		ctx := context.Background()
 		db := conn.Client.Database(utils.DB_NAME)
 		
-		// f,_:=conn.Client.ListDatabaseNames(ctx,bson.D{},options.ListDatabases())
-		// fmt.Println(f)
-		// f,_=db.ListCollectionNames(ctx,bson.D{},options.ListCollections())
-		// fmt.Println(f)
-		meeting_collection := db.Collection(utils.MEETINGS,options.Collection())
-		// d,_:=meeting_collection.CountDocuments(ctx,bson.D{},options.Count())
-		// fmt.Println(d)
-		// cur,err := meeting_collection.Find(ctx,bson.D{})
-		// if err != nil {
-		// 	fmt.Printf("%v",err)
-		// 	return 
-		// }
-		// for cur.Next(ctx) {
-		// 	var m bson.M
-		// 	if err = cur.Decode(&m); err != nil {
-		// 		fmt.Printf("err decode %v",err)
-		// 		c.AbortWithStatus(http.StatusBadGateway)
-		// 		return
-		// 	}
-		// 	fmt.Println(m)
-			
-		// }
 		
-		// defer cur.Close(ctx)
-		// TODO ADD STRUCTURE TO THE RESULT WHEN DB SORTED 
+		meeting_collection := db.Collection(utils.MEETINGS,options.Collection())
+		
 		meetingObjectId,err := primitive.ObjectIDFromHex(body.MeetingId)
 		if err != nil {
 			fmt.Printf("object id conv %v",err)
@@ -99,17 +72,22 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 			})
 			return
 		}
+		// current,err := questions.GetAllQuestions(db,[]primitive.ObjectID{meeting.CurrentQuestionId})
+		// if err != nil || len(current) != 1 {
+		// 	fmt.Printf("current q get all %v %v\n",err,current)
+		// 	c.AbortWithStatus(http.StatusBadGateway)
+		// }
 		
 		qs, err := questions.GetAllQuestions(db,meeting.Questions)
 		if err != nil {
 			fmt.Printf("get all questions %v",err)
-			c.AbortWithStatus(500)
+			c.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
 		chats, err := chat.GetAllChat(db,meeting.Chats)
 		if err != nil {
 			fmt.Printf("get all chat %v",err)
-			c.AbortWithStatus(500)
+			c.AbortWithStatus(http.StatusBadGateway)
 			return
 		}
 
@@ -170,6 +148,7 @@ func GetAll(conn *utils.MongoConnection) gin.HandlerFunc {
 			"startTime":meeting.StartTime.Time().Unix(),
 			"endTime":meeting.EndTime.Time().Unix(),
 			"onlineMembers":onlineMembersIds,
+			"currentQuestionId":meeting.CurrentQuestionId.Hex(),
 		})
 	}
 }
