@@ -3,8 +3,8 @@ import loginReducer from "./loginSlice";
 import toastReducer from "./toastSlice";
 /**
  * global login handler
- * global snackbar message displayer
- * global error message displayer
+ * global toast message displayer
+ *
  */
 export const store = configureStore({
   reducer: { loginReducer, toastReducer },
@@ -12,5 +12,4 @@ export const store = configureStore({
 
 // Infer the RootState and AppDispatch types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch;

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ToastMessage } from "../utils/interfaces";
 
-const init: ToastMessage = {
+const init = {
   content: "",
   title: "",
+  variant: "light",
   show: false,
 };
 
@@ -12,17 +12,20 @@ export const toastSlice = createSlice({
   initialState: init,
   reducers: {
     setShow: (state, action: PayloadAction<boolean>) => {
-      return { ...state, show: action.payload.data };
+      return { ...state, show: action.payload };
+    },
+    setVariant: (state, action: PayloadAction<string>) => {
+      return { ...state, variant: action.payload };
     },
     setContent: (state, action: PayloadAction<string>) => {
-      return { ...state, content: action.payload.data };
+      return { ...state, content: action.payload };
     },
     setTitle: (state, action: PayloadAction<string>) => {
-      return { ...state, title: action.payload.data };
+      return { ...state, title: action.payload };
     },
   },
 });
 
-export const { setContent, setTitle, setShow } = toastSlice.actions;
+export const { setContent, setTitle, setShow, setVariant } = toastSlice.actions;
 
 export default toastSlice.reducer;

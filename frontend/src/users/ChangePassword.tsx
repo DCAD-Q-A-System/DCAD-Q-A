@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../store/hooks";
-import { setContent, setShow, setTitle } from "../store/toastSlice";
+import { setContent, setShow, setTitle, setVariant } from "../store/toastSlice";
 import { credentialFetch } from "../utils/credential_fetch";
 import { HTTP_METHODS } from "../utils/http_methods";
 import { EDIT_USER_PASSWORD } from "../utils/paths";
@@ -25,7 +25,9 @@ export function ChangePassword() {
       if (res.status === 200) {
         dispatch(setContent("successfully changed password"));
         dispatch(setTitle("Success"));
+        dispatch(setVariant("success"));
         dispatch(setShow(true));
+
         navigate(`/edit-user/${userId}`);
       } else {
         alert("something has gone wrong");
@@ -33,6 +35,7 @@ export function ChangePassword() {
     } else {
       dispatch(setContent("Check passwords"));
       dispatch(setTitle("Form error"));
+      dispatch(setVariant("danger"));
       dispatch(setShow(true));
     }
   };

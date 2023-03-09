@@ -51,7 +51,7 @@ function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const toastData = useAppSelector((s) => s.toastReducer);
   const dispatch = useAppDispatch();
-
+  console.log(toastData);
   useEffect(() => {
     AXIOS_INSTANCE.interceptors.response.use(
       (r) => r,
@@ -97,24 +97,6 @@ function App() {
 
   return (
     <div>
-      <ToastContainer className="p-3" position="bottom-center">
-        <Toast
-          show={toastData.show}
-          onClose={() => {
-            dispatch(setShow(false));
-            dispatch(setContent(""));
-            dispatch(setTitle(""));
-          }}
-          delay={10000}
-          autohide
-        >
-          <Toast.Header closeButton={false}>
-            <strong className="me-auto">{toastData.header}</strong>
-          </Toast.Header>
-          <Toast.Body>{toastData.content}</Toast.Body>
-        </Toast>
-      </ToastContainer>
-
       <Routes>
         <Route
           path="/"
@@ -279,6 +261,27 @@ function App() {
           }
         />
       </Routes>
+
+      {toastData.show && (
+        <ToastContainer className="p-3" position="bottom-center">
+          <Toast
+            bg={toastData.variant}
+            show={toastData.show}
+            onClose={() => {
+              dispatch(setShow(false));
+              dispatch(setContent(""));
+              dispatch(setTitle(""));
+            }}
+            delay={10000}
+            autohide
+          >
+            <Toast.Header closeButton>
+              <strong className="me-auto">{toastData.title}</strong>
+            </Toast.Header>
+            <Toast.Body>{toastData.content}</Toast.Body>
+          </Toast>
+        </ToastContainer>
+      )}
     </div>
   );
 }
