@@ -31,7 +31,7 @@ import { Iframe } from "../components/iframe/Iframe";
 import { CurrentQuestion } from "../components/question/CurrentQuestion";
 import { ChatPanel } from "../components/chat/ChatPanel";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { USER_TYPE } from "../../utils/enums";
+import { USER_TYPE, VARIANT } from "../../utils/enums";
 import {
   ISocketMember,
   ISocketMessageReceive,
@@ -44,6 +44,7 @@ import {
   checkIfInitiallyLoggedIn,
   isOpen,
   jsonToArray,
+  toastHook,
 } from "../../utils/funcs";
 import { setData } from "../../store/loginSlice";
 import { UsersList } from "../components/users_list/UsersList";
@@ -57,7 +58,6 @@ export function MainMeetingScratch() {
   const { meetingId } = useParams<{ meetingId?: string }>();
   const navigate = useNavigate();
   const [meeting, setMeeting] = useState<MeetingData | null>(null);
-  const dispatch = useAppDispatch();
   const loginData = useAppSelector((state) => state.loginReducer.data);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -66,7 +66,7 @@ export function MainMeetingScratch() {
   const handleSelect = (selectedTab) => {
     setActiveTab(selectedTab);
   };
-
+  const {setToast} = toastHook();
   const ws = useRef<ReconnectingWebSocket>(null);
   // const s = useWebSocket(ws.current, {
   //   share: false,
@@ -94,7 +94,7 @@ export function MainMeetingScratch() {
 
         setMeeting(data);
       } else {
-        alert("something has gone wrong");
+        setToast("General error", "something has gone wrong", VARIANT.DANGER, true);
       }
     };
     fetchMeeting();
@@ -110,6 +110,7 @@ export function MainMeetingScratch() {
           username: loginData?.username,
         };
         const bytes = jsonToArray(sockMsg);
+        if (!ws.current) return;
         ws.current.send(bytes);
       }
     };
@@ -118,13 +119,14 @@ export function MainMeetingScratch() {
     const onClose = (e: any) => {
       console.log(e.data);
       console.log("CLOSING SOCKET!");
-      alert("lost connection with socket");
+      setToast("Connection error", "lost connection with socket", VARIANT.DANGER, true);
       navigate(-1);
     };
 
     // s.getWebSocket()?.onopen = onOpen;
     ws.current.addEventListener("close", onClose);
     return () => {
+      if (!ws.current) return;
       ws.current.removeEventListener("open", onOpen);
 
       ws.current.removeEventListener("close", onClose);
@@ -142,15 +144,15 @@ export function MainMeetingScratch() {
       if (data.error) {
         switch (data.error) {
           case SOCKET_ERRORS_TYPE.UNAUTHORISED:
-            alert("unauthorised to enter meeting");
+            setToast("Authorisation error", "unauthorised to enter meeting", VARIANT.DANGER, true);
             navigate(-1);
             break;
           case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
           case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
-            alert("something went wrong with connection, leave and rejoin");
+            setToast("Connection error", "something went wrong with connection, leave and rejoin", VARIANT.DANGER, true);
             break;
           case SOCKET_ERRORS_TYPE.EXPIRED_TOKEN:
-            alert("expired token");
+            setToast("Token error", "expired token", VARIANT.DANGER, true);
             break;
         }
       } else if (data.command) {
@@ -291,9 +293,11 @@ export function MainMeetingScratch() {
         }
       }
     };
+    if (!ws.current) return;
     ws.current.addEventListener("message", onMessage);
 
     return () => {
+      if (!ws.current) return;
       ws.current.removeEventListener("message", onMessage);
     };
   });
@@ -334,8 +338,9 @@ export function MainMeetingScratch() {
           userIdToSendCommand: userData.map((s) => s.userId),
         };
         const bytes = jsonToArray(socketKickOutMessage);
+        if (!ws.current) return;
         if (!isOpen(ws.current)) {
-          alert("connection lost");
+          setToast("Connection error", "connection lost", VARIANT.DANGER, true);
           return;
         }
         ws.current.send(bytes);

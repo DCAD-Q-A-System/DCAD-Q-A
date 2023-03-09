@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch } from "../store/hooks";
 import { setContent, setShow, setTitle, setVariant } from "../store/toastSlice";
 import { credentialFetch } from "../utils/credential_fetch";
+import { VARIANT } from "../utils/enums";
+import { toastHook } from "../utils/funcs";
 import { HTTP_METHODS } from "../utils/http_methods";
 import { EDIT_USER_PASSWORD } from "../utils/paths";
+import "./ChangePassword.css"
 
 export function ChangePassword() {
   const { userId } = useParams();
@@ -13,6 +16,7 @@ export function ChangePassword() {
   const dispatch = useAppDispatch();
   const [checkPassword, setCheckPassword] = useState("");
   const navigate = useNavigate();
+  const {setToast} = toastHook();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,18 +34,15 @@ export function ChangePassword() {
 
         navigate(`/edit-user/${userId}`);
       } else {
-        alert("something has gone wrong");
+        setToast("General error", "something has gone wrong", VARIANT.DANGER, true);
       }
     } else {
-      dispatch(setContent("Check passwords"));
-      dispatch(setTitle("Form error"));
-      dispatch(setVariant("danger"));
-      dispatch(setShow(true));
+      setToast("Form error", "Check passwords", VARIANT.DANGER, true);
     }
   };
 
   return (
-    <div className=" d-flex justify-content-center align-items-center">
+    <Container className="cp-form d-flex justify-content-center align-items-center">
       <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3">
         <Form.Group className="mb-4" controlId="formBasicPassword">
           <Form.Label className="fs-3">Password</Form.Label>
@@ -76,6 +77,6 @@ export function ChangePassword() {
           Return
         </Button>
       </Form>
-    </div>
+    </Container>
   );
 }

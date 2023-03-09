@@ -25,6 +25,8 @@ import {
   IMeetingDetails,
 } from "../../utils/interfaces";
 import { useAppSelector } from "../../store/hooks";
+import { VARIANT } from "../../utils/enums";
+import { toastHook } from "../../utils/funcs";
 
 export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
   const { meetingId } = useParams();
@@ -37,18 +39,19 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
   const [suggestions, setSuggestions] = useState<ISocketMember[]>([]);
   const [chosenMembers, setChosenMembers] = useState<ISocketMember[]>([]);
   const navigate = useNavigate();
+  const {setToast} = toastHook();
 
   useEffect(() => {
     if (detailsType === DETAILS_TYPE.EDIT) {
       const getMeeting = async () => {
         const res = await credentialFetch(GET_MEETING + meetingId);
         if (res.status !== 200) {
-          alert("something went wrong");
+          setToast("General error", "something went wrong", VARIANT.DANGER, true);
           return;
         }
         const data: IMeetingDetails = res.data;
         if (!data) {
-          alert("server error");
+          setToast("General error", "server error", VARIANT.DANGER, true);
           return;
         }
         console.log("meetin det", data);
@@ -77,8 +80,7 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
       endValNum <= startValNum ||
       chosenMembers.length == 0
     ) {
-      alert("Something went wrong, check form again");
-
+      setToast("General error", "Something went wrong, check form again", VARIANT.DANGER, true);
       return;
     }
     const users = chosenMembers.some((user) => user.username === "admin");
@@ -90,7 +92,7 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
         const chosenMembersSet = new Set(chosenMembers);
         chosenMembersSet.add(admin);
         setChosenMembers(() => [...chosenMembersSet]);
-        alert("Admin is allowed to join the meeting!");
+        setToast("Join success", "Admin is allowed to join the meeting!", VARIANT.SUCCESS, true);
         return;
       }
     }
@@ -109,10 +111,10 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
         })
       );
       if (res.status == 200) {
-        alert("Successful!");
+        setToast("Success", "Successful!", VARIANT.SUCCESS, true);
         navigate("/");
       } else {
-        alert("Something went wrong!");
+        setToast("General error", "Something went wrong!", VARIANT.DANGER, true);
       }
     } else if (detailsType === DETAILS_TYPE.EDIT && meetingId) {
       const res = await credentialFetch(
@@ -128,10 +130,10 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
         })
       );
       if (res.status == 200) {
-        alert("Successful!");
+        setToast("Success", "Successful!", VARIANT.SUCCESS, true);
         navigate("/");
       } else {
-        alert("Something went wrong!");
+        setToast("General error", "Something went wrong!", VARIANT.DANGER, true);
       }
     }
   };
@@ -159,10 +161,10 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
       })
     );
     if (response.status === 200) {
-      alert("successfully deleted meeting");
+      setToast("Deletion success", "successfully deleted meeting", VARIANT.SUCCESS, true);
       navigate("/meeting-list");
     } else {
-      alert("something went wrong deleting meetings");
+      setToast("Deletion error", "something went wrong deleting meetings", VARIANT.DANGER, true);
     }
   };
 
