@@ -119,7 +119,20 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string, ctx *gin.Context) 
 			}
 			continue
 		}
-		res := SocketRouter(conn,&socket_message)
+		var res utils.SocketMesageSend
+		fmt.Println(socket_message.ReqType)
+		if !utils.PRIVELEGED_REQ_TYPES[socket_message.ReqType]{
+			res = SocketRouter(conn,&socket_message)
+		}else{
+			fmt.Println("CHecking priv",socket_message.UserId)
+			if utils.SockAuth(conn,socket_message.UserId){
+				res = SocketRouterPriveleged(conn,&socket_message)
+			}else{
+				c.Conn.WriteJSON(map[string]string{
+					"error":"UNAUTHORISED",
+				})
+			}
+		}
 		if res.MeetingId == "" {
 			fmt.Println("Message type wrong",socket_message.MeetingId)
 			c.Conn.WriteJSON(map[string]string{

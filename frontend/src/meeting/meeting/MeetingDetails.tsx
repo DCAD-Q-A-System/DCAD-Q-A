@@ -198,23 +198,26 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
 
           <Form.Label className="fs-4">Participants:</Form.Label>
           {chosenMembers.length > 0 &&
-            chosenMembers.map((m, i) => (
-              <div key={i} className="chip">
-                {m.username}
-                <span
-                  className="closebtn"
-                  onClick={() => {
-                    const newChosenMembers: ISocketMember[] = JSON.parse(
-                      JSON.stringify(chosenMembers)
-                    );
-                    newChosenMembers.splice(i, 1);
-                    setChosenMembers(newChosenMembers);
-                  }}
-                >
-                  &times;
-                </span>
-              </div>
-            ))}
+            chosenMembers.map(
+              (m, i) =>
+                m && (
+                  <div key={i} className="chip">
+                    {m.username}
+                    <span
+                      className="closebtn"
+                      onClick={() => {
+                        const newChosenMembers: ISocketMember[] = JSON.parse(
+                          JSON.stringify(chosenMembers)
+                        );
+                        newChosenMembers.splice(i, 1);
+                        setChosenMembers(newChosenMembers);
+                      }}
+                    >
+                      &times;
+                    </span>
+                  </div>
+                )
+            )}
           <Form.Control
             type="search"
             value={memberName}
@@ -234,6 +237,7 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
                   onClick={() => {
                     const newChosenMembers = [...chosenMembers, el];
                     const ids: { [key: string]: string } = {};
+                    console.log(newChosenMembers);
                     newChosenMembers.forEach((m) => {
                       console.log(m.userId);
                       ids[m.userId] = m.username;

@@ -56,7 +56,9 @@ export function Chat({
           <Col
             xs={10}
             md={10}
-            className={replies ? "border border-secondary" : ""}
+            className={
+              replies && replies.length > 0 ? "border border-secondary" : ""
+            }
           >
             <div>{content}</div>
             {replies &&

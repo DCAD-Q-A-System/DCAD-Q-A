@@ -37,6 +37,34 @@ func AuthenticateRequestMiddleware() gin.HandlerFunc {
 	}
 }
 
+func VerifyUserType(c *gin.Context,userTypes []string) bool {
+	claims,err := CheckCookieReturnUserInfo(c)
+	if err != nil  {
+		return false
+	}
+	for _,u := range userTypes {
+		if claims.Type == u {
+			if u == "ADMIN" {
+				return claims.Username == "admin"
+			}
+			return true
+		}
+	}
+	return false
+}
+
+func AuthenticatedUserPrivelageMiddleware(userTypes []string) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if VerifyUserType(c,userTypes){
+			c.Next()
+			return
+		}else{
+			c.AbortWithStatusJSON(http.StatusUnauthorized,gin.H{"Message":"Unauthorised"})
+			return
+		}
+	}
+}
+
 func HandleCheckIfLoggedIn(c *gin.Context) {
 	claims,err := CheckCookieReturnUserInfo(c)
 	if err != nil  {
