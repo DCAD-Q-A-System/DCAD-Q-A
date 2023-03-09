@@ -3,7 +3,7 @@ import { AiOutlinePlus, AiFillEdit } from "react-icons/ai";
 import { BsClockFill } from "react-icons/bs";
 import { useAppSelector } from "../store/hooks";
 import { USER_TYPE } from "../utils/enums";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Dropdown, Navbar, Stack, Row, Col, Container } from "react-bootstrap";
 import { BiMenu } from "react-icons/bi";
@@ -47,6 +47,7 @@ export function Home() {
             isOpen == false ? setIsOpen(!isOpen) : "";
           }}
         >
+          <Navbar.Brand className="home-title fs-1 fs-md-2 text-wrap text-white">{loginData.username} is logged in</Navbar.Brand>
           <Navbar fixed="top" expand="lg" className="home-nav">
             <Stack>
               {isOpen ? (

@@ -113,6 +113,13 @@
   transform: translate(-50%);
 }
 
+.home-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10%;
+}
+
 @media screen and (max-width:377px) and (max-height:669px) {
   .Containers-1{
     max-width: 30vw;
