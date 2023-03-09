@@ -51,6 +51,13 @@ export interface ISocketMessageSend {
   userIdToSendCommand?: string[];
 }
 
+export interface sockMsgProps{
+  reqType: REQ_TYPES;
+  meetingId: string;
+  userId: string;
+  username: string;
+}
+
 export enum REQ_TYPES {
   INSERT_CHAT = "INSERT_CHAT",
   INSERT_QUESTION = "INSERT_QUESTION",

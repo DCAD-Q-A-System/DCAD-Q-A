@@ -151,7 +151,7 @@ export function UserDetails({
           <Form.Label className="fs-3">User Type</Form.Label>
           <Form.Select
             value={userType}
-            onChange={(e) => setUserType(e.target.value)}
+            onChange={(e) => setUserType(e.target.value as USER_TYPE)}
           >
             <option>{USER_TYPE.STUDENT} </option>
             <option>{USER_TYPE.PANELLIST} </option>

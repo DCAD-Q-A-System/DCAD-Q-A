@@ -10,7 +10,7 @@ export function GlobalModal({
   onSubmit,
 }: {
   pShow: boolean;
-  setPShow: React.SetStateAction<boolean>;
+  setPShow: (value: boolean | ((prevState: boolean) => boolean)) => void;
   title: string;
   message: string;
   onSubmit: () => Promise<void>;
