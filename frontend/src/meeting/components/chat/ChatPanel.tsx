@@ -29,11 +29,15 @@ export function ChatPanel({
   const [chat, setChat] = useState("");
   const chatBoxRef = useRef<HTMLDivElement>(null);
 
-  useEffect(()=>{
-    if(chatBoxRef.current){
-      chatBoxRef.current.scrollIntoView({behavior:'smooth',block:'end',inline:'nearest'})
+  useEffect(() => {
+    if (chatBoxRef.current) {
+      chatBoxRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
     }
-  },[])
+  }, []);
 
   function handleSend() {
     if (chat.trim() === "") {
@@ -55,12 +59,11 @@ export function ChatPanel({
     }
     socket.send(bytes);
     setChat("");
-    setReply("");
   }
 
   return (
     <div className="chat-panel">
-      <ListGroup as="ol" >
+      <ListGroup as="ol">
         {chats &&
           chats.length > 0 &&
           chats.map((chat, i) => (

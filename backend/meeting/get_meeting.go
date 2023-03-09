@@ -41,16 +41,16 @@ func GetMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 			return
 		}
 
-		membersList := make([]map[string]string,len(meeting.Members))
-		for i,m := range meeting.Members {
+		membersList := []map[string]string{}
+		for _,m := range meeting.Members {
 			userJson,errNo := users.GetUserDb(conn,m.Hex())
 			if errNo != http.StatusOK {
 				continue
 			}
-			membersList[i] = map[string]string{
+			membersList = append(membersList,map[string]string{
 				"userId":userJson.UserId,
 				"username":userJson.Username,
-			}
+			})
 		}
 
 		meetingJson := utils.EssentialMeetingDetails{

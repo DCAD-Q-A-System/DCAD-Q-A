@@ -33,6 +33,14 @@ var ALLOWED_REQ_TYPES = map[string]bool{
 	"CHANGE_CURRENT_QUESTION":  true,
 }
 
+var PRIVELEGED_REQ_TYPES = map[string]bool{
+	"SWITCH_QUESTION_ANSWERED": true,
+	"DELETE_QUESTION":          true,
+	"DELETE_CHAT":              true,
+	"DELETE_REPLY":             true,
+	"CHANGE_CURRENT_QUESTION":  true,
+}
+
 var USER_CREATION_ALLOWED_TYPES = map[string]bool{
 	"PANELLIST": true,
 	"STUDENT":   true,
