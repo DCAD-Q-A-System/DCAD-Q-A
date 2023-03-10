@@ -27,12 +27,11 @@ export function UsersList({
   meetingId: string;
   socket: ReconnectingWebSocket;
 }) {
-  const [users, setUsers] = useState<ISocketMember[]>(null);
+  const [users, setUsers] = useState<ISocketMember[] | null>(null);
   const loginData = useAppSelector((s) => s.loginReducer.data);
   const [wantToDoSeriousAction, setWantToDoSeriousAction] = useState(false);
   const [currentMember, setCurrentMember] = useState<ISocketMember>(null);
-  const dispatch = useAppDispatch();
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
   useEffect(() => {
     const getAllUsers = async () => {
       const res = await credentialFetch(
@@ -53,7 +52,7 @@ export function UsersList({
     if (res.status === 200) {
       const socketMsg: ISocketMessageSend = {
         meetingId,
-        reqType: "MAKE_USER_LEAVE",
+        reqType: REQ_TYPES.MAKE_USER_LEAVE,
         userId: loginData?.userId,
         userIdToSendCommand: currentMember?.userId,
       };

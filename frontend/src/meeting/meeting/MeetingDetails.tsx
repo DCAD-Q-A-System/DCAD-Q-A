@@ -39,14 +39,19 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
   const [suggestions, setSuggestions] = useState<ISocketMember[]>([]);
   const [chosenMembers, setChosenMembers] = useState<ISocketMember[]>([]);
   const navigate = useNavigate();
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
 
   useEffect(() => {
     if (detailsType === DETAILS_TYPE.EDIT) {
       const getMeeting = async () => {
         const res = await credentialFetch(GET_MEETING + meetingId);
         if (res.status !== 200) {
-          setToast("General error", "something went wrong", VARIANT.DANGER, true);
+          setToast(
+            "General error",
+            "something went wrong",
+            VARIANT.DANGER,
+            true
+          );
           return;
         }
         const data: IMeetingDetails = res.data;
@@ -80,7 +85,12 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
       endValNum <= startValNum ||
       chosenMembers.length == 0
     ) {
-      setToast("General error", "Something went wrong, check form again", VARIANT.DANGER, true);
+      setToast(
+        "General error",
+        "Something went wrong, check form again",
+        VARIANT.DANGER,
+        true
+      );
       return;
     }
     const users = chosenMembers.some((user) => user.username === "admin");
@@ -92,7 +102,12 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
         const chosenMembersSet = new Set(chosenMembers);
         chosenMembersSet.add(admin);
         setChosenMembers(() => [...chosenMembersSet]);
-        setToast("Join success", "Admin is allowed to join the meeting!", VARIANT.SUCCESS, true);
+        setToast(
+          "Join success",
+          "Admin is allowed to join the meeting!",
+          VARIANT.SUCCESS,
+          true
+        );
         return;
       }
     }
@@ -114,7 +129,12 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
         setToast("Success", "Successful!", VARIANT.SUCCESS, true);
         navigate("/");
       } else {
-        setToast("General error", "Something went wrong!", VARIANT.DANGER, true);
+        setToast(
+          "General error",
+          "Something went wrong!",
+          VARIANT.DANGER,
+          true
+        );
       }
     } else if (detailsType === DETAILS_TYPE.EDIT && meetingId) {
       const res = await credentialFetch(
@@ -133,7 +153,12 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
         setToast("Success", "Successful!", VARIANT.SUCCESS, true);
         navigate("/");
       } else {
-        setToast("General error", "Something went wrong!", VARIANT.DANGER, true);
+        setToast(
+          "General error",
+          "Something went wrong!",
+          VARIANT.DANGER,
+          true
+        );
       }
     }
   };
@@ -161,10 +186,20 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
       })
     );
     if (response.status === 200) {
-      setToast("Deletion success", "successfully deleted meeting", VARIANT.SUCCESS, true);
+      setToast(
+        "Deletion success",
+        "successfully deleted meeting",
+        VARIANT.SUCCESS,
+        true
+      );
       navigate("/meeting-list");
     } else {
-      setToast("Deletion error", "something went wrong deleting meetings", VARIANT.DANGER, true);
+      setToast(
+        "Deletion error",
+        "something went wrong deleting meetings",
+        VARIANT.DANGER,
+        true
+      );
     }
   };
 
@@ -271,18 +306,20 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
           >
             save
           </Button>
-          <Button
-            variant="danger"
-            type="submit"
-            className="button mt-5 fs-3"
-            style={{
-              marginLeft: "20px",
-              paddingLeft: "10px",
-            }}
-            onClick={deleteMeetings}
-          >
-            delete
-          </Button>
+          {detailsType === DETAILS_TYPE.EDIT && (
+            <Button
+              variant="danger"
+              type="submit"
+              className="button mt-5 fs-3"
+              style={{
+                marginLeft: "20px",
+                paddingLeft: "10px",
+              }}
+              onClick={deleteMeetings}
+            >
+              delete
+            </Button>
+          )}
 
           <Button
             variant="secondary"
