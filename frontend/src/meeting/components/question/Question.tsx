@@ -9,6 +9,7 @@ import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
 import { VARIANT } from "../../../utils/enums";
+import { HIGH_PRIVELAGE } from "../../../utils/constants";
 
 interface QuestionProps extends IQuestion {
   socket: ReconnectingWebSocket;
@@ -27,7 +28,7 @@ export function Question({
 }: QuestionProps) {
   const loginData = useAppSelector((s) => s.loginReducer.data);
   // const [answered, setAnswered] = useState(propsAnswered);
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
   return (
     <ListGroup.Item
       as="li"
@@ -51,51 +52,70 @@ export function Question({
             md={2}
             className="d-flex flex-column justify-content-between"
           >
-            <BsFillTrashFill
-              onClick={() => {
-                const socketMessage: ISocketMessageSend = {
-                  reqType: REQ_TYPES.DELETE_QUESTION,
-                  content: "",
-                  meetingId,
-                  chatId: "",
-                  questionId: id,
-                  replyId: "",
-                  userId: loginData?.userId,
-                  username: loginData?.username,
-                };
-                const bytes = jsonToArray(socketMessage);
-                if (!isOpen(socket)) {
-                  setToast("Connection error", "connection lost", VARIANT.DANGER, true);
-                  return;
-                }
-                socket.send(bytes);
-                setToast("Deletion success", "delete command success", VARIANT.SUCCESS, true);
-              }}
-              className="bin position-absolute top-0 end-0"
-            />
-            <Form.Check
-              reverse
-              type="checkbox"
-              className="answered position-absolute bottom-0 end-0"
-              checked={propsAnswered}
-              onChange={(e) => {
-                // setAnswered(!answered);
-                // console.log("new answered", answered);
-                const socketMsg: ISocketMessageSend = {
-                  reqType: REQ_TYPES.SWITCH_QUESTION_ANSWERED,
-                  meetingId: meetingId,
-                  questionId: id,
-                  questionAnswered: !propsAnswered,
-                  userId: loginData?.userId,
-                  username: loginData?.username,
-                };
-                const bytes = jsonToArray(socketMsg);
-                if (!isOpen(socket)) {
-                  setToast("Socket error", "socket not connected try reloading", VARIANT.DANGER, true);
-                }
-                socket.send(bytes);
-              }}
-            />
+            {loginData && HIGH_PRIVELAGE.includes(loginData.type) && (
+              <div>
+                <BsFillTrashFill
+                  onClick={() => {
+                    const socketMessage: ISocketMessageSend = {
+                      reqType: REQ_TYPES.DELETE_QUESTION,
+                      content: "",
+                      meetingId,
+                      chatId: "",
+                      questionId: id,
+                      replyId: "",
+                      userId: loginData?.userId || "",
+                      username: loginData?.username,
+                    };
+                    const bytes = jsonToArray(socketMessage);
+                    if (!isOpen(socket)) {
+                      setToast(
+                        "Connection error",
+                        "connection lost",
+                        VARIANT.DANGER,
+                        true
+                      );
+                      return;
+                    }
+                    socket.send(bytes);
+                    setToast(
+                      "Deletion success",
+                      "delete command success",
+                      VARIANT.SUCCESS,
+                      true
+                    );
+                  }}
+                  className="bin position-absolute top-0 end-0"
+                />
+                <Form.Check
+                  reverse
+                  type="checkbox"
+                  className="answered position-absolute bottom-0 end-0"
+                  checked={propsAnswered}
+                  onChange={(e) => {
+                    // setAnswered(!answered);
+                    // console.log("new answered", answered);
+                    const socketMsg: ISocketMessageSend = {
+                      reqType: REQ_TYPES.SWITCH_QUESTION_ANSWERED,
+                      meetingId: meetingId,
+                      questionId: id,
+                      questionAnswered: !propsAnswered,
+                      userId: loginData?.userId || "",
+                      username: loginData?.username,
+                    };
+                    const bytes = jsonToArray(socketMsg);
+                    if (!isOpen(socket)) {
+                      setToast(
+                        "Socket error",
+                        "socket not connected try reloading",
+                        VARIANT.DANGER,
+                        true
+                      );
+                    }
+                    socket.send(bytes);
+                  }}
+                />
+              </div>
+            )}
           </Col>
         </Row>
       </div>
