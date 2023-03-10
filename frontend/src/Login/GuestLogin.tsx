@@ -15,9 +15,9 @@ export function GuestLogin() {
   <>
     {/* <Logo /> */}
     <div className="color-overlay d-flex justify-content-center align-items-center">
-      <Form onSubmit={handleSubmit} className="rounded p-4 form-control-sm form">
+      <Form onSubmit={handleSubmit} className="rounded p-4 form">
         <Form.Group className="mb-3">
-          <Form.Label className="fs-1 mt-3">Meeting Id:</Form.Label>
+          <Form.Label className="fs-2 mt-3">Meeting Id:</Form.Label>
           <Form.Control
             type="text"
             value={id}
@@ -30,13 +30,13 @@ export function GuestLogin() {
         <Button 
           variant="primary" 
           type="submit" 
-          className="btn btn-lg fs-2"
-          style={{marginLeft:"80px",marginTop:"100px"}}
+          className="btn btn-lg fs-3"
+          style={{marginTop:"100px"}}
         >
           Go to meeting
         </Button>
         <Button variant="secondary" 
-        className="btn btn-lg fs-2"
+        className="btn btn-lg fs-3"
         style={{marginLeft:"60px",marginTop:"100px"}}
         onClick={()=>navigate('/login')}>
           Return
