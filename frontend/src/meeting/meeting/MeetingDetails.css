@@ -12,6 +12,7 @@
   width: 50%;
   height: fit-content;
   max-width: 800px;
+  max-height: 70vh;
   background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
   overflow: scroll;
