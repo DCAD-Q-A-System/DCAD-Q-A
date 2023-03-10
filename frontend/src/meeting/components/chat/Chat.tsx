@@ -7,7 +7,8 @@ import ReconnectingWebSocket from "reconnecting-websocket";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { useAppSelector } from "../../../store/hooks";
 import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
-import { VARIANT } from "../../../utils/enums";
+import { USER_TYPE, VARIANT } from "../../../utils/enums";
+import { HIGH_PRIVELAGE } from "../../../utils/constants";
 
 interface ChatProps extends IChat {
   socket: ReconnectingWebSocket;
@@ -23,7 +24,7 @@ export function Chat({
   meetingId,
 }: ChatProps) {
   const [reply, setReply] = useState("");
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
 
   const loginData = useAppSelector((s) => s.loginReducer.data);
   function handleSendReply() {
@@ -78,34 +79,48 @@ export function Chat({
             md={2}
             className="d-flex flex-column justify-content-between"
           >
-            <BsFillTrashFill
-              onClick={() => {
-                const socketMessage: ISocketMessageSend = {
-                  reqType: REQ_TYPES.DELETE_CHAT,
-                  content: "",
-                  meetingId,
-                  chatId: id,
-                  questionId: "",
-                  replyId: "",
-                  userId: loginData?.userId!,
-                  username: loginData?.username,
-                };
-                const bytes = jsonToArray(socketMessage);
-                if (!isOpen(socket)) {
-                  setToast("Connection error", "connection lost", VARIANT.DANGER, true);
-                  return;
-                }
-                socket.send(bytes);
-                setToast("Deletion success", "delete command success", VARIANT.SUCCESS, true);
-              }}
-              className="bin position-absolute top-0 end-0"
-              // alt="Delete"
-            />
-            <BsFillReplyFill
-              className="reply position-absolute bottom-0 end-0"
-              // alt="Reply"
-              onClick={() => setReply(`@${username} `)}
-            />
+            {loginData && HIGH_PRIVELAGE.includes(loginData.type) && (
+              <BsFillTrashFill
+                onClick={() => {
+                  const socketMessage: ISocketMessageSend = {
+                    reqType: REQ_TYPES.DELETE_CHAT,
+                    content: "",
+                    meetingId,
+                    chatId: id,
+                    questionId: "",
+                    replyId: "",
+                    userId: loginData?.userId,
+                    username: loginData?.username,
+                  };
+                  const bytes = jsonToArray(socketMessage);
+                  if (!isOpen(socket)) {
+                    setToast(
+                      "Connection error",
+                      "connection lost",
+                      VARIANT.DANGER,
+                      true
+                    );
+                    return;
+                  }
+                  socket.send(bytes);
+                  setToast(
+                    "Deletion success",
+                    "delete command success",
+                    VARIANT.SUCCESS,
+                    true
+                  );
+                }}
+                className="bin position-absolute top-0 end-0"
+                alt="Delete"
+              />
+            )}
+            {loginData && loginData.type !== USER_TYPE.GUEST && (
+              <BsFillReplyFill
+                className="reply position-absolute bottom-0 end-0"
+                alt="Reply"
+                onClick={() => setReply(`@${username} `)}
+              />
+            )}
           </Col>
         </Row>
         {reply !== "" && (
