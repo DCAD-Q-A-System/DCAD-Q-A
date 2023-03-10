@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../utils/credential_fetch";
 import { USER_TYPE, VARIANT } from "../utils/enums";
@@ -110,7 +110,7 @@ export function UserDetails({
   };
 
   return (
-    <div className=" d-flex justify-content-center align-items-center">
+    <Container className="cp-form d-flex justify-content-center align-items-center">
       <Form onSubmit={handleSubmit} className="rounded p-4 p-sm-3">
         <Form.Group className="mb-4" controlId="formBasicEmail">
           <Form.Label className="fs-3">Username</Form.Label>
@@ -184,6 +184,6 @@ export function UserDetails({
           Return
         </Button>
       </Form>
-    </div>
+    </Container>
   );
 }
