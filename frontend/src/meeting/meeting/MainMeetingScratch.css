@@ -68,7 +68,7 @@ iframe {
   display: flex;
   align-items: center;
   height: 100vh;
-  margin-left: 50vw;
+  /* margin-left: 50vw; */
 }
 
 .dark-mode {
