@@ -77,12 +77,14 @@
     height: 100%;
     border-right: 1px dashed rgb(18, 189, 246);
     overflow: scroll;
+    font-size: 2vw;
 }
 
 .box4{
     flex: 1;
     width: 50%;
     overflow: scroll;
+    font-size: 2vw;
     /* background-color: rgb(46, 89, 245); */
 }
 
@@ -94,7 +96,7 @@
 
 
 .content{
-    font-size: 35px;
+    font-size: 3vw;
     padding-top: 5%;
     margin-left: 20px;
     padding-right: 5px;
@@ -106,7 +108,7 @@
 }
 
 .content-item{
-    font-size: 25px;
+    font-size: 2vw;
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 5px;
@@ -138,7 +140,7 @@
     padding-right: 2%;
     margin-top: 5%; 
     color: aliceblue;
-    font-size: 2rem;
+    font-size: 2vw;
 }
 
 .share{
@@ -153,7 +155,7 @@
     padding-right: 3%;
     margin-top: 5%; 
     Color: aliceblue;
-    font-size: 2rem;
+    font-size: 2vw;
     /* text-overflow: ellipsis; */
 }
 
