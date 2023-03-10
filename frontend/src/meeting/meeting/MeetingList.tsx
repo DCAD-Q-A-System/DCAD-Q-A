@@ -10,12 +10,15 @@ import { MeetingItem } from "../components/MeetingItem";
 import { Button, Container, Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "../../users/Menu";
+import { toastHook } from "../../utils/funcs";
+import { VARIANT } from "../../utils/enums";
 
 export function MeetingList() {
   const [ids, setIds] = useState<MeetingIds | null>(null);
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
   const [isOpen,setIsOpen] = useState(true)
+  const {setToast} = toastHook();
 
   useEffect(() => {
     const fetchMeetings = async () => {
@@ -28,7 +31,7 @@ export function MeetingList() {
         const data: MeetingIds = res.data;
         setIds(data);
       } else {
-        alert("something went wrong fetching meetings");
+        setToast("Fetching error", "something went wrong fetching meetings", VARIANT.DANGER, true);
       }
     };
     fetchMeetings();

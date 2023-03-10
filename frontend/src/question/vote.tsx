@@ -4,7 +4,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { ISocketMessageSend, REQ_TYPES } from "../utils/socket_types";
 import { useAppSelector } from "../store/hooks";
-import { isOpen, jsonToArray } from "../utils/funcs";
+import { isOpen, jsonToArray, toastHook } from "../utils/funcs";
+import { VARIANT } from "../utils/enums";
 
 export function Vote({
   meetingId,
@@ -20,6 +21,7 @@ export function Vote({
   const loginData = useAppSelector((s) => s.loginReducer.data);
   const [upVoted, setUpVoted] = useState(false);
   const [downVoted, setDownVoted] = useState(false);
+  const {setToast} = toastHook();
 
   const handleUpVote = () => {
     if (!upVoted) {
@@ -47,7 +49,7 @@ export function Vote({
       voteCount: vote,
     };
     if (!isOpen(socket)) {
-      alert("socket not connected!");
+      setToast("Socket error", "socket not connected!", VARIANT.DANGER, true);
       return;
     }
     const bytes = jsonToArray(socketMsg);

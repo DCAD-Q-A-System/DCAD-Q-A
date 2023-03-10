@@ -4,6 +4,8 @@ import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { GlobalModal } from "../modal/GlobalModal";
 import { credentialFetch } from "../utils/credential_fetch";
+import { VARIANT } from "../utils/enums";
+import { toastHook } from "../utils/funcs";
 import { HTTP_METHODS } from "../utils/http_methods";
 import { DELETE_USER, GET_ALL_USERS } from "../utils/paths";
 import { ISocketMember } from "../utils/socket_types";
@@ -18,6 +20,7 @@ export function EditUsers() {
   const [doubleCheckDialogue, setDoubleCheckDialogue] = useState(false);
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentUsername, setCurrentUsername] = useState("");
+  const {setToast} = toastHook();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -39,12 +42,12 @@ export function EditUsers() {
     );
 
     if (res.status === 200) {
-      alert("successfully deleted user");
+      setToast("Deletion success", "successfully deleted user", VARIANT.SUCCESS, true);
       const newUsers = users.filter((u) => u.userId != currentUserId);
       setUsers(newUsers);
       return;
     } else {
-      alert("something's gone wrong try again");
+      setToast("Deletion error", "something's gone wrong try again", VARIANT.DANGER, true);
       return;
     }
   };

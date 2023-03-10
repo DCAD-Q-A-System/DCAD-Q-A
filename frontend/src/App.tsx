@@ -16,7 +16,7 @@ import {
 } from "./utils/constants";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setData } from "./store/loginSlice";
-import { checkIfInitiallyLoggedIn } from "./utils/funcs";
+import { checkIfInitiallyLoggedIn, toastHook } from "./utils/funcs";
 import { MainMeeting } from "./meeting/meeting/MainMeeting";
 import "bootstrap/dist/css/bootstrap.css";
 import { GuestLogin } from "./login/GuestLogin";
@@ -47,11 +47,12 @@ import { ChangePassword } from "./users/ChangePassword";
 import { GlobalModal } from "./modal/GlobalModal";
 import { setContent, setShow, setTitle } from "./store/toastSlice";
 import { PanellistAdminMiddleware } from "./middleware/PanellistAdminMiddleware";
+import { VARIANT } from "./utils/enums";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const toastData = useAppSelector((s) => s.toastReducer);
-  const dispatch = useAppDispatch();
+  const { setToast } = toastHook();
   console.log(toastData);
   useEffect(() => {
     AXIOS_INSTANCE.interceptors.response.use(
@@ -59,19 +60,37 @@ function App() {
       (error: AxiosError) => {
         console.log("INTERCEPTED", error);
         if (!error.response) {
-          dispatch(setContent("network error, check connection"));
-          dispatch(setTitle("Network error"));
-          dispatch(setShow(true));
+          setToast(
+            "Network error",
+            "network error, check connection",
+            VARIANT.DANGER,
+            true
+          );
         } else {
           switch (error.response.status) {
             case 400:
-              alert("check your details");
+              setToast(
+                "General error",
+                "check your details",
+                VARIANT.DANGER,
+                true
+              );
               break;
             case 500:
-              alert("Server error, contact admin");
+              setToast(
+                "Server error",
+                "Server error, contact admin",
+                VARIANT.DANGER,
+                true
+              );
               break;
             case 409:
-              alert("Credentials already used");
+              setToast(
+                "General error",
+                "Credentials already used",
+                VARIANT.DANGER,
+                true
+              );
               break;
           }
         }
@@ -82,7 +101,12 @@ function App() {
       (r: AxiosRequestConfig) => r,
       (error: AxiosError) => {
         if (!error.request) {
-          alert("network error, check connection");
+          setToast(
+            "Network error",
+            "network error, check connection",
+            VARIANT.DANGER,
+            true
+          );
         }
         return Promise.reject(error);
       }
@@ -264,14 +288,12 @@ function App() {
       </Routes>
 
       {toastData.show && (
-        <ToastContainer className="p-3" position="bottom-center">
+        <ToastContainer className="p-3" position="top-center">
           <Toast
             bg={toastData.variant}
             show={toastData.show}
             onClose={() => {
-              dispatch(setShow(false));
-              dispatch(setContent(""));
-              dispatch(setTitle(""));
+              setToast("", "", "", false);
             }}
             delay={10000}
             autohide

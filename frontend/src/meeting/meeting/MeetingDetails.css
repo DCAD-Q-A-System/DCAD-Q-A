@@ -10,7 +10,7 @@
   /* height: 850px; */
   /* width: 750px; */
   width: 50%;
-  height: 80%;
+  height: fit-content;
   max-width: 800px;
   background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);

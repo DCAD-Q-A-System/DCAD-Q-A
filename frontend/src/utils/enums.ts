@@ -10,3 +10,8 @@ export enum CATEGORIES {
   RECENT = "RECENT",
   OLDER = "OLDER",
 }
+
+export enum VARIANT {
+  SUCCESS = "success",
+  DANGER = "danger"
+}

@@ -6,7 +6,8 @@ import { BsFillReplyFill, BsFillTrashFill } from "react-icons/bs";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { useAppSelector } from "../../../store/hooks";
-import { isOpen, jsonToArray } from "../../../utils/funcs";
+import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
+import { VARIANT } from "../../../utils/enums";
 
 interface ChatProps extends IChat {
   socket: ReconnectingWebSocket;
@@ -22,6 +23,7 @@ export function Chat({
   meetingId,
 }: ChatProps) {
   const [reply, setReply] = useState("");
+  const {setToast} = toastHook();
 
   const loginData = useAppSelector((s) => s.loginReducer.data);
   function handleSendReply() {
@@ -38,7 +40,7 @@ export function Chat({
     console.log(socketMessage);
     const bytes = jsonToArray(socketMessage);
     if (!isOpen(socket)) {
-      alert("connection lost");
+      setToast("Connection error", "connection lost", VARIANT.DANGER, true);
       return;
     }
     socket.send(bytes);
@@ -90,11 +92,11 @@ export function Chat({
                 };
                 const bytes = jsonToArray(socketMessage);
                 if (!isOpen(socket)) {
-                  alert("connection lost");
+                  setToast("Connection error", "connection lost", VARIANT.DANGER, true);
                   return;
                 }
                 socket.send(bytes);
-                alert("delete command success");
+                setToast("Deletion success", "delete command success", VARIANT.SUCCESS, true);
               }}
               className="bin position-absolute top-0 end-0"
               alt="Delete"

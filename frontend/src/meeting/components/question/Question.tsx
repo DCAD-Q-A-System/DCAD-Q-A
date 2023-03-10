@@ -7,7 +7,8 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
-import { isOpen, jsonToArray } from "../../../utils/funcs";
+import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
+import { VARIANT } from "../../../utils/enums";
 
 interface QuestionProps extends IQuestion {
   socket: ReconnectingWebSocket;
@@ -26,6 +27,7 @@ export function Question({
 }: QuestionProps) {
   const loginData = useAppSelector((s) => s.loginReducer.data);
   // const [answered, setAnswered] = useState(propsAnswered);
+  const {setToast} = toastHook();
   return (
     <ListGroup.Item
       as="li"
@@ -63,11 +65,11 @@ export function Question({
                 };
                 const bytes = jsonToArray(socketMessage);
                 if (!isOpen(socket)) {
-                  alert("connection lost");
+                  setToast("Connection error", "connection lost", VARIANT.DANGER, true);
                   return;
                 }
                 socket.send(bytes);
-                alert("delete command success");
+                setToast("Deletion success", "delete command success", VARIANT.SUCCESS, true);
               }}
               className="bin position-absolute top-0 end-0"
             />
@@ -89,7 +91,7 @@ export function Question({
                 };
                 const bytes = jsonToArray(socketMsg);
                 if (!isOpen(socket)) {
-                  alert("socket not connected try reloading");
+                  setToast("Socket error", "socket not connected try reloading", VARIANT.DANGER, true);
                 }
                 socket.send(bytes);
               }}

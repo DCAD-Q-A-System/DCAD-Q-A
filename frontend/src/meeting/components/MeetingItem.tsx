@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
-import { USER_TYPE } from "../../utils/enums";
+import { USER_TYPE, VARIANT } from "../../utils/enums";
 import { GET_ALL_MEETINGS, GET_MEETING, JOIN_MEETING } from "../../utils/paths";
 import { JoinMeeting } from "./join_meeting/JoinMeeting";
 import moment from "moment";
@@ -9,6 +9,7 @@ import { credentialFetch } from "../../utils/credential_fetch";
 import { HTTP_METHODS } from "../../utils/http_methods";
 import { MeetingIds } from "../../utils/interfaces";
 import { FaShare } from "react-icons/fa";
+import { toastHook } from "../../utils/funcs";
 
 export function MeetingItem({
   id,
@@ -23,13 +24,14 @@ export function MeetingItem({
 }) {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
+  const {setToast} = toastHook();
   const handleClick = () => {
     // const link = `${
     //   window.location.protocol + "//" + window.location.host
     // }/meeting/${id}`;
     const link = `${id}`
     navigator.clipboard.writeText(link);
-    alert("Copied meeting link to clipboard!");
+    setToast("Success", "Copied meeting link to clipboard!", VARIANT.SUCCESS, true);
   };
   return (
     <div className="box1">

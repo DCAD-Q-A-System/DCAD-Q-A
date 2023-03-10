@@ -34,9 +34,7 @@ iframe {
 }
 
 .iframe-r {
-  position: absolute;
-  top: 8%;
-  margin: 0;
+  margin-top: 50%;
   padding-left: 0;
   justify-content: center;
 }

@@ -15,6 +15,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Logo } from "../backgrounds/Logo";
+import { toastHook } from "../utils/funcs";
+import { VARIANT } from "../utils/enums";
 
 export function Login() {
   const dispatch = useAppDispatch();
@@ -23,6 +25,7 @@ export function Login() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const {setToast} = toastHook();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -40,7 +43,7 @@ export function Login() {
       dispatch(setData({ data: decoded }));
       navigate(`/home/${decoded.username}`);
     } else {
-      alert("login wrong");
+      setToast("Login error", "login wrong", VARIANT.DANGER, true);
     }
   };
   return (

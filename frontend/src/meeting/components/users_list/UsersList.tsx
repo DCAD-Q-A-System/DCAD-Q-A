@@ -10,10 +10,11 @@ import {
 } from "../../../utils/socket_types";
 import { FaBan } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { isOpen, jsonToArray } from "../../../utils/funcs";
+import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
 import { GlobalModal } from "../../../modal/GlobalModal";
+import { VARIANT } from "../../../utils/enums";
 
 export function UsersList({
   show,
@@ -31,6 +32,7 @@ export function UsersList({
   const [wantToDoSeriousAction, setWantToDoSeriousAction] = useState(false);
   const [currentMember, setCurrentMember] = useState<ISocketMember>(null);
   const dispatch = useAppDispatch();
+  const {setToast} = toastHook();
   useEffect(() => {
     const getAllUsers = async () => {
       const res = await credentialFetch(
@@ -57,7 +59,7 @@ export function UsersList({
       };
       const bytes = jsonToArray(socketMsg);
       if (!isOpen(socket)) {
-        alert("connection lost");
+        setToast("Connection error", "connection lost", VARIANT.DANGER, true);
         return;
       }
       socket.send(bytes);
