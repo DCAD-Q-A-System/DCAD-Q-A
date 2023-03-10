@@ -1,213 +1,66 @@
-.div 
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-}
-  
-.div-2 
-{
-    display: flex;
-    flex-direction: column;
-    max-width: 494px;
-    border-radius: 20px;
-    padding: 18px 21px;
-    background-color: rgba(255, 255, 255, 1);
+.color-overlay-1 {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 100%;
+  width: 100%;
+  mix-blend-mode: normal;
 }
 
-@media (max-width: 768px) {
-.div {
-    padding: 50px 0;
+.outside {
+  /* height: 850px; */
+  /* width: 750px; */
+  width: 50%;
+  height: fit-content;
+  max-width: 800px;
+  max-height: 70vh;
+  background-color: white;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+  overflow: scroll;
 }
 
-.div-2 {
-    max-width: 100%;
-    border-radius: 0;
-}
-}
-
-@media (min-width: 768px) {
-.div {
-    padding: 196px 0;
+.title {
+  font-size: 20px;
+  margin-left: 0;
 }
 
-.div-2 {
-    max-width: 452px;
-}
-}
-
-.div-3 {
-display: flex;
+.length {
+  width: 90%;
+  height: 50px;
 }
 
-@media (max-width: 999px) {
-.div-3 {
-    flex-direction: column;
-    align-items: stretch;
-}
+.button {
+  width: 100px;
+  height: 50px;
 }
 
-.column {
-display: flex;
-flex-direction: column;
-line-height: normal;
-width: calc(102.03% - 0px);
-margin-left: 0px;
+.chip {
+  display: inline-block;
+  padding: 0 25px;
+  height: 50px;
+  font-size: 18px;
+  line-height: 50px;
+  border-radius: 25px;
+  /* background-color: #f1f1f1; */
 }
 
-@media (max-width: 999px) {
-.column {
-    width: 100%;
-}
-}
-
-.div-4 {
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: center;
+.chip img {
+  float: left;
+  margin: 0 10px 0 -25px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
 
-.div-5 {
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: flex-start;
+.closebtn {
+  padding-left: 10px;
+  color: #888;
+  font-weight: bold;
+  float: right;
+  font-size: 20px;
+  cursor: pointer;
 }
 
-.div-6 {
-max-width: 39px;
-color: rgba(0, 0, 0, 1);
-font-size: 30px;
-letter-spacing: 0%;
-text-align: left;
-font-family: "Inter", sans-serif;
+.closebtn:hover {
+  color: #000;
 }
 
-.div-7 {
-display: flex;
-max-width: 453px;
-height: 72px;
-width: 453px;
-margin-top: 10px;
-border-radius: 10px;
-border-color: rgba(0, 0, 0, 1);
-border-width: 2px;
-border-style: solid;
-background-color: rgba(217, 217, 217, 1);
-}
-
-.div-8 {
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: flex-start;
-margin-top: 30px;
-}
-
-.div-9 {
-max-width: 159px;
-color: rgba(0, 0, 0, 1);
-font-size: 30px;
-letter-spacing: 0%;
-text-align: left;
-font-family: "Inter", sans-serif;
-}
-
-.div-11 {
-display: flex;
-flex-direction: column;
-justify-content: flex-start;
-align-items: flex-start;
-margin-top: 30px;
-}
-
-.div-12 {
-max-width: 143px;
-color: rgba(0, 0, 0, 1);
-font-size: 30px;
-letter-spacing: 0%;
-text-align: left;
-font-family: "Inter", sans-serif;
-}
-
-.div-13 {
-    font-size: 16px;
-    font-weight: 550;
-    display: flex;
-    max-width: 453px;
-    height: 72px;
-    width: 453px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border-color: rgba(0, 0, 0, 1);
-    border-width: 2px;
-    border-style: solid;
-    background-color: rgba(217, 217, 217, 1);
-}
-
-.div-14 {
-    display: flex;
-    flex-direction: column;
-    max-width: 452px;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-top: 30px;
-}
-
-.div-15 {
-    
-    width: 167px;
-    height: 36px;
-
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 30px;
-    line-height: 36px;
-
-    color: #000000;
-
-
-    /* Inside auto layout */
-
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-}
-
-.div-16 {
-    display: flex;
-    max-width: 453px;
-    height: 72px;
-    width: 453px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border-color: rgba(0, 0, 0, 1);
-    border-width: 2px;
-    border-style: solid;
-    background-color: rgba(217, 217, 217, 1);
-}
-
-.div-17 {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-top: 30px;
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    background-color: rgba(44, 92, 218, 1);
-    color: rgba(255, 255, 255, 1);
-    font-size: 30px;
-    line-height: 40px;
-    letter-spacing: 0%;
-    text-align: left;
-    font-family: "Inter", sans-serif;
-}

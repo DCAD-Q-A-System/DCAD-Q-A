@@ -1,0 +1,18 @@
+.color-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 100%;
+  width: 100%;
+  mix-blend-mode: normal;
+}
+
+form {
+  background-color: white;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width:376px) and (max-height:668px) {
+  .password{
+    display: block;
+  }
+}

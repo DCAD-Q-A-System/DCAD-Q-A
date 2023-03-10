@@ -14,9 +14,12 @@ import (
 func InsertReply(conn *utils.MongoConnection, 
 				content string, 
 				chatId string, 
-				userId string) map[string]string {
+				userId string,
+				username string,
+				meetingId string,
+			) utils.SocketMesageSend {
 	
-	response := map[string]string{}
+	response := utils.SocketMesageSend{}
 	ctx:= context.Background()
 	db := conn.Client.Database(utils.DB_NAME)
 	reply_collection := db.Collection(utils.REPLIES)
@@ -50,6 +53,7 @@ func InsertReply(conn *utils.MongoConnection,
 			"timeCreated":timeNow,
 			"parentChatId":chatIdObj,
 			"userId":userIdObj,
+			"username":username,
 		},
 	)
 	if err != nil {
@@ -80,6 +84,16 @@ func InsertReply(conn *utils.MongoConnection,
 	}
 	
 	
-	response["id"] = id.Hex()
+	reply := utils.SocketReply{}
+	
+	reply.Id = id.Hex()
+	reply.Content = content
+	reply.ParentChatId = chatId
+	reply.TimeCreated = timeNow.Time().Format(time.RFC3339)
+	reply.UserId = userId
+	reply.Username = username
+	response.MeetingId = meetingId 
+	response.Replies = []utils.SocketReply{reply}
+	
 	return response
 }

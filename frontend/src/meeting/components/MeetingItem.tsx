@@ -1,11 +1,15 @@
-import moment from "moment";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
+import { USER_TYPE, VARIANT } from "../../utils/enums";
+import { GET_ALL_MEETINGS, GET_MEETING, JOIN_MEETING } from "../../utils/paths";
+import { JoinMeeting } from "./join_meeting/JoinMeeting";
+import moment from "moment";
 import { credentialFetch } from "../../utils/credential_fetch";
-import { USER_TYPE } from "../../utils/enums";
 import { HTTP_METHODS } from "../../utils/http_methods";
-import { JOIN_MEETING } from "../../utils/paths";
+import { MeetingIds } from "../../utils/interfaces";
+import { FaShare } from "react-icons/fa";
+import { toastHook } from "../../utils/funcs";
 
 export function MeetingItem({
   id,
@@ -20,53 +24,63 @@ export function MeetingItem({
 }) {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
+  const {setToast} = toastHook();
+  const handleClick = () => {
+    // const link = `${
+    //   window.location.protocol + "//" + window.location.host
+    // }/meeting/${id}`;
+    const link = `${id}`
+    navigator.clipboard.writeText(link);
+    setToast("Success", "Copied meeting link to clipboard!", VARIANT.SUCCESS, true);
+  };
   return (
-    <div className="panDiv-10">
-      <div className="builder-columns panDiv-11">
-        <div className="builder-column panColumn">
-          <div className="panDiv-12">
-            <div className="builder-columns panDiv-13">
-              <div className="builder-column panColumn-5">
-                <div className="panDiv-14">Name: {name}</div>
-                <div className="panDiv-14">
-                  Start: {moment(startTime).format("LLLL")}
-                </div>
-                <div className="panDiv-14">
-                  End: {moment(endTime).format("LLLL")}
-                </div>
-              </div>
-            </div>
+    <div className="box1">
+      <div className="box2">
+        <div className="box3 ">
+          <p className="content">
+            {name}
+          </p>
+        </div>
+        <div className="box4">
+          <div className="box5">
+            <p className="content-item">
+              Start: {moment(startTime).format("LLLL")}
+            </p>
+          </div>
+          <div className="box5">
+            <p className="content-item">
+              End: {moment(endTime).format("LLLL")}
+            </p>
           </div>
         </div>
-        <div className="builder-column panColumn-6">
-          <button
-            className="panDiv-15"
-            onClick={async () => {
-              const res = await credentialFetch(
-                JOIN_MEETING,
-                HTTP_METHODS.PUT,
-                JSON.stringify({
-                  meetingId: id,
-                  userId: loginData?.userId || "",
-                })
-              );
-              if (res.status === 200) {
-                navigate(`/meeting/${id}`);
-              } else {
-                alert("cannot join meeting");
-              }
-            }}
-          >
-            Join
-          </button>
-        </div>
-        {(loginData?.type === USER_TYPE.PANELLIST ||
-          loginData?.type === USER_TYPE.ADMIN) && (
-          <div className="builder-column panColumn-7">
-            <div className="panDiv-16">Edit</div>
-          </div>
-        )}
+        {/* <p className="content-item">
+          Start: {moment(startTime).format("LLLL")}
+        </p>
+        <p className="content-item">End: {moment(endTime).format("LLLL")}</p> 
+        */}
       </div>
+      <JoinMeeting meetingId={`${id}`} />
+
+      <button className="share" onClick={handleClick}>
+        {/* <p className="content-1">Share</p> */}
+        Share
+      </button>
+
+      {(loginData?.type === USER_TYPE.PANELLIST ||
+        loginData?.type === USER_TYPE.ADMIN) && (
+        <button
+          className="edit"
+          onClick={() => {
+            navigate(`/edit-meeting/${id}`);
+          }}
+        >
+          {/* <p className="content-1 fs-2">Edit</p> */}
+          Edit
+        </button>
+      )}
     </div>
   );
+}
+function setIds(data: MeetingIds) {
+  throw new Error("Function not implemented.");
 }

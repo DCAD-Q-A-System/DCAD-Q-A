@@ -1,16 +1,21 @@
-/* .div-42 {
-  display: flex;
-  flex-direction: column;
-  max-width: 168px;
-  justify-content: flex-start;
-  align-items: flex-start;
+.chat-bg {
+  background-color: gray;
 }
 
-.div-43 {
-  max-width: 97px;
-  color: rgba(0, 0, 0, 1);
-  font-size: 20px;
-  letter-spacing: 0%;
-  text-align: left;
-  font-family: "Inter", sans-serif;
-} */
+.bin {
+  margin-right: 3%;
+  margin-top: 3%;
+}
+
+.reply {
+  margin-bottom: 3%;
+  margin-right: 3%;
+}
+
+.reply-m {
+  margin-left: 5%;
+}
+
+.reply-i {
+  color: #aaa;
+}

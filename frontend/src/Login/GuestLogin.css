@@ -1,0 +1,20 @@
+.color-overlay {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 100%;
+  width: 100%;
+  mix-blend-mode: normal;
+}
+
+.text{
+  height: 70px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.form{
+  max-height: 50vh;
+  /* height: fit-content; */
+  overflow: scroll;
+}

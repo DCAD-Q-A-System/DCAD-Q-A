@@ -1,0 +1,31 @@
+.chat-panel {
+  background-color: lightgray;
+  width: 15vw;
+  height: 75vh;
+  /* display: flex;
+  flex-direction: column; */
+}
+
+@media (max-width: 767px) {
+  .chat-panel {
+    background-color: lightgray;
+    width: 100vw;
+    /* height: 30vh; */
+    /* display: flex;
+    flex-direction: column; */
+  }
+  .chat-input {
+    bottom: 0%;
+  }
+}
+
+.list-group {
+  height: 70vh;
+  margin-bottom: 5%;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.solid {
+  border-top: 2px solid #999;
+}

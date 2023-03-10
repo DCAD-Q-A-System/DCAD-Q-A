@@ -15,9 +15,8 @@ func VerifyJWT(c *gin.Context,jwt_string string) bool {
 		return utils.JWT_KEY,nil
 	})
 	
-	fmt.Println(token)
 	if err != nil {
-		if claims.ExpiresAt <= time.Now().Unix(){
+		if claims.ExpiresAt <= time.Now().Unix() {
 			return RefreshJWT(c,*claims)
 		}
 		return false
@@ -35,7 +34,6 @@ func VerifyJWTSocket(jwt_string string) bool {
 		return utils.JWT_KEY,nil
 	})
 	
-	fmt.Println(token)
 	if err != nil {
 		return false
 	}

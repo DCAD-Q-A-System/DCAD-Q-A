@@ -27,6 +27,8 @@ type Question struct {
 	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
 	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
+	Answered bool `bson:"answered"`
+	VoteCount int32 `bson:"voteCount"`
 }
 
 type Chat struct {
@@ -46,6 +48,7 @@ type Reply struct {
 	TimeCreated primitive.DateTime `bson:"timeCreated"`
 	UserName string `bson:"username"`
 	UserId primitive.ObjectID `bson:"userId"`
+	ParentMeetingId primitive.ObjectID `bson:"parentMeetingId"`
 }
 
 type User struct {
@@ -55,6 +58,14 @@ type User struct {
 	Salt string `bson:"salt"`
 	Type string `bson:"type"`
 }
+
+type UserJson struct {
+	UserId   string            `json:"userId"`
+	Username string            `json:"username"`
+	Password string             `json:"password"`
+	Type     string             `json:"type"`
+}
+
 type Meeting struct {
 	Id primitive.ObjectID `bson:"_id"`
 	Name string `bson:"name"`
@@ -65,6 +76,7 @@ type Meeting struct {
 	Members []primitive.ObjectID `bson:"members"`
 	OnlineMembers []primitive.ObjectID `bson:"onlineMembers"`
 	IframeLink string `bson:"iframeLink"`
+	CurrentQuestionId primitive.ObjectID `bson:"currentQuestionId"`
 }
 
 type JsonMeeting struct {
@@ -79,6 +91,15 @@ type JsonMeeting struct {
 	IframeLink string `json:"iframeLink"`
 }
 
+type EssentialMeetingDetails struct {
+	Id string `json:"id"`
+	Name string `json:"name"`
+	StartTime string `json:"startTime"`
+	EndTime string `json:"endTime"`
+	Members []map[string]string `json:"members"`
+	IframeLink string `json:"iframeLink"`
+} 
+
 type JoinMeeting struct {
 	MeetingId string `json:"meetingId"`
 	UserId string `json:"userId"`
@@ -91,10 +112,16 @@ type GetAllMeetings struct {
 type SocketMessage struct {
 	ReqType string `json:"reqType"`
 	Content string `json:"content"`
-	Token string `json:"token"`
 	MeetingId string `json:"meetingId"`
-	ChatId string `json:"chatId"` 
+	ChatId string `json:"chatId"`
+	ReplyId string `json:"replyId"`
+	QuestionId string `json:"questionId"`
+	QuestionAnswered bool `json:"questionAnswered"`
+	CurrentQuestionId  string `json:"currentQuestionId"`
 	UserId string `json:"userId"`
+	Username string `json:"username"`
+	VoteCount int32 `json:"voteCount"`
+	UserIdToSendCommand []string `json:"userIdToSendCommand"`
 }
 
 

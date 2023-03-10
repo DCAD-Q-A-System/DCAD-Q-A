@@ -11,9 +11,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InsertChat(conn *utils.MongoConnection, content string, meetingId string,userId string) map[string]string {
+func InsertChat(conn *utils.MongoConnection, content string, meetingId string,userId string,username string) utils.SocketMesageSend {
 	ctx := context.Background()
-	response := map[string]string{}
+	response := utils.SocketMesageSend{}
 	db := conn.Client.Database(utils.DB_NAME)
 
 	meetingIdObj,err := primitive.ObjectIDFromHex(meetingId)
@@ -46,6 +46,8 @@ func InsertChat(conn *utils.MongoConnection, content string, meetingId string,us
 			"timeCreated":timeNow,
 			"parentMeetingId":meetingIdObj,
 			"userId":userIdObj,
+			"replies":[]primitive.ObjectID{},
+			"username":username,
 		},
 	)
 
@@ -59,8 +61,8 @@ func InsertChat(conn *utils.MongoConnection, content string, meetingId string,us
 		{"_id",meetingIdObj},
 	}
 	update := bson.D{
-		{"$push",bson.D{
-			{"questions",id},
+		{"$addToSet",bson.D{
+			{"chats",id},
 		}},
 	}
 	updateResult,err := meeting_collection.UpdateOne(ctx,filter,update)
@@ -73,6 +75,17 @@ func InsertChat(conn *utils.MongoConnection, content string, meetingId string,us
 		return response
 	}
 	
-	response["id"] = id.Hex()
+	chat := utils.SocketChat{}
+	chat.Content = content
+	chat.Id = id.Hex()
+	chat.Username = username
+	chat.Replies = []utils.SocketReply{}
+	chat.TimeCreated = timeNow.Time().Format(time.RFC3339)
+	chat.UserId = userId
+
+	response.Chat = []utils.SocketChat{
+		chat,
+	}
+	response.MeetingId = meetingId
 	return response
 }

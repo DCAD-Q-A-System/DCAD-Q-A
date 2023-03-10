@@ -60,7 +60,6 @@ func EditMeeting(conn *utils.MongoConnection) gin.HandlerFunc {
 							},
 						}},
 						bson.D{
-
 						{
 							"startTime",bson.D{
 								{"$ne",startTime},
