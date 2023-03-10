@@ -42,6 +42,7 @@ func VerifyUserType(c *gin.Context,userTypes []string) bool {
 	if err != nil  {
 		return false
 	}
+	fmt.Println(claims.Username,userTypes)
 	for _,u := range userTypes {
 		if claims.Type == u {
 			if u == "ADMIN" {
