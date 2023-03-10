@@ -35,7 +35,7 @@ export function Chat({
       content: reply,
       meetingId: meetingId!,
       chatId: id,
-      userId: loginData?.userId,
+      userId: loginData?.userId!,
       username: loginData?.username,
     };
     console.log(socketMessage);

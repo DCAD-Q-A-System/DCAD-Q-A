@@ -349,7 +349,7 @@ export function MainMeetingScratch() {
         const socketKickOutMessage: ISocketMessageSend = {
           meetingId,
           reqType: "MAKE_USER_LEAVE",
-          userId: loginData?.userId,
+          userId: loginData?.userId!,
           userIdToSendCommand: userData.map((s) => s.userId),
         };
         const bytes = jsonToArray(socketKickOutMessage);

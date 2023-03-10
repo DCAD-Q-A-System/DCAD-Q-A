@@ -14,5 +14,6 @@
 }
 
 .form{
-  height: 450px;
+  max-height: 50vh;
+  height: fit-content;
 }
