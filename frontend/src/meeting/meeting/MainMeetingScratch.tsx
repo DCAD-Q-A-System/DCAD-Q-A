@@ -255,9 +255,9 @@ export function MainMeetingScratch() {
               data.message.repliesDeleted.forEach((d) => {
                 const chatChosenIndex = chatIdsToObject[d.parentChatId];
                 if (chatChosenIndex !== -1) {
-                  newMeeting.messages.chat[chatChosenIndex] =
+                  newMeeting.messages.chat[chatChosenIndex].replies =
                     newMeeting.messages.chat[chatChosenIndex].replies.filter(
-                      (r) => r !== d.id
+                      (r) => r.id !== d.id
                     );
                 }
               });
@@ -265,7 +265,7 @@ export function MainMeetingScratch() {
               data.message.questionsDeleted &&
               data.message.questionsDeleted.length > 0
             ) {
-              const idsObject: { [key: string]: string } = {};
+              const idsObject: { [key: string]: boolean } = {};
               data.message.questionsDeleted.forEach((c) => {
                 idsObject[c.id] = true;
               });
@@ -347,8 +347,8 @@ export function MainMeetingScratch() {
       console.log("Delete res", delResQuestions);
       if (delRes.status === 200) {
         const socketKickOutMessage: ISocketMessageSend = {
-          meetingId,
-          reqType: "MAKE_USER_LEAVE",
+          meetingId: meetingId || "",
+          reqType: REQ_TYPES.MAKE_USER_LEAVE,
           userId: loginData?.userId!,
           userIdToSendCommand: userData.map((s) => s.userId),
         };
@@ -367,7 +367,7 @@ export function MainMeetingScratch() {
         const downloadATag = document.createElement("a");
         downloadATag.href = jsonString;
         downloadATag.download = "questions.json";
-        downloadATag.style = "visibility:hidden;";
+        downloadATag.style.cssText = "visibility:hidden;";
         downloadATag.click();
         downloadATag.remove();
       }
@@ -456,23 +456,28 @@ export function MainMeetingScratch() {
               onSubmit={onEndMeeting}
             />
           )}
-          {HIGH_PRIVELAGE.includes(loginData?.type) && usersList && (
-            <UsersList
-              show={usersList}
-              setShow={setUsersList}
-              meetingId={meetingId}
-              socket={ws.current}
-            />
-          )}
+          {HIGH_PRIVELAGE.includes(loginData?.type!) &&
+            ws.current &&
+            usersList && (
+              <UsersList
+                show={usersList}
+                setShow={setUsersList}
+                meetingId={meetingId || ""}
+                socket={ws?.current}
+              />
+            )}
 
-          {meeting?.messages ? (
+          {meeting?.messages && ws.current ? (
             <div>
               <Stack
                 className="iframe-r d-block d-md-none"
                 direction="vertical"
               >
                 <Iframe link={meeting.iframeLink} />
-                <Tab.Container activeKey={activeTab} onSelect={handleSelect}>
+                <Tab.Container
+                  activeKey={activeTab}
+                  onSelect={(e) => e && handleSelect(e)}
+                >
                   <Nav variant="tabs">
                     <Nav.Item>
                       <Nav.Link eventKey="chat">Chat</Nav.Link>
@@ -513,7 +518,7 @@ export function MainMeetingScratch() {
                       <Stack direction="vertical" gap={3}>
                         <Iframe link={meeting.iframeLink} />
                         <CurrentQuestion
-                          meetingId={meetingId}
+                          meetingId={meetingId || ""}
                           questions={meeting.messages.questions}
                           currentQuestionIndex={meeting.messages.questions.findIndex(
                             (q) => q.id === meeting.currentQuestionId

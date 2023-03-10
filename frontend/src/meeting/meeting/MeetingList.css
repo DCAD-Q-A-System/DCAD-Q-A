@@ -3,61 +3,60 @@
     width: 100%;
 } */
 
-.box0{
-    max-height: 90vh;
-    background-color: white;
-    border-radius: 20px;
-    display:flex;
-    flex-direction:column;
-    margin-top: 10vh;
-    margin-bottom: 5vh;
-    /* padding-top: 70vh; */
-    /* padding-bottom: 5vh; */
-    align-items:center;
-    overflow:scroll;
-    position:relative;
+.box0 {
+  max-height: 90vh;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+  /* padding-top: 70vh; */
+  /* padding-bottom: 5vh; */
+  align-items: center;
+  overflow: scroll;
+  position: relative;
 }
 
-.return{
-    position:absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 20%;
-    height: 10%;
-    font-size: 30px;
-    color: white;
-    padding-left: 2%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow-wrap: break-word;
+.return {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 20%;
+  height: 10%;
+  font-size: 30px;
+  color: white;
+  padding-left: 2%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 
-
-.box1{
-    display:flex;
-    /* flex: 0; */
-    /* flex-direction:column-reverse; */
-    justify-content:center;
-    width: 90%;
-    max-width: 90vw;
-    max-height: 20vh;
-    /* height: auto; */
+.box1 {
+  display: flex;
+  /* flex: 0; */
+  /* flex-direction:column-reverse; */
+  justify-content: center;
+  width: 90%;
+  max-width: 90vw;
+  max-height: 20vh;
+  /* height: auto; */
 }
 
-.box2{
-    width: 50%;
-    /* height:85px; */
-    height: 15vh;
-    max-height: 20vh;
-    max-width: 55vw;
-    background-color: blue;
-    border-radius: 10px;
-    display: block;
-    /* margin-right: 0px; */
-    /* margin-left: 20px; */
-    margin-top: 5%;
-    display: flex;
+.box2 {
+  width: 50%;
+  /* height:85px; */
+  height: 15vh;
+  max-height: 20vh;
+  max-width: 55vw;
+  background-color: blue;
+  border-radius: 10px;
+  display: block;
+  /* margin-right: 0px; */
+  /* margin-left: 20px; */
+  margin-top: 5%;
+  display: flex;
 }
 
 /* .box2-student{
@@ -71,52 +70,50 @@
     margin-top: 50px;
 } */
 
-.box3{
-    flex: 1;
-    width: 50%;
-    height: 100%;
-    border-right: 1px dashed rgb(18, 189, 246);
-    overflow: scroll;
-    font-size: 2vw;
+.box3 {
+  flex: 1;
+  width: 50%;
+  height: 100%;
+  border-right: 1px dashed rgb(18, 189, 246);
+  overflow: scroll;
+  font-size: 2vw;
 }
 
-.box4{
-    flex: 1;
-    width: 50%;
-    overflow: scroll;
-    font-size: 2vw;
-    /* background-color: rgb(46, 89, 245); */
+.box4 {
+  flex: 1;
+  width: 50%;
+  overflow: scroll;
+  font-size: 2vw;
+  /* background-color: rgb(46, 89, 245); */
 }
 
-
-.box5{
-    height: 40%;
-    border-bottom: 1px dashed rgb(18, 189, 246);
+.box5 {
+  height: 40%;
+  border-bottom: 1px dashed rgb(18, 189, 246);
 }
 
-
-.content{
-    font-size: 2vw;
-    padding-top: 5%;
-    margin-left: 20px;
-    padding-right: 5px;
-    font-weight:800;
-    color: white;
-    overflow-y:scroll;
-    text-overflow: ellipsis;
-    overflow-wrap:break-word;
+.content {
+  font-size: 2vw;
+  padding-top: 5%;
+  margin-left: 20px;
+  padding-right: 5px;
+  font-weight: 800;
+  color: white;
+  overflow-y: scroll;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 
-.content-item{
-    font-size: 1vw;
-    margin-top: 20px;
-    margin-left: 20px;
-    margin-right: 5px;
-    font-weight: 700;
-    color: white;
-    overflow: scroll;
-    white-space: nowrap;
-    /* text-overflow: ellipsis; */
+.content-item {
+  font-size: 1vw;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 5px;
+  font-weight: 700;
+  color: white;
+  overflow: scroll;
+  white-space: nowrap;
+  /* text-overflow: ellipsis; */
 }
 
 /* .join{
@@ -128,76 +125,74 @@
     margin-top: 50px;
 } */
 
-.edit{
-    width:fit-content;
-    /* min-width: 100px; */
-    margin-left: 0px;  
-    /* width: 17%; */
-    /* height: 170px; */
-    height: 15vh;
-    background-color: #FF7347;
-    border-radius: 10px;
-    padding-right: 2%;
-    margin-top: 5%; 
-    color: aliceblue;
-    font-size: 2vw;
+.edit {
+  width: fit-content;
+  /* min-width: 100px; */
+  margin-left: 0px;
+  /* width: 17%; */
+  /* height: 170px; */
+  height: 15vh;
+  background-color: #ff7347;
+  border-radius: 10px;
+  padding-right: 2%;
+  margin-top: 5%;
+  color: aliceblue;
+  font-size: 2vw;
 }
 
-.share{
-    width: fit-content;
-    /* min-width: 100px; */
-    margin-left: 0px;  
-    /* width: 17%; */
-    /* height: 170px; */
-    height: 15vh;
-    background-color: #f0309a;
-    border-radius: 10px;
-    padding-right: 3%;
-    margin-top: 5%; 
-    Color: aliceblue;
-    font-size: 2vw;
-    /* text-overflow: ellipsis; */
+.share {
+  width: fit-content;
+  /* min-width: 100px; */
+  margin-left: 0px;
+  /* width: 17%; */
+  /* height: 170px; */
+  height: 15vh;
+  background-color: #f0309a;
+  border-radius: 10px;
+  padding-right: 3%;
+  margin-top: 5%;
+  color: aliceblue;
+  font-size: 2vw;
+  /* text-overflow: ellipsis; */
 }
 
-.delete{
-    width: fit-content;
-    /* height: 170px; */
-    /* min-width: 100px; */
-    height: 15vh;
-    background-color: #4784ff;
-    border-radius: 10px;
-    margin-right: 3%;
-    margin-top: 5%;
+.delete {
+  width: fit-content;
+  /* height: 170px; */
+  /* min-width: 100px; */
+  height: 15vh;
+  background-color: #4784ff;
+  border-radius: 10px;
+  margin-right: 3%;
+  margin-top: 5%;
 }
 
 .error {
-    margin: 1rem;
+  margin: 1rem;
 }
 
-@media screen and (max-height:668px) and (max-width:376px){
-    .box1{
-        justify-content:left;
-        display:flex;
-    }
-    .box2{
-        height: 10vh;
-        width: 90%;
-        max-width: 90%;
-    }
-    .content{
-        font-size:medium;
-    }
-    .content-item{
-        font-size: x-small;
-    }
-    .share{
-        font-size: medium;
-        height: 10vh;
-    }
-    .edit{
-        font-size: medium;
-        height: 10vh;
-    }
-
+@media screen and (max-height: 668px) and (max-width: 376px) {
+  .box1 {
+    justify-content: left;
+    display: flex;
+  }
+  .box2 {
+    height: 10vh;
+    width: 90%;
+    max-width: 90%;
+  }
+  .content {
+    font-size: medium;
+  }
+  .content-item {
+    font-size: x-small;
+  }
+  .share {
+    font-size: medium;
+    height: 10vh;
+  }
+  .edit {
+    font-size: medium;
+    height: 10vh;
+  }
 }
-

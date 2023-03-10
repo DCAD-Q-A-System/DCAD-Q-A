@@ -1,5 +1,3 @@
-import React, { useState } from "react";
-import { MessageStructure } from "../../../utils/interfaces";
 import { ListGroup, Row, Col, Form } from "react-bootstrap";
 import { Vote } from "../../../question/vote";
 import { IQuestion } from "../../../utils/interfaces";
@@ -17,17 +15,13 @@ interface QuestionProps extends IQuestion {
 }
 export function Question({
   id,
-  username,
-  userId,
   content,
-  timeCreated,
   answered: propsAnswered,
   voteCount,
   socket,
   meetingId,
 }: QuestionProps) {
   const loginData = useAppSelector((s) => s.loginReducer.data);
-  // const [answered, setAnswered] = useState(propsAnswered);
   const { setToast } = toastHook();
   return (
     <ListGroup.Item
@@ -92,8 +86,6 @@ export function Question({
                   className="answered position-absolute bottom-0 end-0"
                   checked={propsAnswered}
                   onChange={(e) => {
-                    // setAnswered(!answered);
-                    // console.log("new answered", answered);
                     const socketMsg: ISocketMessageSend = {
                       reqType: REQ_TYPES.SWITCH_QUESTION_ANSWERED,
                       meetingId: meetingId,

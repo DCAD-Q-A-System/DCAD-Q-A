@@ -59,12 +59,12 @@ iframe {
   height: 100vh;
   /* font-size: 60px; */
   display: flex;
-  align-Items: center;
-  justify-Content: center;
+  align-items: center;
+  justify-content: center;
   /* margin-left: 500px; */
 }
 
-.spinner-parent{
+.spinner-parent {
   display: flex;
   align-items: center;
   height: 100vh;

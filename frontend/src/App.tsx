@@ -13,7 +13,6 @@ import { AXIOS_INSTANCE, LOCAL_STORAGE_LOGIN_KEY } from "./utils/constants";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setData } from "./store/loginSlice";
 import { checkIfInitiallyLoggedIn, toastHook } from "./utils/funcs";
-import { MainMeeting } from "./meeting/meeting/MainMeeting";
 import "bootstrap/dist/css/bootstrap.css";
 import { GuestLogin } from "./login/GuestLogin";
 import { LoginBackground } from "./backgrounds/LoginBackground";
@@ -24,15 +23,7 @@ import { Logout } from "./login/Logout";
 import { LeaveMeeting } from "./meeting/meeting/LeaveMeeting";
 import { MeetingBackground } from "./backgrounds/MeetingBackground";
 import { MeetingDetails } from "./meeting/meeting/MeetingDetails";
-import { MainMeetingB } from "./meeting/meeting/MainMeetingB";
-import {
-  Container,
-  Nav,
-  Navbar,
-  NavDropdown,
-  Toast,
-  ToastContainer,
-} from "react-bootstrap";
+import { Toast, ToastContainer } from "react-bootstrap";
 import { AdminMiddleware } from "./middleware/AdminMiddleware";
 import { UsersHome } from "./users/UsersHome";
 import { EditUsers } from "./users/EditUsers";

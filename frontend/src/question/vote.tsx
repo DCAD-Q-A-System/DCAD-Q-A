@@ -21,7 +21,7 @@ export function Vote({
   const loginData = useAppSelector((s) => s.loginReducer.data);
   const [upVoted, setUpVoted] = useState(false);
   const [downVoted, setDownVoted] = useState(false);
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
 
   const handleUpVote = () => {
     if (!upVoted) {
@@ -44,7 +44,7 @@ export function Vote({
       reqType: REQ_TYPES.CHANGE_VOTE_COUNT,
       meetingId,
       questionId,
-      userId: loginData?.userId,
+      userId: loginData?.userId || "",
       username: loginData?.username,
       voteCount: vote,
     };
