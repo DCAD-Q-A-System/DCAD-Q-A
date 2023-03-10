@@ -60,7 +60,7 @@ export function Question({
                   chatId: "",
                   questionId: id,
                   replyId: "",
-                  userId: loginData?.userId,
+                  userId: loginData?.userId!,
                   username: loginData?.username,
                 };
                 const bytes = jsonToArray(socketMessage);

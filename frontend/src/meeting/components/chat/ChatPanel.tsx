@@ -49,7 +49,7 @@ export function ChatPanel({
       reqType: REQ_TYPES.INSERT_CHAT,
       content: chat, // Send the reply message if it exists, otherwise send the chat message
       meetingId: meetingId!,
-      userId: loginData?.userId,
+      userId: loginData?.userId!,
       username: loginData?.username,
     };
     console.log(socketMessage);

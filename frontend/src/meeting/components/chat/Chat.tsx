@@ -34,7 +34,7 @@ export function Chat({
       content: reply,
       meetingId: meetingId!,
       chatId: id,
-      userId: loginData?.userId,
+      userId: loginData?.userId!,
       username: loginData?.username,
     };
     console.log(socketMessage);
@@ -87,7 +87,7 @@ export function Chat({
                   chatId: id,
                   questionId: "",
                   replyId: "",
-                  userId: loginData?.userId,
+                  userId: loginData?.userId!,
                   username: loginData?.username,
                 };
                 const bytes = jsonToArray(socketMessage);
@@ -99,11 +99,11 @@ export function Chat({
                 setToast("Deletion success", "delete command success", VARIANT.SUCCESS, true);
               }}
               className="bin position-absolute top-0 end-0"
-              alt="Delete"
+              // alt="Delete"
             />
             <BsFillReplyFill
               className="reply position-absolute bottom-0 end-0"
-              alt="Reply"
+              // alt="Reply"
               onClick={() => setReply(`@${username} `)}
             />
           </Col>
