@@ -16,8 +16,8 @@ export function GuestLogin() {
     {/* <Logo /> */}
     <div className="color-overlay d-flex justify-content-center align-items-center">
       <Form onSubmit={handleSubmit} className="rounded p-4 form">
-        <Form.Group className="mb-3">
-          <Form.Label className="fs-2 mt-3">Meeting Id:</Form.Label>
+        <Form.Group className="">
+          <Form.Label className="fs-2">Meeting Id:</Form.Label>
           <Form.Control
             type="text"
             value={id}
