@@ -46,6 +46,7 @@ import { AxiosError, AxiosRequestConfig } from "axios";
 import { ChangePassword } from "./users/ChangePassword";
 import { GlobalModal } from "./modal/GlobalModal";
 import { setContent, setShow, setTitle } from "./store/toastSlice";
+import { PanellistAdminMiddleware } from "./middleware/PanellistAdminMiddleware";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
@@ -244,11 +245,11 @@ function App() {
         <Route
           path="/edit-meeting/:meetingId"
           element={
-            <AdminMiddleware>
+            <PanellistAdminMiddleware>
               <MeetingBackground>
                 <MeetingDetails detailsType={DETAILS_TYPE.EDIT} />
               </MeetingBackground>
-            </AdminMiddleware>
+            </PanellistAdminMiddleware>
           }
         />
 

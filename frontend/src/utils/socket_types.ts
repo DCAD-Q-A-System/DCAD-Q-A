@@ -38,16 +38,16 @@ export interface ISocketMessageReceive {
 
 export interface ISocketMessageSend {
   reqType: REQ_TYPES;
-  content: string;
+  content?: string;
   meetingId: string;
-  chatId: string;
-  questionId: string;
-  questionAnswered: boolean;
-  currentQuestionId: string;
-  replyId: string;
+  chatId?: string;
+  questionId?: string;
+  questionAnswered?: boolean;
+  currentQuestionId?: string;
+  replyId?: string;
   userId: string;
-  username: string;
-  voteCount: number;
+  username?: string;
+  voteCount?: number;
   userIdToSendCommand?: string[];
 }
 

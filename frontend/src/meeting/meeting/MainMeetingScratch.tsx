@@ -63,11 +63,12 @@ export function MainMeetingScratch() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [usersList, setUsersList] = useState(false);
   const [activeTab, setActiveTab] = useState("chat");
-  const handleSelect = (selectedTab) => {
+
+  const handleSelect = (selectedTab: string) => {
     setActiveTab(selectedTab);
   };
 
-  const ws = useRef<ReconnectingWebSocket>(null);
+  const ws = useRef<ReconnectingWebSocket | null>(null);
   // const s = useWebSocket(ws.current, {
   //   share: false,
   //   reconnectAttempts: 5,
@@ -105,11 +106,16 @@ export function MainMeetingScratch() {
       if (meetingId) {
         const sockMsg: ISocketMessageSend = {
           reqType: REQ_TYPES.PING,
-          userId: loginData?.userId,
+          userId: loginData?.userId || "",
           meetingId: meetingId,
-          username: loginData?.username,
+          username: loginData?.username || "",
         };
         const bytes = jsonToArray(sockMsg);
+        if (ws && ws.current && !isOpen(ws.current)) {
+          alert("socket err");
+          return;
+        }
+        if (!ws.current) return;
         ws.current.send(bytes);
       }
     };
@@ -303,10 +309,6 @@ export function MainMeetingScratch() {
       <Image className="rounded-circle" src={anonSmall} width="30vw" /> My
       Account
     </>
-    // <div>
-    //   <Image className="rounded-circle" src={anonSmall} width="30vw" />
-    //   <Navbar.Text>My Account</Navbar.Text>
-    // </div>
   );
 
   const onEndMeeting = async () => {
