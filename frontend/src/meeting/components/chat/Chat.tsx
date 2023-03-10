@@ -111,13 +111,11 @@ export function Chat({
                   );
                 }}
                 className="bin position-absolute top-0 end-0"
-                alt="Delete"
               />
             )}
             {loginData && loginData.type !== USER_TYPE.GUEST && (
               <BsFillReplyFill
                 className="reply position-absolute bottom-0 end-0"
-                alt="Reply"
                 onClick={() => setReply(`@${username} `)}
               />
             )}

@@ -237,7 +237,7 @@ export function MainMeetingScratch() {
               data.message.chatsDeleted &&
               data.message.chatsDeleted.length > 0
             ) {
-              const idsObject: { [key: string]: string } = {};
+              const idsObject: { [key: string]: boolean } = {};
               data.message.chatsDeleted.forEach((c) => {
                 idsObject[c.id] = true;
               });
@@ -248,7 +248,7 @@ export function MainMeetingScratch() {
               data.message.repliesDeleted &&
               data.message.repliesDeleted.length > 0
             ) {
-              const chatIdsToObject: { [key: string]: string } = {};
+              const chatIdsToObject: { [key: string]: number } = {};
               newMeeting.messages.chat.forEach((c, i) => {
                 chatIdsToObject[c.id] = i;
               });
@@ -408,9 +408,11 @@ export function MainMeetingScratch() {
                 <NavDropdown.Item href={`/leave-meeting/${meetingId}`}>
                   Leave Meeting
                 </NavDropdown.Item>
-                <NavDropdown.Item onClick={() => setUsersList(true)}>
-                  Users List
-                </NavDropdown.Item>
+                {loginData && HIGH_PRIVELAGE.includes(loginData.type) && (
+                  <NavDropdown.Item onClick={() => setUsersList(true)}>
+                    Users List
+                  </NavDropdown.Item>
+                )}
                 {(loginData?.type === USER_TYPE.ADMIN ||
                   loginData?.type === USER_TYPE.PANELLIST) && (
                   <NavDropdown.Item
