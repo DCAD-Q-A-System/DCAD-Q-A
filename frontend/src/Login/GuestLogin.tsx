@@ -37,7 +37,7 @@ export function GuestLogin() {
         </Button>
         <Button variant="secondary" 
         className="btn btn-lg fs-3"
-        style={{marginLeft:"60px",marginTop:"100px"}}
+        style={{marginLeft:"10px",marginTop:"100px"}}
         onClick={()=>navigate('/login')}>
           Return
         </Button>

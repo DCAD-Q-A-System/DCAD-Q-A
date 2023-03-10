@@ -15,5 +15,6 @@
 
 .form{
   max-height: 50vh;
-  height: fit-content;
+  /* height: fit-content; */
+  overflow: scroll;
 }

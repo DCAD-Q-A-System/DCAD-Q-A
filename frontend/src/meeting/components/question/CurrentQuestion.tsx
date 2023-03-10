@@ -25,7 +25,7 @@ export function CurrentQuestion({
   return (
     <div className="jumbotron">
       <h2>Current Question</h2>
-      {HIGH_PRIVELAGE.includes(loginData?.type) ? (
+      {HIGH_PRIVELAGE.includes(loginData?.type as USER_TYPE) ? (
         questions &&
         questions.length > 0 && (
           <Form.Select
@@ -33,7 +33,7 @@ export function CurrentQuestion({
             onChange={(e) => {
               const sockMsg: ISocketMessageSend = {
                 reqType: REQ_TYPES.CHANGE_CURRENT_QUESTION,
-                userId: loginData?.userId,
+                userId: loginData?.userId!,
                 meetingId,
                 currentQuestionId: questions[+e.currentTarget.value].id,
               };
