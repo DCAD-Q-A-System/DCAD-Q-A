@@ -39,6 +39,7 @@ import {
   REQ_TYPES,
   SOCKET_COMMAND_TYPE,
   SOCKET_ERRORS_TYPE,
+  sockMsgProps,
 } from "../../utils/socket_types";
 import {
   checkIfInitiallyLoggedIn,
@@ -63,12 +64,11 @@ export function MainMeetingScratch() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [usersList, setUsersList] = useState(false);
   const [activeTab, setActiveTab] = useState("chat");
-  const handleSelect = (selectedTab) => {
+  const handleSelect = (selectedTab:React.SetStateAction<string>) => {
     setActiveTab(selectedTab);
   };
   const {setToast} = toastHook();
-  const ws = useRef<ReconnectingWebSocket>(null);
-  // const s = useWebSocket(ws.current, {
+  let ws: React.MutableRefObject<ReconnectingWebSocket | null> = useRef(null);  // const s = useWebSocket(ws.current, {
   //   share: false,
   //   reconnectAttempts: 5,
   //   retryOnError: true,
@@ -103,11 +103,11 @@ export function MainMeetingScratch() {
       console.log(event, "Open");
       console.log("IN OPEN");
       if (meetingId) {
-        const sockMsg: ISocketMessageSend = {
+        const sockMsg: sockMsgProps = {
           reqType: REQ_TYPES.PING,
-          userId: loginData?.userId,
+          userId: loginData?.userId!,
           meetingId: meetingId,
-          username: loginData?.username,
+          username: loginData?.username!,
         };
         const bytes = jsonToArray(sockMsg);
         if (!ws.current) return;
