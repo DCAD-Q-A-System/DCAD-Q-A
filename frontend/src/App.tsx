@@ -9,11 +9,7 @@ import { LoginPanel } from "./login/LoginPanel";
 import { Login } from "./login/Login";
 import { AlreadyAuthenticated } from "./middleware/AlreadyAuthenticated";
 import { MeetingList } from "./meeting/meeting/MeetingList";
-import {
-  AXIOS_INSTANCE,
-  LOCAL_STORAGE_LOGIN_KEY,
-  socket,
-} from "./utils/constants";
+import { AXIOS_INSTANCE, LOCAL_STORAGE_LOGIN_KEY } from "./utils/constants";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setData } from "./store/loginSlice";
 import { checkIfInitiallyLoggedIn, toastHook } from "./utils/funcs";
@@ -42,7 +38,11 @@ import { UsersHome } from "./users/UsersHome";
 import { EditUsers } from "./users/EditUsers";
 import { UserDetails } from "./users/UserDetails";
 import { DETAILS_TYPE } from "./utils/interfaces";
-import { AxiosError, AxiosRequestConfig } from "axios";
+import {
+  AxiosError,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { ChangePassword } from "./users/ChangePassword";
 import { GlobalModal } from "./modal/GlobalModal";
 import { setContent, setShow, setTitle } from "./store/toastSlice";
@@ -53,7 +53,8 @@ function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const toastData = useAppSelector((s) => s.toastReducer);
   const { setToast } = toastHook();
-  console.log(toastData);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     AXIOS_INSTANCE.interceptors.response.use(
       (r) => r,
@@ -98,7 +99,7 @@ function App() {
       }
     );
     AXIOS_INSTANCE.interceptors.request.use(
-      (r: AxiosRequestConfig) => r,
+      (r: InternalAxiosRequestConfig<any>) => r,
       (error: AxiosError) => {
         if (!error.request) {
           setToast(
@@ -206,11 +207,11 @@ function App() {
         <Route
           path="/create-meeting"
           element={
-            <AuthenticatorMiddleware>
+            <PanellistAdminMiddleware>
               <MeetingBackground>
                 <MeetingDetails detailsType={DETAILS_TYPE.CREATE} />
               </MeetingBackground>
-            </AuthenticatorMiddleware>
+            </PanellistAdminMiddleware>
           }
         />
 

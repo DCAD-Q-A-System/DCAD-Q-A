@@ -51,7 +51,7 @@ export interface ISocketMessageSend {
   userIdToSendCommand?: string[];
 }
 
-export interface sockMsgProps{
+export interface sockMsgProps {
   reqType: REQ_TYPES;
   meetingId: string;
   userId: string;
@@ -70,4 +70,5 @@ export enum REQ_TYPES {
   DELETE_CHAT = "DELETE_CHAT",
   DELETE_REPLY = "DELETE_REPLY",
   DELETE_QUESTION = "DELETE_QUESTION",
+  MAKE_USER_LEAVE = "MAKE_USER_LEAVE",
 }
