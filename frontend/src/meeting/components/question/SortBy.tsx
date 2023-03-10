@@ -14,8 +14,21 @@ export function SortBy({
     <Form.Select
       value={category}
       onChange={(e) => {
-        console.log(category);
-        setCategory(e.target.value);
+        let category: CATEGORIES;
+        switch (e.target.value) {
+          case CATEGORIES.POPULAR:
+            category = CATEGORIES.POPULAR;
+            break;
+          case CATEGORIES.RECENT:
+            category = CATEGORIES.RECENT;
+            break;
+          case CATEGORIES.OLDER:
+            category = CATEGORIES.OLDER;
+            break;
+          default:
+            category = CATEGORIES.POPULAR;
+        }
+        setCategory(category);
       }}
     >
       <option>{CATEGORIES.POPULAR}</option>

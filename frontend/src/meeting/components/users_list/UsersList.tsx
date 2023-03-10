@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, ListGroup, Modal } from "react-bootstrap";
+import { ListGroup, Modal } from "react-bootstrap";
 import { credentialFetch } from "../../../utils/credential_fetch";
 import { HTTP_METHODS } from "../../../utils/http_methods";
 import { BAN_USER, GET_ALL_USERS_IN_MEETING } from "../../../utils/paths";
@@ -9,7 +9,7 @@ import {
   REQ_TYPES,
 } from "../../../utils/socket_types";
 import { FaBan } from "react-icons/fa";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
@@ -30,7 +30,9 @@ export function UsersList({
   const [users, setUsers] = useState<ISocketMember[] | null>(null);
   const loginData = useAppSelector((s) => s.loginReducer.data);
   const [wantToDoSeriousAction, setWantToDoSeriousAction] = useState(false);
-  const [currentMember, setCurrentMember] = useState<ISocketMember>(null);
+  const [currentMember, setCurrentMember] = useState<ISocketMember | null>(
+    null
+  );
   const { setToast } = toastHook();
   useEffect(() => {
     const getAllUsers = async () => {
@@ -53,8 +55,8 @@ export function UsersList({
       const socketMsg: ISocketMessageSend = {
         meetingId,
         reqType: REQ_TYPES.MAKE_USER_LEAVE,
-        userId: loginData?.userId,
-        userIdToSendCommand: currentMember?.userId,
+        userId: loginData?.userId || "",
+        userIdToSendCommand: currentMember ? [currentMember?.userId] : [""],
       };
       const bytes = jsonToArray(socketMsg);
       if (!isOpen(socket)) {
@@ -62,11 +64,13 @@ export function UsersList({
         return;
       }
       socket.send(bytes);
-      const newUsers: ISocketMember[] = users.filter(
-        (x) =>
-          x.userId !== currentMember?.userId &&
-          x.username !== currentMember?.username
-      );
+      const newUsers: ISocketMember[] = users
+        ? users.filter(
+            (x) =>
+              x.userId !== currentMember?.userId &&
+              x.username !== currentMember?.username
+          )
+        : [];
 
       setUsers(newUsers);
     }
@@ -79,7 +83,9 @@ export function UsersList({
           pShow={wantToDoSeriousAction}
           setPShow={setWantToDoSeriousAction}
           title={"Confirmation"}
-          message={`Are you sure you want to ban ${currentMember.username}?`}
+          message={`Are you sure you want to ban ${
+            currentMember?.username || "username"
+          }?`}
           onSubmit={banUser}
         />
       )}

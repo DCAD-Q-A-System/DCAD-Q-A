@@ -1,11 +1,10 @@
-import React from "react";
 import { Form } from "react-bootstrap";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { HIGH_PRIVELAGE } from "../../../utils/constants";
 import { USER_TYPE, VARIANT } from "../../../utils/enums";
 import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
-import { IQuestion, MeetingData } from "../../../utils/interfaces";
+import { IQuestion } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import "./CurrentQuestion.css";
 
@@ -21,7 +20,7 @@ export function CurrentQuestion({
   meetingId: string;
 }) {
   const loginData = useAppSelector((s) => s.loginReducer.data);
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
   return (
     <div className="jumbotron">
       <h2>Current Question</h2>
