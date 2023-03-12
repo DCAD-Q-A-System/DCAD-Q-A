@@ -12,9 +12,11 @@
   width:fit-content;
   /* height: 170px; */
   background-color: #9747FF;
-  border-radius: 10px;
-  margin-top: 5%;
+  border-radius: 0;
+  border: 1px solid #44039a;
+  /* margin-top: 5%; */
   height: 15vh;
+  /* outline: 1px solid #740efa; */
   /* display: flex;
   flex-direction: row; */
   /* max-width: 37px; */
@@ -27,7 +29,7 @@
   padding-bottom: 16px;
   padding-left: 32px; */
   color: rgba(255, 255, 255, 1);
-  font-size: 2vw;
+  font-size: 2.8vh;
   /* line-height: 100%;
   letter-spacing: 0%; */
   /* text-align: left;
@@ -38,6 +40,6 @@
   .div-8{
     font-size: medium;
     height: 10vh;
-    margin-top: 5%;
+    /* margin-top: 5%; */
   }
 }
