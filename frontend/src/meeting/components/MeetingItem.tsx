@@ -48,23 +48,6 @@ export function MeetingItem({
           </p>
 
         </div>
-        {/* <div className="box4">
-          <div className="box5">
-            <p className="content-item">
-              Start: {moment(startTime).format("LLLL")}
-            </p>
-          </div>
-          <div className="box5">
-            <p className="content-item">
-              End: {moment(endTime).format("LLLL")}
-            </p>
-          </div>
-        </div> */}
-        {/* <p className="content-item">
-          Start: {moment(startTime).format("LLLL")}
-        </p>
-        <p className="content-item">End: {moment(endTime).format("LLLL")}</p> 
-        */}
       </div>
       <JoinMeeting meetingId={`${id}`} />
 
