@@ -10,7 +10,7 @@
   .chat-panel {
     background-color: lightgray;
     width: 100vw;
-    /* height: 30vh; */
+    height: 60vh;
     /* display: flex;
     flex-direction: column; */
   }

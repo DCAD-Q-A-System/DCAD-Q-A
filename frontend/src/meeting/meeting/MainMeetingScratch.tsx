@@ -474,6 +474,14 @@ export function MainMeetingScratch() {
                 direction="vertical"
               >
                 <Iframe link={meeting.iframeLink} />
+                <CurrentQuestion
+                          meetingId={meetingId || ""}
+                          questions={meeting.messages.questions}
+                          currentQuestionIndex={meeting.messages.questions.findIndex(
+                            (q) => q.id === meeting.currentQuestionId
+                          )}
+                          socket={ws.current}
+                        />
                 <Tab.Container
                   activeKey={activeTab}
                   onSelect={(e) => e && handleSelect(e)}

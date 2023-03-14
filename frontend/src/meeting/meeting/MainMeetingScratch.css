@@ -53,6 +53,9 @@ iframe {
     width: 100vw;
     height: 40vh;
   }
+  .list-group {
+    height: 60vh;
+  }
 }
 
 .spinner {
