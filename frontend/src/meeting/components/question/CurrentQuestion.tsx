@@ -3,10 +3,11 @@ import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { HIGH_PRIVELAGE } from "../../../utils/constants";
 import { USER_TYPE, VARIANT } from "../../../utils/enums";
-import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
+import { isOpen, jsonToArray } from "../../../utils/funcs";
 import { IQuestion } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import "./CurrentQuestion.css";
+import { toastHook } from "../../../utils/toastHook";
 
 export function CurrentQuestion({
   questions,

@@ -10,11 +10,12 @@ import {
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
 import { USER_TYPE, VARIANT } from "../../../utils/enums";
-import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
+import { isOpen, jsonToArray } from "../../../utils/funcs";
 import { IChat } from "../../../utils/interfaces";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { Chat } from "./Chat";
 import "./ChatPanel.css";
+import { toastHook } from "../../../utils/toastHook";
 
 export function ChatPanel({
   meetingId,
@@ -28,7 +29,7 @@ export function ChatPanel({
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const [chat, setChat] = useState("");
   const chatBoxRef = useRef<HTMLDivElement>(null);
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
 
   useEffect(() => {
     if (chatBoxRef.current) {

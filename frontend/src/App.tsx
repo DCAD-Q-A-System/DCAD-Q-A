@@ -12,7 +12,7 @@ import { MeetingList } from "./meeting/meeting/MeetingList";
 import { AXIOS_INSTANCE, LOCAL_STORAGE_LOGIN_KEY } from "./utils/constants";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 import { setData } from "./store/loginSlice";
-import { checkIfInitiallyLoggedIn, toastHook } from "./utils/funcs";
+import { checkIfInitiallyLoggedIn } from "./utils/funcs";
 import "bootstrap/dist/css/bootstrap.css";
 import { GuestLogin } from "./login/GuestLogin";
 import { LoginBackground } from "./backgrounds/LoginBackground";
@@ -39,6 +39,7 @@ import { GlobalModal } from "./modal/GlobalModal";
 import { setContent, setShow, setTitle } from "./store/toastSlice";
 import { PanellistAdminMiddleware } from "./middleware/PanellistAdminMiddleware";
 import { VARIANT } from "./utils/enums";
+import { toastHook } from "./utils/toastHook";
 
 function App() {
   const loginData = useAppSelector((state) => state.loginReducer.data);

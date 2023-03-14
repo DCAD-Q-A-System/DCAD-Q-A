@@ -7,18 +7,17 @@ import { useEffect, useState } from "react";
 import { MeetingIds } from "../../utils/interfaces";
 import { credentialFetch } from "../../utils/credential_fetch";
 import { MeetingItem } from "../components/MeetingItem";
-import { Button, Container, Stack } from "react-bootstrap";
+import { Stack } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { Menu } from "../../users/Menu";
-import { toastHook } from "../../utils/funcs";
 import { VARIANT } from "../../utils/enums";
+import { toastHook } from "../../utils/toastHook";
 
 export function MeetingList() {
   const [ids, setIds] = useState<MeetingIds | null>(null);
   const loginData = useAppSelector((state) => state.loginReducer.data);
-  const navigate = useNavigate();
-  const [isOpen,setIsOpen] = useState(true)
-  const {setToast} = toastHook();
+  const [isOpen, setIsOpen] = useState(true);
+  const { setToast } = toastHook();
 
   useEffect(() => {
     const fetchMeetings = async () => {
@@ -31,7 +30,12 @@ export function MeetingList() {
         const data: MeetingIds = res.data;
         setIds(data);
       } else {
-        setToast("Fetching error", "something went wrong fetching meetings", VARIANT.DANGER, true);
+        setToast(
+          "Fetching error",
+          "something went wrong fetching meetings",
+          VARIANT.DANGER,
+          true
+        );
       }
     };
     fetchMeetings();
@@ -39,7 +43,12 @@ export function MeetingList() {
   console.log(ids);
   return (
     <>
-      <div className="container" onClick={()=>{isOpen==false?setIsOpen(!isOpen):""}}>
+      <div
+        className="container"
+        onClick={() => {
+          isOpen == false ? setIsOpen(!isOpen) : "";
+        }}
+      >
         <Menu path="/" isOpen={isOpen} setIsOpen={setIsOpen} />
         <div className="box0">
           {ids && ids.ids.length > 0 ? (

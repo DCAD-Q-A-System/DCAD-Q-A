@@ -40,12 +40,13 @@ import {
   SOCKET_ERRORS_TYPE,
   sockMsgProps,
 } from "../../utils/socket_types";
-import { isOpen, jsonToArray, toastHook } from "../../utils/funcs";
+import { isOpen, jsonToArray } from "../../utils/funcs";
 import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { HIGH_PRIVELAGE, WS } from "../../utils/constants";
 
 import { GlobalModal } from "../../modal/GlobalModal";
+import { toastHook } from "../../utils/toastHook";
 
 export function MainMeetingScratch() {
   const [darkMode, setDarkMode] = useState(false);

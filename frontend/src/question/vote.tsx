@@ -4,8 +4,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { ISocketMessageSend, REQ_TYPES } from "../utils/socket_types";
 import { useAppSelector } from "../store/hooks";
-import { isOpen, jsonToArray, toastHook } from "../utils/funcs";
+import { isOpen, jsonToArray } from "../utils/funcs";
 import { VARIANT } from "../utils/enums";
+import { toastHook } from "../utils/toastHook";
 
 export function Vote({
   meetingId,

@@ -6,9 +6,10 @@ import { BsFillReplyFill, BsFillTrashFill } from "react-icons/bs";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import { useAppSelector } from "../../../store/hooks";
-import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
+import { isOpen, jsonToArray } from "../../../utils/funcs";
 import { USER_TYPE, VARIANT } from "../../../utils/enums";
 import { HIGH_PRIVELAGE } from "../../../utils/constants";
+import { toastHook } from "../../../utils/toastHook";
 
 interface ChatProps extends IChat {
   socket: ReconnectingWebSocket;

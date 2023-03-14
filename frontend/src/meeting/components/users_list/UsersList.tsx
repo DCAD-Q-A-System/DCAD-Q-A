@@ -10,11 +10,12 @@ import {
 } from "../../../utils/socket_types";
 import { FaBan } from "react-icons/fa";
 import { useAppSelector } from "../../../store/hooks";
-import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
+import { isOpen, jsonToArray } from "../../../utils/funcs";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
 import { GlobalModal } from "../../../modal/GlobalModal";
 import { VARIANT } from "../../../utils/enums";
+import { toastHook } from "../../../utils/toastHook";
 
 export function UsersList({
   show,

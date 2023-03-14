@@ -26,7 +26,7 @@ import {
 } from "../../utils/interfaces";
 import { useAppSelector } from "../../store/hooks";
 import { VARIANT } from "../../utils/enums";
-import { toastHook } from "../../utils/funcs";
+import { toastHook } from "../../utils/toastHook";
 
 export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
   const { meetingId } = useParams();
