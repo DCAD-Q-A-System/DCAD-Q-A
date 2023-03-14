@@ -69,21 +69,22 @@ func Router(conn *utils.MongoConnection) *gin.Engine {
 
 		superGroup.DELETE("/delete-user",super_privelaged_middleware,users.DeleteUser(conn))
 		superGroup.DELETE("/end-meeting",priveleged_middleware,meeting.EndMeeting(conn))
-		
-		
 	}
 	pool := web_sockets.NewPool()
 	go pool.Start(conn)
 	server.GET("/ws",func(ctx *gin.Context) {
-		meetingId :=ctx.Query("meetingId")
+		meetingId := ctx.Query("meetingId")
 		userId := ctx.Query("userId")
 		username := ctx.Query("username")
 		if meetingId == "" && userId == "" && username == "" {
 			ctx.AbortWithStatus(http.StatusBadRequest)
 			return
 		}
+		// c,err:=ctx.Cookie("token")
+		// fmt.Println(c,err)
 		web_sockets.SetUpSocketServer(conn,pool,ctx,
-			meetingId,userId,username)
+			meetingId,userId,username,
+		)
 	})
 
 	

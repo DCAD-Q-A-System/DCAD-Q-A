@@ -91,6 +91,7 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string, ctx *gin.Context) 
 				res := map[string]string{
 					"error":"UNAUTHORISED",
 				}
+				fmt.Println("INSIDE GUEST")
 				c.Conn.WriteJSON(res)
 				
 			}
@@ -128,6 +129,7 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string, ctx *gin.Context) 
 			if utils.SockAuth(conn,socket_message.UserId){
 				res = SocketRouterPriveleged(conn,&socket_message)
 			}else{
+				fmt.Println("inside PRIV PART")
 				c.Conn.WriteJSON(map[string]string{
 					"error":"UNAUTHORISED",
 				})

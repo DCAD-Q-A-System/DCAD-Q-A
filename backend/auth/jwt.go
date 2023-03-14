@@ -52,7 +52,7 @@ func RefreshJWT(c *gin.Context, claims utils.JwtClaims) bool{
 		int(expirationTime.Unix()),
 		"/",
 		c.Request.URL.Hostname(),
-		true,
+		false,
 		true,
 	)
 	return true
@@ -82,7 +82,7 @@ func RefreshJWTSocket(ctx *gin.Context,jwt_string string) (string,error) {
 				int(expirationTime.Unix()),
 				"/",
 				ctx.Request.URL.Hostname(),
-				true,
+				false,
 				true,
 			)
 

@@ -8,7 +8,6 @@ import {
   Image,
   Row,
   Stack,
-  Tabs,
   Tab,
   Form,
   Spinner,
@@ -30,7 +29,7 @@ import { QuestionTabs } from "../components/question/QuestionTabs";
 import { Iframe } from "../components/iframe/Iframe";
 import { CurrentQuestion } from "../components/question/CurrentQuestion";
 import { ChatPanel } from "../components/chat/ChatPanel";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../store/hooks";
 import { USER_TYPE, VARIANT } from "../../utils/enums";
 import {
   ISocketMember,
@@ -41,13 +40,7 @@ import {
   SOCKET_ERRORS_TYPE,
   sockMsgProps,
 } from "../../utils/socket_types";
-import {
-  checkIfInitiallyLoggedIn,
-  isOpen,
-  jsonToArray,
-  toastHook,
-} from "../../utils/funcs";
-import { setData } from "../../store/loginSlice";
+import { isOpen, jsonToArray, toastHook } from "../../utils/funcs";
 import { UsersList } from "../components/users_list/UsersList";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { HIGH_PRIVELAGE, WS } from "../../utils/constants";
@@ -73,6 +66,7 @@ export function MainMeetingScratch() {
     const params = `?meetingId=${meetingId}&userId=${
       loginData?.userId || ""
     }&username=${loginData?.username || ""}`;
+
     ws.current = new ReconnectingWebSocket(WS + params, [], {
       connectionTimeout: 1000,
       maxRetries: 10,
@@ -129,7 +123,7 @@ export function MainMeetingScratch() {
         VARIANT.DANGER,
         true
       );
-      navigate(-1);
+      navigate("/meeting-list");
     };
 
     // s.getWebSocket()?.onopen = onOpen;
@@ -159,7 +153,7 @@ export function MainMeetingScratch() {
               VARIANT.DANGER,
               true
             );
-            navigate(-1);
+            navigate("meeting-list");
             break;
           case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
           case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:

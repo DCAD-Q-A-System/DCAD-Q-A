@@ -8,18 +8,17 @@ import (
 	"dcad_q_a_system.com/utils"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/websocket"
 )
 
-
-var wsupgrader = websocket.Upgrader{
-    ReadBufferSize:  1024,
-    WriteBufferSize: 1024,
-}
 func SetUpSocketServer(conn *utils.MongoConnection,pool *Pool, ctx *gin.Context,
 		meetingId string, userId string, username string) {
-	
-	
+	var jwt string
+	cookie,err := ctx.Cookie("token")
+	if err != nil {
+		fmt.Println("No cookie token treating as guest")
+	}else{
+		jwt = cookie
+	}
 	fmt.Println("WebSocket Endpoint Hit")
 	sock_conn, err := Upgrade(ctx.Writer, ctx.Request)
 	if err != nil {
@@ -54,9 +53,9 @@ func SetUpSocketServer(conn *utils.MongoConnection,pool *Pool, ctx *gin.Context,
 	}
 	pool.Register <- client
 
-	cookie,err := ctx.Cookie("token")
-	if err != nil {
-		fmt.Printf("cookie not found %v",err)
+	
+	if jwt == "" {
+		fmt.Printf("cookie not found %v\n",err)
 		client.Read(conn,"",ctx)
 	} else {
 		client.Read(conn,cookie,ctx)
