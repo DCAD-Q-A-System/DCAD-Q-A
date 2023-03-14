@@ -56,6 +56,14 @@ iframe {
   .list-group {
     height: 60vh;
   }
+  .current-dropdown {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 1rem;
+  }
 }
 
 .spinner {
