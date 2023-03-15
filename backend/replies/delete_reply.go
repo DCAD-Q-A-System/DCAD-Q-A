@@ -13,9 +13,14 @@ import (
 func DeleteReply(conn *utils.MongoConnection,id string,chatId string,meetingId string) utils.SocketMesageSend {
 	response := utils.SocketMesageSend{}
 	ctx := context.Background()
-
-	replies_collection := conn.Client.Database(utils.DB_NAME).Collection(utils.REPLIES)
+	database := conn.Client.Database(utils.DB_NAME)
+	replies_collection := database.Collection(utils.REPLIES)
 	replyIdObj,err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		fmt.Printf("reply id err %v",err)
+		return response
+	}
+	chatIdObj,err := primitive.ObjectIDFromHex(chatId)
 	if err != nil {
 		fmt.Printf("chat id err %v",err)
 		return response
@@ -26,6 +31,21 @@ func DeleteReply(conn *utils.MongoConnection,id string,chatId string,meetingId s
 	_,err = replies_collection.DeleteOne(ctx,filter,options.Delete())
 	if err != nil {
 		fmt.Printf("reply del err %v",err)
+		return response
+	}
+
+	chat_collection := database.Collection(utils.CHAT)
+	filter = bson.D{
+		{"_id",chatIdObj},
+	}
+	update := bson.D{
+		{"$pull",bson.D{
+			{"replies",replyIdObj},
+		}},
+	}
+	_,err = chat_collection.UpdateOne(ctx,filter,update) 
+	if err != nil {
+		fmt.Printf("chat del err %v",err)
 		return response
 	}
 
