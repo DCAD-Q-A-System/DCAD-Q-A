@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import { USER_TYPE, VARIANT } from "../../utils/enums";
@@ -39,24 +38,11 @@ export function MeetingItem({
       <div className="box2">
         <div className="box3 ">
           <p className="content">{name}</p>
+          <p className="content-item">
+            Start: {moment(startTime).format("LLLL")}
+          </p>
+          <p className="content-item">End: {moment(endTime).format("LLLL")}</p>
         </div>
-        <div className="box4">
-          <div className="box5">
-            <p className="content-item">
-              Start: {moment(startTime).format("LLLL")}
-            </p>
-          </div>
-          <div className="box5">
-            <p className="content-item">
-              End: {moment(endTime).format("LLLL")}
-            </p>
-          </div>
-        </div>
-        {/* <p className="content-item">
-          Start: {moment(startTime).format("LLLL")}
-        </p>
-        <p className="content-item">End: {moment(endTime).format("LLLL")}</p> 
-        */}
       </div>
       <JoinMeeting meetingId={`${id}`} />
 

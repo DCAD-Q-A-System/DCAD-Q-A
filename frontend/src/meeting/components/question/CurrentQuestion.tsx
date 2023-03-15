@@ -46,7 +46,7 @@ export function CurrentQuestion({
             }}
           >
             {questions.map((q, i) => (
-              <option key={i} value={i.toString()}>
+              <option className="current-dropdown" key={i} value={i.toString()}>
                 {q.content}
               </option>
             ))}

@@ -66,16 +66,16 @@
   color: white;
   border-radius: 5%;
   margin-left: 0;
-  margin-right: 20%;
+  margin-right: 30%;
   margin-top: 2%;
   /* width: 200px; */
-  width: auto;
+  width: 8rem;
   height: max-content;
 }
 
 .dropdown1 {
   border-color: aqua;
-  font-size: 40px;
+  font-size: 30px;
   margin-left: 10%;
   /* margin-right: 40%; */
   overflow: hidden;
@@ -85,17 +85,17 @@
 
 .dropdown2 {
   margin-left: 25%;
-  font-size: 40px;
+  font-size: 30px;
   margin-right: 20%;
   color: white;
 }
 
 .dropdown1:hover {
-  font-size: 42px;
+  font-size: 32px;
 }
 
 .dropdown2:hover {
-  font-size: 42px;
+  font-size: 22px;
 }
 
 @media screen and (max-width: 1700px) {
@@ -132,7 +132,7 @@
 @media screen and (max-width: 667px) {
   .home-dropdown {
     height: max-content;
-    width: 15vw;
+    width: 13vw;
   }
   .dropdown1 {
     font-size: 10px;

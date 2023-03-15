@@ -53,6 +53,17 @@ iframe {
     width: 100vw;
     height: 40vh;
   }
+  .list-group {
+    height: 60vh;
+  }
+  .current-dropdown {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 1rem;
+  }
 }
 
 .spinner {
@@ -68,7 +79,7 @@ iframe {
   display: flex;
   align-items: center;
   height: 100vh;
-  margin-left: 50vw;
+  /* margin-left: 50vw; */
 }
 
 .dark-mode {

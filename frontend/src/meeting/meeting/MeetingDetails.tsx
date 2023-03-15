@@ -328,7 +328,7 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
               marginLeft: "20px",
               paddingLeft: "10px",
             }}
-            onClick={() => navigate("/meeting-list")}
+            onClick={() => navigate("/")}
             className="button mt-5 fs-3"
           >
             return
