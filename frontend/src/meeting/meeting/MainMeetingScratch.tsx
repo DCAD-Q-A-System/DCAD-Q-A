@@ -128,8 +128,25 @@ export function MainMeetingScratch() {
     };
 
     // s.getWebSocket()?.onopen = onOpen;
+    const pingInterval = setInterval(() => {
+      const sockMsg: sockMsgProps = {
+        reqType: REQ_TYPES.PING,
+        userId: loginData?.userId || "",
+        meetingId: meetingId || "",
+        username: loginData?.username || "",
+      };
+      const bytes = jsonToArray(sockMsg);
+      if (ws && ws.current && !isOpen(ws.current)) {
+        alert("socket err");
+        return;
+      }
+      if (!ws.current) return;
+      ws.current.send(bytes);
+    }, 60000);
+
     ws.current.addEventListener("close", onClose);
     return () => {
+      clearInterval(pingInterval);
       if (!ws.current) return;
       ws.current.removeEventListener("open", onOpen);
 
@@ -470,13 +487,13 @@ export function MainMeetingScratch() {
               >
                 <Iframe link={meeting.iframeLink} />
                 <CurrentQuestion
-                          meetingId={meetingId || ""}
-                          questions={meeting.messages.questions}
-                          currentQuestionIndex={meeting.messages.questions.findIndex(
-                            (q) => q.id === meeting.currentQuestionId
-                          )}
-                          socket={ws.current}
-                        />
+                  meetingId={meetingId || ""}
+                  questions={meeting.messages.questions}
+                  currentQuestionIndex={meeting.messages.questions.findIndex(
+                    (q) => q.id === meeting.currentQuestionId
+                  )}
+                  socket={ws.current}
+                />
                 <Tab.Container
                   activeKey={activeTab}
                   onSelect={(e) => e && handleSelect(e)}
