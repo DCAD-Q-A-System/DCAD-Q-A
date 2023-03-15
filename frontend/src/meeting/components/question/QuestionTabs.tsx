@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Tabs,
   Tab,
@@ -58,12 +58,15 @@ export function QuestionTabs({
               }
             })
             .map((question, i) => (
+              <div ref={questionBoxRef}>
               <Question
                 meetingId={meetingId}
                 socket={socket}
                 key={i}
                 {...question}
               />
+
+              </div>
             ))}
       </ListGroup>
     ),
@@ -72,9 +75,22 @@ export function QuestionTabs({
 
   const [question, setQuestion] = useState("");
   const loginData = useAppSelector((state) => state.loginReducer.data);
+  const questionBoxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (questionBoxRef && questionBoxRef.current) {
+      questionBoxRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+      // questionBoxRef.current.scrollIntoView(false);
+    }
+  }, [questions]);
+
 
   return (
-    <div className="question-panel">
+    <div className="question-panel" >
       <Tabs
         activeKey={key}
         onSelect={(k) => {

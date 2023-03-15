@@ -32,14 +32,15 @@ export function ChatPanel({
   const { setToast } = toastHook();
 
   useEffect(() => {
-    if (chatBoxRef.current) {
+    if (chatBoxRef && chatBoxRef.current) {
       chatBoxRef.current.scrollIntoView({
         behavior: "smooth",
         block: "end",
         inline: "nearest",
       });
+      // chatBoxRef.current.scrollIntoView(false);
     }
-  }, []);
+  }, [chats]);
 
   function handleSend() {
     if (chat.trim() === "") {
