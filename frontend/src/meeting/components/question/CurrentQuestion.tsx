@@ -56,7 +56,9 @@ export function CurrentQuestion({
         <p>
           {currentQuestionIndex !== -1 && questions.length > 0
             ? questions[currentQuestionIndex].content
-            : questions[0].content || ""}
+            : questions[0]
+            ? questions[0].content
+            : ""}
         </p>
       )}
     </div>
