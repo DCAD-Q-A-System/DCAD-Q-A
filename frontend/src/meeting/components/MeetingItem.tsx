@@ -1,15 +1,10 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../store/hooks";
 import { USER_TYPE, VARIANT } from "../../utils/enums";
-import { GET_ALL_MEETINGS, GET_MEETING, JOIN_MEETING } from "../../utils/paths";
 import { JoinMeeting } from "./join_meeting/JoinMeeting";
 import moment from "moment";
-import { credentialFetch } from "../../utils/credential_fetch";
-import { HTTP_METHODS } from "../../utils/http_methods";
 import { MeetingIds } from "../../utils/interfaces";
-import { FaShare } from "react-icons/fa";
-import { toastHook } from "../../utils/funcs";
+import { toastHook } from "../../utils/toastHook";
 
 export function MeetingItem({
   id,
@@ -24,29 +19,29 @@ export function MeetingItem({
 }) {
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
   const handleClick = () => {
     // const link = `${
     //   window.location.protocol + "//" + window.location.host
     // }/meeting/${id}`;
-    const link = `${id}`
+    const link = `${id}`;
     navigator.clipboard.writeText(link);
-    setToast("Success", "Copied meeting link to clipboard!", VARIANT.SUCCESS, true);
+    setToast(
+      "Success",
+      "Copied meeting link to clipboard!",
+      VARIANT.SUCCESS,
+      true
+    );
   };
   return (
     <div className="box1">
       <div className="box2">
         <div className="box3 ">
-          <p className="content">
-            {name}
-          </p>
+          <p className="content">{name}</p>
           <p className="content-item">
             Start: {moment(startTime).format("LLLL")}
           </p>
-          <p className="content-item">
-            End: {moment(endTime).format("LLLL")}
-          </p>
-
+          <p className="content-item">End: {moment(endTime).format("LLLL")}</p>
         </div>
       </div>
       <JoinMeeting meetingId={`${id}`} />

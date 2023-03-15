@@ -5,10 +5,10 @@ import { useAppDispatch } from "../store/hooks";
 import { setContent, setShow, setTitle, setVariant } from "../store/toastSlice";
 import { credentialFetch } from "../utils/credential_fetch";
 import { VARIANT } from "../utils/enums";
-import { toastHook } from "../utils/funcs";
 import { HTTP_METHODS } from "../utils/http_methods";
 import { EDIT_USER_PASSWORD } from "../utils/paths";
-import "./ChangePassword.css"
+import "./ChangePassword.css";
+import { toastHook } from "../utils/toastHook";
 
 export function ChangePassword() {
   const { userId } = useParams();
@@ -16,7 +16,7 @@ export function ChangePassword() {
   const dispatch = useAppDispatch();
   const [checkPassword, setCheckPassword] = useState("");
   const navigate = useNavigate();
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +34,12 @@ export function ChangePassword() {
 
         navigate(`/edit-user/${userId}`);
       } else {
-        setToast("General error", "something has gone wrong", VARIANT.DANGER, true);
+        setToast(
+          "General error",
+          "something has gone wrong",
+          VARIANT.DANGER,
+          true
+        );
       }
     } else {
       setToast("Form error", "Check passwords", VARIANT.DANGER, true);

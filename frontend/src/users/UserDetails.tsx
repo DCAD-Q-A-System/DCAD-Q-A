@@ -3,12 +3,12 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { credentialFetch } from "../utils/credential_fetch";
 import { USER_TYPE, VARIANT } from "../utils/enums";
-import { toastHook } from "../utils/funcs";
 import { HTTP_METHODS } from "../utils/http_methods";
 import { DETAILS_TYPE } from "../utils/interfaces";
 import { CREATE_USER, EDIT_USER, GET_USER } from "../utils/paths";
 
 import "./UserDetails.css";
+import { toastHook } from "../utils/toastHook";
 
 interface TUserDetails {
   userId: string;
@@ -34,7 +34,7 @@ export function UserDetails({
   const [password, setPassword] = useState("");
   const [checkPassword, setCheckPassword] = useState("");
   const [userType, setUserType] = useState(USER_TYPE.STUDENT);
-  const {setToast} = toastHook();
+  const { setToast } = toastHook();
 
   const navigate = useNavigate();
 
@@ -60,7 +60,12 @@ export function UserDetails({
         setToast("General error", "details not entered", VARIANT.DANGER, true);
         return;
       } else if (password !== checkPassword) {
-        setToast("General error", "passwords don't match", VARIANT.DANGER, true);
+        setToast(
+          "General error",
+          "passwords don't match",
+          VARIANT.DANGER,
+          true
+        );
         return;
       }
       const res = await credentialFetch(
@@ -74,17 +79,37 @@ export function UserDetails({
       );
       console.log(res.status);
       if (res.status === 200) {
-        setToast("Creation success", "Successful creation of user", VARIANT.SUCCESS, true);
+        setToast(
+          "Creation success",
+          "Successful creation of user",
+          VARIANT.SUCCESS,
+          true
+        );
         navigate("/users-home");
         return;
       } else if (res.status === 409) {
-        setToast("General error", "username already taken", VARIANT.DANGER, true);
+        setToast(
+          "General error",
+          "username already taken",
+          VARIANT.DANGER,
+          true
+        );
       } else {
-        setToast("General error", "something went wrong. check details", VARIANT.DANGER, true);
+        setToast(
+          "General error",
+          "something went wrong. check details",
+          VARIANT.DANGER,
+          true
+        );
       }
     } else if (userDetailsType === DETAILS_TYPE.EDIT) {
       if (!username) {
-        setToast("General error", "username not entered correctly", VARIANT.DANGER, true);
+        setToast(
+          "General error",
+          "username not entered correctly",
+          VARIANT.DANGER,
+          true
+        );
         return;
       }
       console.log(userDetails);
@@ -102,7 +127,12 @@ export function UserDetails({
         setToast("Edit success", "successful edit!", VARIANT.SUCCESS, true);
         navigate("/users-home");
       } else if (res.status === 409) {
-        setToast("General error", "username already taken", VARIANT.DANGER, true);
+        setToast(
+          "General error",
+          "username already taken",
+          VARIANT.DANGER,
+          true
+        );
       } else {
         setToast("General error", "something went wrong", VARIANT.DANGER, true);
       }

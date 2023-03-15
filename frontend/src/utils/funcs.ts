@@ -1,11 +1,8 @@
-import { useMemo } from "react";
 import ReconnectingWebSocket from "reconnecting-websocket";
-import { useAppDispatch } from "../store/hooks";
-import { setContent, setShow, setTitle, setVariant } from "../store/toastSlice";
+
 import { credentialFetch } from "./credential_fetch";
 import { LoginResponse } from "./interfaces";
 import { REFRESH_PATH } from "./paths";
-
 
 export const checkIfInitiallyLoggedIn = async () => {
   const res = await credentialFetch(REFRESH_PATH);
@@ -29,19 +26,5 @@ export var jsonToArray = function (json: any) {
 };
 
 export function isOpen(ws: ReconnectingWebSocket) {
-  console.log(ws.readyState);
-  return ws.readyState !== ReconnectingWebSocket.CLOSED;
-}
-
-export function toastHook() {
-  const dispatch = useAppDispatch();
-  const actions = useMemo(() => ({
-    setToast(title: string, content: string, variant: string, isShow: boolean){
-      dispatch(setContent(content));
-      dispatch(setTitle(title));
-      dispatch(setVariant(variant));
-      dispatch(setShow(isShow));
-    },
-}),[dispatch]);
-  return actions;
+  return ws.readyState === ReconnectingWebSocket.OPEN;
 }

@@ -5,9 +5,10 @@ import { BsFillTrashFill } from "react-icons/bs";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { useAppSelector } from "../../../store/hooks";
-import { isOpen, jsonToArray, toastHook } from "../../../utils/funcs";
+import { isOpen, jsonToArray } from "../../../utils/funcs";
 import { VARIANT } from "../../../utils/enums";
 import { HIGH_PRIVELAGE } from "../../../utils/constants";
+import { toastHook } from "../../../utils/toastHook";
 
 interface QuestionProps extends IQuestion {
   socket: ReconnectingWebSocket;

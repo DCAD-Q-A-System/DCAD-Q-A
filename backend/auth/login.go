@@ -68,7 +68,7 @@ func Login(conn *utils.MongoConnection) gin.HandlerFunc {
 			exp,
 			"/",
 			c.Request.URL.Hostname(),
-			true,
+			false,
 			true,
 		)
 		c.JSON(http.StatusOK,

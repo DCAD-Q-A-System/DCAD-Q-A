@@ -13,7 +13,7 @@ func Logout(c *gin.Context) {
 		0,
 		"/",
 		c.Request.URL.Hostname(),
-		true,
+		false,
 		true,
 	)
 	c.Status(http.StatusOK)
