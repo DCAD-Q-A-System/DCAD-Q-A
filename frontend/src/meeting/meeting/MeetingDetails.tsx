@@ -8,13 +8,11 @@ import {
   CREATE_MEETING,
   EDIT_MEETING,
   END_MEETING,
-  GET_ALL_MEETINGS,
   GET_MEETING,
   GET_USER_SUGGESTIONS,
 } from "../../utils/paths";
 import { HTTP_METHODS } from "../../utils/http_methods";
 import { useNavigate, useParams } from "react-router-dom";
-import { DebounceInput } from "react-debounce-input";
 import { debounce } from "lodash";
 import { credentialFetch } from "../../utils/credential_fetch";
 import { ISocketMember } from "../../utils/socket_types";
@@ -42,6 +40,21 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
   const { setToast } = toastHook();
 
   useEffect(() => {
+    if (detailsType === DETAILS_TYPE.CREATE) {
+      const defaultMembers: ISocketMember[] = [
+        {
+          userId: loginData?.userId || "",
+          username: loginData?.username || "",
+        },
+      ];
+      if (defaultMembers[0].username !== "admin") {
+        defaultMembers.push({
+          userId: "63f52367647d4c1efd740f26",
+          username: "admin",
+        });
+      }
+      setChosenMembers(defaultMembers);
+    }
     if (detailsType === DETAILS_TYPE.EDIT) {
       const getMeeting = async () => {
         const res = await credentialFetch(GET_MEETING + meetingId);
@@ -81,8 +94,8 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
     if (
       !(iframeLink.match(YOUTUBE_REGEX) || iframeLink.match(PANOPTO_REGEX)) ||
       meetingName === "" ||
-      startValNum <= timeNowNum ||
-      endValNum <= startValNum ||
+      (detailsType === DETAILS_TYPE.CREATE &&
+        (startValNum <= timeNowNum || endValNum <= startValNum)) ||
       chosenMembers.length == 0
     ) {
       setToast(
@@ -238,18 +251,20 @@ export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
                 m && (
                   <div key={i} className="chip">
                     {m.username}
-                    <span
-                      className="closebtn"
-                      onClick={() => {
-                        const newChosenMembers: ISocketMember[] = JSON.parse(
-                          JSON.stringify(chosenMembers)
-                        );
-                        newChosenMembers.splice(i, 1);
-                        setChosenMembers(newChosenMembers);
-                      }}
-                    >
-                      &times;
-                    </span>
+                    {!["admin", loginData?.username].includes(m.username) && (
+                      <span
+                        className="closebtn"
+                        onClick={() => {
+                          const newChosenMembers: ISocketMember[] = JSON.parse(
+                            JSON.stringify(chosenMembers)
+                          );
+                          newChosenMembers.splice(i, 1);
+                          setChosenMembers(newChosenMembers);
+                        }}
+                      >
+                        &times;
+                      </span>
+                    )}
                   </div>
                 )
             )}

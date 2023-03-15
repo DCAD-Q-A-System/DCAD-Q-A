@@ -20,12 +20,21 @@ export function MeetingItem({
   const loginData = useAppSelector((state) => state.loginReducer.data);
   const navigate = useNavigate();
   const { setToast } = toastHook();
-  const handleClick = () => {
+  const handleClick = async () => {
     // const link = `${
     //   window.location.protocol + "//" + window.location.host
     // }/meeting/${id}`;
     const link = `${id}`;
-    navigator.clipboard.writeText(link);
+    if (!navigator.clipboard) {
+      setToast(
+        "Clipboard error",
+        "Cannot access clipboard right now",
+        VARIANT.DANGER,
+        true
+      );
+      return;
+    }
+    await navigator.clipboard.writeText(link);
     setToast(
       "Success",
       "Copied meeting link to clipboard!",
