@@ -4,8 +4,6 @@ import { setData } from "../store/loginSlice";
 import { LoginResponse } from "../utils/interfaces";
 import "./Login.css";
 
-import logo from "../image/Meeting.jpg";
-import login from "../image/Login.jpg";
 import { LOGIN } from "../utils/paths";
 import { useNavigate, useParams } from "react-router-dom";
 import { HTTP_METHODS } from "../utils/http_methods";
@@ -13,7 +11,6 @@ import { LOCAL_STORAGE_LOGIN_KEY } from "../utils/constants";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import Card from "react-bootstrap/Card";
 import { VARIANT } from "../utils/enums";
 import { toastHook } from "../utils/toastHook";
 

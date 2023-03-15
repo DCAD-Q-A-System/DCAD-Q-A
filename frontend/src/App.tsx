@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import "./App.css";
-import { BrowserRouter } from "react-router-dom";
-import { Route, Router, Routes } from "react-router";
+import { Route, Routes } from "react-router";
 import { AuthenticatorMiddleware } from "./middleware/AuthenticatorMiddleware";
 import { Home } from "./home/Home";
 import { LoginPanel } from "./login/LoginPanel";
