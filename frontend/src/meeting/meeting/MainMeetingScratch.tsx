@@ -142,7 +142,7 @@ export function MainMeetingScratch() {
       }
       if (!ws.current) return;
       ws.current.send(bytes);
-    }, 60000);
+    }, 10000);
 
     ws.current.addEventListener("close", onClose);
     return () => {

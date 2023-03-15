@@ -107,15 +107,16 @@ export function Chat({
                         }}
                         className="bin position-absolute top-0 end-0"
                       ></BsFillTrashFill> */}
-                      <BsFillTrashFill onClick={() => {
+                      <BsFillTrashFill
+                        onClick={() => {
                           const socketMessage: ISocketMessageSend = {
                             reqType: REQ_TYPES.DELETE_REPLY,
                             content: "",
                             meetingId,
-                            chatId: "",
+                            chatId: id,
                             questionId: "",
                             replyId: id,
-                            userId: loginData?.userId||"",
+                            userId: loginData?.userId || "",
                             username: loginData?.username,
                           };
                           const bytes = jsonToArray(socketMessage);
@@ -135,7 +136,8 @@ export function Chat({
                             VARIANT.SUCCESS,
                             true
                           );
-                        }}></BsFillTrashFill>
+                        }}
+                      ></BsFillTrashFill>
                     </Col>
                   </Row>
                 </div>
