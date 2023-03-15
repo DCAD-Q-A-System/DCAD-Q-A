@@ -25,22 +25,47 @@ export function MeetingItem({
     //   window.location.protocol + "//" + window.location.host
     // }/meeting/${id}`;
     const link = `${id}`;
-    if (!navigator.clipboard) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(link);
       setToast(
-        "Clipboard error",
-        "Cannot access clipboard right now",
-        VARIANT.DANGER,
+        "Success",
+        "Copied meeting link to clipboard!",
+        VARIANT.SUCCESS,
         true
       );
-      return;
+    } else {
+      // Use the 'out of viewport hidden text area' trick
+      const textArea = document.createElement("textarea");
+      textArea.value = link;
+
+      // Move textarea out of the viewport so it's not visible
+      textArea.style.position = "absolute";
+      textArea.style.left = "-999999px";
+
+      document.body.prepend(textArea);
+      textArea.select();
+
+      try {
+        document.execCommand("copy");
+      } catch (error) {
+        setToast(
+          "Clipboard error",
+          "Cannot access clipboard right now",
+          VARIANT.DANGER,
+          true
+        );
+        return;
+      } finally {
+        textArea.remove();
+      }
+
+      setToast(
+        "Success",
+        "Copied meeting link to clipboard!",
+        VARIANT.SUCCESS,
+        true
+      );
     }
-    await navigator.clipboard.writeText(link);
-    setToast(
-      "Success",
-      "Copied meeting link to clipboard!",
-      VARIANT.SUCCESS,
-      true
-    );
   };
   return (
     <div className="box1">
