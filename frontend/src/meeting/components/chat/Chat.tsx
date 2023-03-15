@@ -69,8 +69,75 @@ export function Chat({
               replies.length > 0 &&
               replies.map((r, i) => (
                 <div key={i} className="reply-m">
-                  <p className="reply-i fw-bold">{`@${r.username} replied:`}</p>
-                  <div>{r.content}</div>
+                  <Row>
+                    <Col>
+                      <p className="reply-i fw-bold">{`@${r.username} replied:`}</p>
+                      <div>{r.content}</div>
+                    </Col>
+                    <Col>
+                      {/* <BsFillTrashFill
+                        onClick={() => {
+                          const socketMessage: ISocketMessageSend = {
+                            reqType: REQ_TYPES.DELETE_REPLY,
+                            content: "",
+                            meetingId,
+                            chatId: id,
+                            questionId: "",
+                            replyId: "",
+                            userId: loginData?.userId,
+                            username: loginData?.username,
+                          };
+                          const bytes = jsonToArray(socketMessage);
+                          if (!isOpen(socket)) {
+                            setToast(
+                              "Connection error",
+                              "connection lost",
+                              VARIANT.DANGER,
+                              true
+                            );
+                            return;
+                          }
+                          socket.send(bytes);
+                          setToast(
+                            "Deletion success",
+                            "delete command success",
+                            VARIANT.SUCCESS,
+                            true
+                          );
+                        }}
+                        className="bin position-absolute top-0 end-0"
+                      ></BsFillTrashFill> */}
+                      <BsFillTrashFill onClick={() => {
+                          const socketMessage: ISocketMessageSend = {
+                            reqType: REQ_TYPES.DELETE_REPLY,
+                            content: "",
+                            meetingId,
+                            chatId: "",
+                            questionId: "",
+                            replyId: id,
+                            userId: loginData?.userId||"",
+                            username: loginData?.username,
+                          };
+                          const bytes = jsonToArray(socketMessage);
+                          if (!isOpen(socket)) {
+                            setToast(
+                              "Connection error",
+                              "connection lost",
+                              VARIANT.DANGER,
+                              true
+                            );
+                            return;
+                          }
+                          socket.send(bytes);
+                          setToast(
+                            "Deletion success",
+                            "delete command success",
+                            VARIANT.SUCCESS,
+                            true
+                          );
+                        }}></BsFillTrashFill>
+                    </Col>
+                  </Row>
                 </div>
               ))}
             <p className="fw-bold">{username}</p>
