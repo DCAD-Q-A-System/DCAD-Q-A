@@ -29,8 +29,10 @@ import { toastHook } from "../../utils/toastHook";
 export function MeetingDetails({ detailsType }: { detailsType: DETAILS_TYPE }) {
   const { meetingId } = useParams();
   const loginData = useAppSelector((s) => s.loginReducer.data);
-  const [value, onChange] = useState(new Date());
-  const [endvalue, endOnChange] = useState(new Date());
+  const [value, onChange] = useState(moment(new Date()).add(10, "m").toDate());
+  const [endvalue, endOnChange] = useState(
+    moment(new Date()).add(30, "m").toDate()
+  );
   const [iframeLink, setIframeLink] = useState("");
   const [meetingName, setMeetingName] = useState("");
   const [memberName, setMemberName] = useState("");
