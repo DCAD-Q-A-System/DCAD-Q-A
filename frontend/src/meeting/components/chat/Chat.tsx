@@ -115,7 +115,7 @@ export function Chat({
                             meetingId,
                             chatId: id,
                             questionId: "",
-                            replyId: id,
+                            replyId: r.id,
                             userId: loginData?.userId || "",
                             username: loginData?.username,
                           };

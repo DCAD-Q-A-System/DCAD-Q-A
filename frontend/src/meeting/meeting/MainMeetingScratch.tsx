@@ -221,10 +221,17 @@ export function MainMeetingScratch() {
                 const indx = newMeeting.messages.chat.findIndex(
                   (c) => c.id === r.parentChatId
                 );
+                console.log(indx);
 
                 if (indx !== -1) {
-                  const prev = newMeeting.messages.chat[indx].replies;
-                  newMeeting.messages.chat[indx].replies.push(r);
+                  if (
+                    newMeeting.messages.chat[indx].replies &&
+                    newMeeting.messages.chat[indx].replies.length > 0
+                  ) {
+                    newMeeting.messages.chat[indx].replies.push(r);
+                  } else {
+                    newMeeting.messages.chat[indx].replies = [r];
+                  }
                 }
               });
             } else if (

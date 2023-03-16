@@ -58,14 +58,8 @@ export function QuestionTabs({
               }
             })
             .map((question, i) => (
-              <div ref={questionBoxRef}>
-              <Question
-                meetingId={meetingId}
-                socket={socket}
-                key={i}
-                {...question}
-              />
-
+              <div key={i} ref={questionBoxRef}>
+                <Question meetingId={meetingId} socket={socket} {...question} />
               </div>
             ))}
       </ListGroup>
@@ -88,9 +82,8 @@ export function QuestionTabs({
     }
   }, [questions]);
 
-
   return (
-    <div className="question-panel" >
+    <div className="question-panel">
       <Tabs
         activeKey={key}
         onSelect={(k) => {
