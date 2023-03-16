@@ -161,6 +161,7 @@ export function MainMeetingScratch() {
 
       const data: ISocketMessageReceive = JSON.parse(e.data);
       console.log("MESSAGE DATA", data);
+      console.log("COMMAND ", data.command);
 
       if (data.error) {
         switch (data.error) {
@@ -171,7 +172,7 @@ export function MainMeetingScratch() {
               VARIANT.DANGER,
               true
             );
-            navigate("meeting-list");
+            navigate("/meeting-list");
             break;
           case SOCKET_ERRORS_TYPE.INVALID_REQ_TYPE:
           case SOCKET_ERRORS_TYPE.MEETING_ID_EMPTY:
@@ -181,6 +182,7 @@ export function MainMeetingScratch() {
               VARIANT.DANGER,
               true
             );
+            navigate("/meeting-list");
             break;
           case SOCKET_ERRORS_TYPE.EXPIRED_TOKEN:
             setToast("Token error", "expired token", VARIANT.DANGER, true);
@@ -189,7 +191,13 @@ export function MainMeetingScratch() {
       } else if (data.command) {
         switch (data.command) {
           case SOCKET_COMMAND_TYPE.MAKE_USER_LEAVE:
-            navigate(-1);
+            navigate("/meeting-list");
+            setToast(
+              "Banned",
+              "You have been banned from this meeting",
+              VARIANT.DANGER,
+              true
+            );
             break;
           default:
             break;
@@ -199,6 +207,10 @@ export function MainMeetingScratch() {
           const newMeeting: MeetingData = JSON.parse(JSON.stringify(meeting));
           console.log("copy of meeting", newMeeting, meeting);
           console.log("New data", data);
+          if (data.command === "PING") {
+            console.log("PINGGED");
+            return;
+          }
           if (data.message) {
             if (data.message.chat && data.message.chat.length > 0) {
               newMeeting.messages.chat = [
