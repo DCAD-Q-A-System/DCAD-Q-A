@@ -107,37 +107,39 @@ export function Chat({
                         }}
                         className="bin position-absolute top-0 end-0"
                       ></BsFillTrashFill> */}
-                      <BsFillTrashFill
-                        onClick={() => {
-                          const socketMessage: ISocketMessageSend = {
-                            reqType: REQ_TYPES.DELETE_REPLY,
-                            content: "",
-                            meetingId,
-                            chatId: id,
-                            questionId: "",
-                            replyId: r.id,
-                            userId: loginData?.userId || "",
-                            username: loginData?.username,
-                          };
-                          const bytes = jsonToArray(socketMessage);
-                          if (!isOpen(socket)) {
+                      {loginData && HIGH_PRIVELAGE.includes(loginData.type) && (
+                        <BsFillTrashFill
+                          onClick={() => {
+                            const socketMessage: ISocketMessageSend = {
+                              reqType: REQ_TYPES.DELETE_REPLY,
+                              content: "",
+                              meetingId,
+                              chatId: id,
+                              questionId: "",
+                              replyId: r.id,
+                              userId: loginData?.userId || "",
+                              username: loginData?.username,
+                            };
+                            const bytes = jsonToArray(socketMessage);
+                            if (!isOpen(socket)) {
+                              setToast(
+                                "Connection error",
+                                "connection lost",
+                                VARIANT.DANGER,
+                                true
+                              );
+                              return;
+                            }
+                            socket.send(bytes);
                             setToast(
-                              "Connection error",
-                              "connection lost",
-                              VARIANT.DANGER,
+                              "Deletion success",
+                              "delete command success",
+                              VARIANT.SUCCESS,
                               true
                             );
-                            return;
-                          }
-                          socket.send(bytes);
-                          setToast(
-                            "Deletion success",
-                            "delete command success",
-                            VARIANT.SUCCESS,
-                            true
-                          );
-                        }}
-                      ></BsFillTrashFill>
+                          }}
+                        ></BsFillTrashFill>
+                      )}
                     </Col>
                   </Row>
                 </div>

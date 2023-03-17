@@ -103,6 +103,7 @@ export function QuestionTabs({
       {loginData && loginData.type !== USER_TYPE.GUEST && (
         <InputGroup className="question-input">
           <Form.Control
+            id="question-input"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
             placeholder="Enter question"
