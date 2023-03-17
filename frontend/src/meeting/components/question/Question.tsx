@@ -1,5 +1,5 @@
 import { ListGroup, Row, Col, Form } from "react-bootstrap";
-import { Vote } from "../../../question/Vote";
+import { Vote } from "../../../question/pote";
 import { IQuestion } from "../../../utils/interfaces";
 import { BsFillTrashFill } from "react-icons/bs";
 import { ISocketMessageSend, REQ_TYPES } from "../../../utils/socket_types";
