@@ -124,9 +124,12 @@ func (c *Client) Read(conn *utils.MongoConnection,jwt string, ctx *gin.Context) 
 		fmt.Println(socket_message.ReqType)
 		if !utils.PRIVELEGED_REQ_TYPES[socket_message.ReqType]{
 			if socket_message.ReqType  == "PING"{
-				c.Conn.WriteJSON(map[string]string{
+				err = c.Conn.WriteJSON(map[string]string{
 					"command":"PING",
 				})
+				if err != nil {
+					fmt.Printf("Write JSON err %v",err)
+				}
 				continue
 			}
 			res = SocketRouter(conn,&socket_message)
