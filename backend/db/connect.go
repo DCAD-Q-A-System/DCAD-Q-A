@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"dcad_q_a_system.com/utils"
@@ -14,7 +15,7 @@ import (
 func Connect() (*mongo.Client,error) {
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 	clientOptions := options.Client().
-		ApplyURI(utils.MONGODB_URI).
+		ApplyURI(os.Getenv(utils.MONGODB_URI)).
 		SetServerAPIOptions(serverAPIOptions)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()

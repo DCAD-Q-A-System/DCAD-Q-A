@@ -1,7 +1,10 @@
 package utils
 
-const MONGODB_URI = "mongodb+srv://group20:group20@cluster0.oehptrf.mongodb.net/?retryWrites=true&w=majority"
+import (
+	"os"
+)
 
+const MONGODB_URI = "MONGODB_URI"
 const DB_NAME = "DCAD-Q-A"
 
 //Collection names
@@ -15,7 +18,7 @@ const (
 
 const IS_UP_VOTE = "isUpVote"
 
-var JWT_KEY = []byte("SecretYouShouldHide")
+var JWT_KEY = []byte(os.Getenv("JWT_KEY"))
 
 const TIME_FORMAT = "%Y-%m-%dT%H:%M:%S.%LZ"
 
